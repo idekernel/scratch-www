@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "Standalone WWW client for Scratch",
   "scripts": {
-    "start": "make start",
+    "start": "set NODE_ENV=production && make start",
     "stop": "make stop",
     "test": "make test",
     "smoke": "tap ./test/integration/smoke-testing/*.js --timeout=3600",
     "smoke-verbose": "tap ./test/integration/smoke-testing/*.js --timeout=3600 -R spec",
     "smoke-sauce": "SMOKE_REMOTE=true tap ./test/integration/smoke-testing/*.js --timeout=60000",
     "watch": "make watch",
-    "build": "make build",
+    "build": "set NODE_ENV=production && make build",
     "dev": "make watch && make start &"
   },
   "repository": {

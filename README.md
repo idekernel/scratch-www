@@ -1,4 +1,4 @@
-## scratch-www
+## scratch-www for scratch-server
 #### Standalone web client for Scratch
 
 [![Build Status](https://travis-ci.org/LLK/scratch-www.svg)](https://travis-ci.org/LLK/scratch-www)

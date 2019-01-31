@@ -11,7 +11,7 @@ const splashActions = require('../../redux/splash.js');
 
 const Page = require('../../components/page/www/page.jsx');
 const SplashPresentation = require('./presentation.jsx');
-
+// main file
 class Splash extends React.Component {
     constructor (props) {
         super(props);

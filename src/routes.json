@@ -1,5 +1,12 @@
 [
     {
+        "name": "splash",
+        "pattern": "^/?$",
+        "routeAlias": "/?$",
+        "view": "splash/splash",
+        "title": "Imagine, Program, Share"
+    },
+    {
         "name": "projects",
         "pattern": "^/projects(/editor|(/\\d+(/editor|/fullscreen|/embed)?)?)?/?(\\?.*)?$",
         "routeAlias": "/projects/?$",

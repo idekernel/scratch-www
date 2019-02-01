@@ -9,9 +9,9 @@ const webpack = require('webpack');
 let routes = require('./src/routes.json');
 const templateConfig = require('./src/template-config.js'); // eslint-disable-line global-require
 
-// if (process.env.NODE_ENV !== 'production') {
-//     routes = routes.concat(require('./src/routes-dev.json')); // eslint-disable-line global-require
-// }
+if (process.env.NODE_ENV == 'production') {
+    routes = routes.concat(require('./src/routes-dev.json')); // eslint-disable-line global-require
+}
 
 routes = routes.filter(route => !process.env.VIEW || process.env.VIEW === route.view);
 

@@ -8,13 +8,12 @@ var handler = require('./handler');
 var log = require('./log');
 var routes = require('../src/routes.json').concat(require('../src/routes-dev.json'))
     .filter(route => !process.env.VIEW || process.env.VIEW === route.view);
-
 // Create server
 var app = express();
 app.disable('x-powered-by');
 
 // Server setup
-app.use(log());
+// app.use(log());
 
 // Bind routes
 routes.forEach(route => {

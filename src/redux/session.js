@@ -70,9 +70,10 @@ module.exports.refreshSession = () => (dispatch => {
         // for test
         body = {
             user: {
-                username: 'test'
+                username: 'test',
                 // classroomId:
                 // thumbnailUrl:
+                id: 123456
             },
             permissions: 'admin' //educator student
         }

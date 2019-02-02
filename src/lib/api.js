@@ -93,6 +93,9 @@ module.exports = (opts, callback) => {
     }
     if (opts.useCsrf) {
         jar.use('scratchcsrftoken', '/csrf_token/', (err, csrftoken) => {
+            // for test
+            err = null;
+            csrftoken = 'z4ORpLe7sISzL3zS79E2Ys6SgDEiBrMR';
             if (err) return log.error('Error while retrieving CSRF token', err);
             opts.headers['X-CSRFToken'] = csrftoken;
             apiRequest(opts);

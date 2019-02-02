@@ -867,7 +867,7 @@ const mapStateToProps = state => {
 
     // if we don't have projectInfo, assume it's shared until we know otherwise
     const isShared = !projectInfoPresent || state.preview.projectInfo.is_published;
-
+    // console.log(state.session.session.user);
     return {
         authorId: authorId,
         authorThumbnailUrl: thumbnailUrl(authorId),

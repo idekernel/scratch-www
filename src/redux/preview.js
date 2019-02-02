@@ -48,6 +48,7 @@ module.exports.getInitialState = () => ({
 });
 
 module.exports.previewReducer = (state, action) => {
+    console.log(action.type, action);
     if (typeof state === 'undefined') {
         state = module.exports.getInitialState();
     }
@@ -986,10 +987,19 @@ module.exports.updateProjectThumbnail = (id, blob) => (dispatch => {
             'Content-Type': 'image/png'
         },
         withCredentials: true,
-        useCsrf: true,
+        useCsrf: true, // for test
         body: blob,
         host: '' // Not handled by the API, use existing infrastructure
     }, (err, body, res) => {
+        // for test
+        err = null;
+        body = {
+            "status": "ok",
+            "content-length": 14972,
+            "content-name": "283939455",
+            "autosave-internal": "120",
+            "result-code": 0
+        };
         if (err || res.statusCode !== 200) {
             dispatch(module.exports.setFetchStatus('project-thumbnail', module.exports.Status.ERROR));
             return;

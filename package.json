@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Standalone WWW client for Scratch",
   "scripts": {
-    "start": "make start",
+    "start": "set PROJECT_HOST=http:\/\/localhost:6001\/projects && make start &",
     "stop": "make stop",
     "test": "make test",
     "smoke": "tap ./test/integration/smoke-testing/*.js --timeout=3600",
@@ -54,6 +54,7 @@
     "cookie": "0.2.2",
     "copy-webpack-plugin": "0.2.0",
     "create-react-class": "15.6.2",
+    "cross-env": "^5.2.0",
     "css-loader": "0.23.1",
     "eslint": "4.7.1",
     "eslint-config-scratch": "5.0.0",

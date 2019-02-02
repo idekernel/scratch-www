@@ -357,6 +357,61 @@ module.exports.getProjectInfo = (id, token) => (dispatch => {
     }
     dispatch(module.exports.setFetchStatus('project', module.exports.Status.FETCHING));
     api(opts, (err, body, response) => {
+        // for test
+        err = null;
+        body = {
+            "id": 283939455,
+            "title": "Untitled-4",
+            "description": "",
+            "instructions": "",
+            "visibility": "visible",
+            "public": false,
+            "comments_allowed": true,
+            "is_published": false,
+            "author": {
+                "id": 40802943,
+                "username": "godfei",
+                "scratchteam": false,
+                "history": {
+                    "joined": "1900-01-01T00:00:00.000Z"
+                },
+                "profile": {
+                    "id": null,
+                    "images": {
+                        "90x90": "https://cdn2.scratch.mit.edu/get_image/user/40802943_90x90.png?v=",
+                        "60x60": "https://cdn2.scratch.mit.edu/get_image/user/40802943_60x60.png?v=",
+                        "55x55": "https://cdn2.scratch.mit.edu/get_image/user/40802943_55x55.png?v=",
+                        "50x50": "https://cdn2.scratch.mit.edu/get_image/user/40802943_50x50.png?v=",
+                        "32x32": "https://cdn2.scratch.mit.edu/get_image/user/40802943_32x32.png?v="
+                    }
+                }
+            },
+            "image": "https://cdn2.scratch.mit.edu/get_image/project/283939455_480x360.png",
+            "images": {
+                "282x218": "https://cdn2.scratch.mit.edu/get_image/project/283939455_282x218.png?v=1549071473",
+                "216x163": "https://cdn2.scratch.mit.edu/get_image/project/283939455_216x163.png?v=1549071473",
+                "200x200": "https://cdn2.scratch.mit.edu/get_image/project/283939455_200x200.png?v=1549071473",
+                "144x108": "https://cdn2.scratch.mit.edu/get_image/project/283939455_144x108.png?v=1549071473",
+                "135x102": "https://cdn2.scratch.mit.edu/get_image/project/283939455_135x102.png?v=1549071473",
+                "100x80": "https://cdn2.scratch.mit.edu/get_image/project/283939455_100x80.png?v=1549071473"
+            },
+            "history": {
+                "created": "2019-02-02T01:37:41.000Z",
+                "modified": "2019-02-02T01:37:53.000Z",
+                "shared": null
+            },
+            "stats": {
+                "views": 1,
+                "loves": 0,
+                "favorites": 0,
+                "comments": 0,
+                "remixes": 0
+            },
+            "remix": {
+                "parent": null,
+                "root": null
+            }
+        };
         if (err) {
             dispatch(module.exports.setFetchStatus('project', module.exports.Status.ERROR));
             dispatch(module.exports.setError(err));

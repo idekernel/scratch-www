@@ -360,7 +360,7 @@ module.exports.getProjectInfo = (id, token) => (dispatch => {
         // for test
         err = null;
         body = {
-            "id": 283939455,
+            "id": id,
             "title": "Untitled-4",
             "description": "",
             "instructions": "",
@@ -1051,7 +1051,7 @@ module.exports.updateProjectThumbnail = (id, blob) => (dispatch => {
         body = {
             "status": "ok",
             "content-length": 14972,
-            "content-name": "283939455",
+            "content-name": id,
             "autosave-internal": "120",
             "result-code": 0
         };

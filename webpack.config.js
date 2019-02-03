@@ -15,6 +15,9 @@ if (process.env.NODE_ENV) {
 if (process.env.PROJECT_HOST) {
     process.env.PROJECT_HOST = process.env.PROJECT_HOST.trim();
 }
+if (process.env.API_HOST) {
+    process.env.API_HOST = process.env.API_HOST.trim();
+}
 
 if (process.env.NODE_ENV !== 'production') {
     routes = routes.concat(require('./src/routes-dev.json')); // eslint-disable-line global-require

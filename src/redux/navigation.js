@@ -104,9 +104,9 @@ module.exports.handleLogIn = (formData, callback) => (dispatch => {
     dispatch(module.exports.setLoginError(null));
     formData.useMessages = true; // NOTE: this may or may not be being used anywhere else
     api({
-        method: 'post',
         host: '',
-        uri: '/accounts/login/',
+        method: 'post',
+        uri: '/api/login/',
         json: formData,
         useCsrf: true
     }, (err, body) => {

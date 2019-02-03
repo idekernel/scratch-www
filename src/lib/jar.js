@@ -52,13 +52,11 @@ const Jar = {
     get: (name, callback) => {
         // Get cookie by name
         const obj = cookie.parse(document.cookie) || {};
-
         // Handle optional callback
         if (typeof callback === 'function') {
             if (typeof obj === 'undefined') return callback('Cookie not found.');
             return callback(null, obj[name]);
         }
-
         return obj[name];
     },
     use: (name, uri, callback) => {

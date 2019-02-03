@@ -65,18 +65,39 @@ module.exports.refreshSession = () => (dispatch => {
     dispatch(module.exports.setStatus(module.exports.Status.FETCHING));
     api({
         host: '',
-        uri: '/session/'
+        uri: '/api/session/'
     }, (err, body) => {
         // for test
+        err = null;
         body = {
-            user: {
-                username: 'godfei',
-                // classroomId:
-                // thumbnailUrl:
-                id: 40802943
+            "user": {
+              "id": 40802943,
+              "banned":  false,
+              "username": 'godfei',
+              "token": "5fdd7c0f07d043c5ae16c372a2025e99:BZ5E--KsMr8Wgm3Ir7wr7hbtt2o",
+              "thumbnailUrl": "//cdn2.scratch.mit.edu/get_image/user/default_32x32.png",
+              "dateJoined": "2019-01-26T15:52:38",
+              "email": "89553983@qq.com"
+              
             },
-            permissions: 'admin' //educator student
-        }
+            "permissions": {
+              "admin": false,
+              "scratcher": false,
+              "new_scratcher": true,
+              "social": true,
+              "educator": false,
+              "educator_invitee": false,
+              "student": false
+            },
+            "flags": {
+              "must_reset_password": false,
+              "must_complete_registration": false,
+              "has_outstanding_email_confirmation": false,
+              "show_welcome": true,
+              "confirm_email_banner": true,
+              "unsupported_browser_banner": true
+            }
+          };
         if (err) return dispatch(module.exports.setSessionError(err));
         if (typeof body === 'undefined') return dispatch(module.exports.setSessionError('No session content'));
         if (

@@ -1,5 +1,10 @@
 [
     {
+        "name": "create-tutorial-redirect",
+        "pattern": "^/create/?$",
+        "redirect": "/projects/editor/?tutorial=getStarted"
+    },
+    {
         "name": "splash",
         "pattern": "^/?$",
         "routeAlias": "/?$",

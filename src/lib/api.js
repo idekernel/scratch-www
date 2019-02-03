@@ -31,7 +31,6 @@ module.exports = (opts, callback) => {
     }
 
     opts.uri = opts.host + opts.uri;
-
     if (opts.params) {
         opts.uri = [opts.uri, urlParams(opts.params)]
             .join(opts.uri.indexOf('?') === -1 ? '?' : '&');
@@ -92,7 +91,7 @@ module.exports = (opts, callback) => {
         opts.headers['X-Token'] = opts.authentication;
     }
     if (opts.useCsrf) {
-        jar.use('scratchcsrftoken', '/csrf_token/', (err, csrftoken) => {
+        jar.use('scratchcsrftoken', '/api/csrf_token/', (err, csrftoken) => {
             // for test
             err = null;
             csrftoken = 'z4ORpLe7sISzL3zS79E2Ys6SgDEiBrMR';

@@ -48,7 +48,6 @@ module.exports.getInitialState = () => ({
 });
 
 module.exports.previewReducer = (state, action) => {
-    console.log(action.type, action);
     if (typeof state === 'undefined') {
         state = module.exports.getInitialState();
     }

@@ -1043,7 +1043,8 @@ module.exports.updateProjectThumbnail = (id, blob) => (dispatch => {
         withCredentials: true,
         useCsrf: true, // for test
         body: blob,
-        host: '' // Not handled by the API, use existing infrastructure
+        // for test origin ''
+        host: 'http://localhost:6001/api' // Not handled by the API, use existing infrastructure
     }, (err, body, res) => {
         // for test
         err = null;

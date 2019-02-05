@@ -64,7 +64,7 @@ module.exports.setStatus = status => ({
 module.exports.refreshSession = () => (dispatch => {
     dispatch(module.exports.setStatus(module.exports.Status.FETCHING));
     api({
-        host: '',
+        host: '', // for test orgin ''
         uri: '/api/session/'
     }, (err, body) => {
         // for test

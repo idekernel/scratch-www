@@ -1046,15 +1046,6 @@ module.exports.updateProjectThumbnail = (id, blob) => (dispatch => {
         // for test origin ''
         host: 'http://localhost:6001/api' // Not handled by the API, use existing infrastructure
     }, (err, body, res) => {
-        // for test
-        err = null;
-        body = {
-            "status": "ok",
-            "content-length": 14972,
-            "content-name": id,
-            "autosave-internal": "120",
-            "result-code": 0
-        };
         if (err || res.statusCode !== 200) {
             dispatch(module.exports.setFetchStatus('project-thumbnail', module.exports.Status.ERROR));
             return;

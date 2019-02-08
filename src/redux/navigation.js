@@ -104,7 +104,7 @@ module.exports.handleLogIn = (formData, callback) => (dispatch => {
     dispatch(module.exports.setLoginError(null));
     formData.useMessages = true; // NOTE: this may or may not be being used anywhere else
     api({
-        host: '',
+        host: '',  // for test orgin ''
         method: 'post',
         uri: '/api/login/',
         json: formData,

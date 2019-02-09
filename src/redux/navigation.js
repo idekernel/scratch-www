@@ -142,7 +142,7 @@ module.exports.handleLogOut = () => (dispatch => {
     api({
         host: '',
         method: 'post',
-        uri: '/accounts/logout/',
+        uri: '/api/logout/',
         useCsrf: true
     }, err => {
         if (err) log.error(err);

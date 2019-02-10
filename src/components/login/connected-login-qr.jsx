@@ -11,11 +11,11 @@ const ConnectedLoginQR = ({
     error,
     onLogIn,
     regAction,
-    loginStart
+    status
 }) => (
     <LoginQR
         error={error}
-        loginStart={loginStart}
+        status={status}
         regAction={regAction}
         key="login-dropdown-presentation"
         onLogIn={onLogIn}
@@ -29,7 +29,7 @@ ConnectedLoginQR.propTypes = {
 
 const mapStateToProps = state => ({
     error: state.navigation && state.navigation.loginError,
-    loginStart: state.loginqr && state.loginqr.loginStart
+    status: state.loginqr && state.loginqr.status
 });
 
 const mapDispatchToProps = dispatch => ({

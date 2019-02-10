@@ -10,7 +10,7 @@ let connect = false;
 socket.on('connect', () => {
   connect = true;
   console.log('connect!', uuid);
-  socket.emit('loginqr', 'hello world!');
+  // socket.emit('loginqr', 'hello world!');
 });
 socket.on(uuid, msg => {
   if(callbackMap[msg.type]) {

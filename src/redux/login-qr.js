@@ -7,14 +7,18 @@ const log = require('../lib/log.js');
 
 const Types = keyMirror({
     SET_LOGIN_QR_ERROR: null,
-    SET_LOGIN_QR_START: null,
-    SET_LOGIN_QR_END: null
+    SET_LOGIN_STATUS: null
+});
+
+module.exports.Status = keyMirror({
+    FETCHED: null,
+    NOT_FETCHED: null,
+    FETCHING: null
 });
 
 module.exports.getInitialState = () => ({
     loginQRError: null,
-    loginStart: false,
-    loginEnd: false
+    status: module.exports.Status.NOT_FETCHED
 });
 
 
@@ -25,12 +29,8 @@ module.exports.loginQRReducer = (state, action) => {
     switch (action.type) {
     case Types.SET_LOGIN_QR_ERROR:
         return defaults({loginQRError: action.loginQRError}, state);
-    case Types.SET_LOGIN_QR_START:
-        return defaults({loginStart: action.loginStart,
-            loginEnd: action.loginEnd
-        }, state);
-    case Types.SET_LOGIN_QR_END:
-        return defaults({loginQROpen: !state.loginQROpen}, state);
+    case Types.SET_LOGIN_STATUS:
+        return defaults({status: action.status}, state);
     default:
         return state;
     }
@@ -44,24 +44,17 @@ module.exports.setLoginQRError = loginQRError => ({
     loginQRError: loginQRError
 });
 
-module.exports.setLoginQRStart = () => ({
-    type: Types.SET_LOGIN_QR_START,
-    loginStart: true,
-    loginEnd: false
-});
-
-module.exports.setLoginQREnd = () => ({
-    type: Types.SET_LOGIN_QR_END,
-    loginStart: false,
-    loginEnd: true
+module.exports.setStatus = status => ({
+    type: Types.SET_LOGIN_STATUS,
+    status: status
 });
 
 
 module.exports.regAction = () => (dispatch => {
-    regAction(Types.SET_LOGIN_QR_START
+    regAction(Types.SET_LOGIN_STATUS
         , (err, body) => {
         if (err) dispatch(module.exports.setLoginQRError(err.message));
-        dispatch(module.exports.setLoginQRStart());
+        dispatch(module.exports.setStatus(module.exports.Status.FETCHING));
     });
 
 });

@@ -10,35 +10,27 @@ const Spinner = require('../spinner/spinner.jsx');
 
 const QRCode = require('qrcode')
 const uuid = require('../../lib/apiws').uuid;
-
+const loginStatuses = require('../../redux/login-qr').Status;
 require('./login.scss');
 
 class LoginQR extends React.Component {
     constructor (props) {
         super(props);
-        bindAll(this, [
-            'handleSubmit'
-        ]);
-        this.state = {
-            waiting: false
-        };
     }
     componentDidMount() {
 
         this.props.regAction();
         let canvas = this.refs.canvas;
-        let callbackurl = 'http://localhost:6001/api/loginqr/' + uuid;
+        let callbackurl = 'http://localhost:6001/api/loginqr/' + uuid
+            + '/SET_LOGIN_STATUS';
 
-        QRCode.toCanvas(canvas, callbackurl, function (error) {
-          if (error) console.error(error)
-          console.log('success!');
-        })
-    }
-    handleSubmit (formData) {
-        this.setState({waiting: true});
-        this.props.onLogIn(formData, () => {
-            this.setState({waiting: false});
-        });
+        if (canvas) {
+            QRCode.toCanvas(canvas, callbackurl, function (error) {
+                if (error) console.error(error)
+                console.log('success!');
+              })
+        }
+        
     }
     render () {
         let error;
@@ -47,19 +39,33 @@ class LoginQR extends React.Component {
         }
         return (
             <div className="login">
-                <Form onSubmit={this.handleSubmit}>
+                <Form>
                     <label
                         htmlFor="qr"
                         key="qrLabel"
                     >
                         <FormattedMessage id="general.qr" />
                     </label>
-                    {this.props.loginStart === false &&
+                    {this.props.status === loginStatuses.NOT_FETCHED &&
                         <canvas
                             ref="canvas"
                             name="qr"
                         />
                     }
+                    {this.props.status === loginStatuses.FETCHING &&
+                        <Button
+                            className="submit-button white"
+                            disabled="disabled"
+                            key="submitButton"
+                            type="submit"
+                        >
+                            <Spinner
+                                className="spinner"
+                                color="blue"
+                            />
+                        </Button>
+                    }
+                    
                     {error}
                 </Form>
             </div>

@@ -80,6 +80,7 @@
     "general.unhandledError": "We are so sorry, but it looks like Scratch has crashed. This bug has been automatically reported to the Scratch Team.",
     "general.username": "Username",
     "general.qr": "Scan quick response code",
+    "general.logining": "logining",
     "general.validationEmail": "Please enter a valid email address",
     "general.validationEmailMatch": "The emails do not match",
     "general.viewAll": "View All",

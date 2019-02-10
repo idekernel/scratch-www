@@ -19,7 +19,7 @@ const ProjectInfo = require('../../lib/project-info');
 const PreviewPresentation = require('./presentation.jsx');
 const projectShape = require('./projectshape.jsx').projectShape;
 const Registration = require('../../components/registration/registration.jsx');
-const ConnectedLogin = require('../../components/login/connected-login.jsx');
+const ConnectedLoginQR = require('../../components/login/connected-login-qr.jsx');
 const CanceledDeletionModal = require('../../components/login/canceled-deletion-modal.jsx');
 const NotAvailable = require('../../components/not-available/not-available.jsx');
 const Meta = require('./meta.jsx');
@@ -577,7 +577,7 @@ class Preview extends React.Component {
     }
     renderLogin ({onClose}) {
         return (
-            <ConnectedLogin
+            <ConnectedLoginQR
                 key="login-dropdown-presentation"
                 /* eslint-disable react/jsx-no-bind */
                 onLogIn={(formData, callback) => {

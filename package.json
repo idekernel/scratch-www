@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "Standalone WWW client for Scratch",
   "scripts": {
-    "start": "set PROJECT_HOST=http:\/\/localhost:6001\/api\/projectraw && set API_HOST=http:\/\/localhost:6001\/api && make start &",
+    "start": "set PROJECT_HOST=http://localhost:6001/api/projectraw && set API_HOST=http://localhost:6001/api && make start &",
     "stop": "make stop",
     "test": "make test",
     "smoke": "tap ./test/integration/smoke-testing/*.js --timeout=3600",
     "smoke-verbose": "tap ./test/integration/smoke-testing/*.js --timeout=3600 -R spec",
     "smoke-sauce": "SMOKE_REMOTE=true tap ./test/integration/smoke-testing/*.js --timeout=60000",
     "watch": "make watch",
-    "build": "set NODE_ENV=production && set PROJECT_HOST=http:\/\/localhost:6001\/api\/projectraw && set API_HOST=http:\/\/localhost:6001\/api && make build",
+    "build": "set NODE_ENV=production && set PROJECT_HOST=http://localhost:6001/api/projectraw && set API_HOST=http://localhost:6001/api && make build",
     "dev": "make watch && make start &"
   },
   "repository": {
@@ -32,10 +32,13 @@
     "express-http-proxy": "1.1.0",
     "lodash.defaults": "4.0.1",
     "newrelic": "1.25.4",
+    "qrcode": "^1.3.3",
     "react-helmet": "5.2.0",
     "scratch-docker": "^1.0.2",
     "scratch-parser": "^4.2.0",
-    "scratch-storage": "^0.5.1"
+    "scratch-storage": "^0.5.1",
+    "socket.io-client": "^2.2.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "ajv": "6.4.0",

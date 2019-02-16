@@ -44,7 +44,7 @@ class LoginQR extends React.Component {
                         htmlFor="qr"
                         key="qrLabel"
                     >
-                        <FormattedMessage id="general.qr" />
+                        扫码登录
                     </label>
                     {this.props.status === loginStatuses.NOT_FETCHED &&
                         <canvas

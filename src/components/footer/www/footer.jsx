@@ -13,7 +13,7 @@ require('./footer.scss');
 
 const Footer = props => (
     <FooterBox>
-        <MediaQuery maxWidth={frameless.mobileIntermediate - 1}>
+        {/* <MediaQuery maxWidth={frameless.mobileIntermediate - 1}>
             <div className="lists">
                 <dl>
                     <dd>
@@ -207,7 +207,7 @@ const Footer = props => (
                     </dd>
                 </dl>
             </div>
-        </MediaQuery>
+        </MediaQuery> */}
         <LanguageChooser locale={props.intl.locale} />
 
         <div className="copyright">

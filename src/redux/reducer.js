@@ -5,7 +5,8 @@ const messageCountReducer = require('./message-count.js').messageCountReducer;
 const permissionsReducer = require('./permissions.js').permissionsReducer;
 const sessionReducer = require('./session.js').sessionReducer;
 const navigationReducer = require('./navigation.js').navigationReducer;
-const loginqrReducer = require('./login-qr').loginQRReducer;
+const loginqrReducer = require('./login-qr.js').loginQRReducer;
+const courseReducer = require('./course.js').courseReducer;
 
 /**
  * Returns a combined reducer to be used for a page in `render.jsx`.
@@ -24,6 +25,7 @@ module.exports = opts => {
         navigation: navigationReducer,
         permissions: permissionsReducer,
         session: sessionReducer,
-        loginqr: loginqrReducer
+        loginqr: loginqrReducer,
+        course: courseReducer
     }));
 };

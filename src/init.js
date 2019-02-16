@@ -19,7 +19,7 @@ const jar = require('./lib/jar');
                 obj = 'pt-br'; // default Portuguese users to Brazilian Portuguese due to our user base. Added in 2.2.5.
             }
         }
-        return obj;
+        return obj.toLowerCase();
     };
 
     window._locale = updateLocale();

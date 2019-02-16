@@ -46,6 +46,7 @@ if (`${process.env.SENTRY_DSN}` !== '') {
     });
     window.Sentry = Sentry; // Allow GUI access to Sentry via window
 }
+const querystring = require("querystring");
 
 class Preview extends React.Component {
     constructor (props) {
@@ -205,28 +206,29 @@ class Preview extends React.Component {
         if (this.props.userPresent) {
             const username = this.props.user.username;
             const token = this.props.user.token;
-            if (this.state.singleCommentId) {
-                this.props.getCommentById(this.state.projectId, this.state.singleCommentId,
-                    this.props.isAdmin, token);
-            } else {
-                this.props.getTopLevelComments(this.state.projectId, this.props.comments.length,
-                    this.props.isAdmin, token);
-            }
+            // if (this.state.singleCommentId) {
+            //     this.props.getCommentById(this.state.projectId, this.state.singleCommentId,
+            //         this.props.isAdmin, token);
+            // } else {
+            //     this.props.getTopLevelComments(this.state.projectId, this.props.comments.length,
+            //         this.props.isAdmin, token);
+            // }
             this.props.getProjectInfo(this.state.projectId, token);
-            this.props.getRemixes(this.state.projectId, token);
-            this.props.getProjectStudios(this.state.projectId, token);
-            this.props.getCuratedStudios(username);
-            this.props.getFavedStatus(this.state.projectId, username, token);
-            this.props.getLovedStatus(this.state.projectId, username, token);
+            // this.props.getRemixes(this.state.projectId, token);
+            // this.props.getProjectStudios(this.state.projectId, token);
+            // this.props.getCuratedStudios(username);
+            // this.props.getFavedStatus(this.state.projectId, username, token);
+            // this.props.getLovedStatus(this.state.projectId, username, token);
         } else {
-            if (this.state.singleCommentId) {
-                this.props.getCommentById(this.state.projectId, this.state.singleCommentId);
-            } else {
-                this.props.getTopLevelComments(this.state.projectId, this.props.comments.length);
-            }
+            // if (this.state.singleCommentId) {
+            //     this.props.getCommentById(this.state.projectId, this.state.singleCommentId);
+            // } else {
+            //     this.props.getTopLevelComments(this.state.projectId, this.props.comments.length);
+            // }
             this.props.getProjectInfo(this.state.projectId);
-            this.props.getRemixes(this.state.projectId);
-            this.props.getProjectStudios(this.state.projectId);
+            
+            // this.props.getRemixes(this.state.projectId);
+            // this.props.getProjectStudios(this.state.projectId);
         }
     }
     setScreenFromOrientation () {
@@ -911,7 +913,7 @@ const mapStateToProps = state => {
         user: state.session.session.user,
         userOwnsProject: userOwnsProject,
         userPresent: userPresent,
-        visibilityInfo: state.preview.visibilityInfo
+        visibilityInfo: state.preview.visibilityInfo,
     };
 };
 
@@ -1026,7 +1028,7 @@ const mapDispatchToProps = dispatch => ({
     },
     setFullScreen: fullscreen => {
         dispatch(GUI.setFullScreen(fullscreen));
-    }
+    },
 });
 
 module.exports.View = connect(

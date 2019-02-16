@@ -8,6 +8,7 @@ const log = require('../../lib/log');
 const render = require('../../lib/render.jsx');
 const sessionActions = require('../../redux/session.js');
 const splashActions = require('../../redux/splash.js');
+const courseActions = require('../../redux/course.js');
 
 const Page = require('../../components/page/www/page.jsx');
 const SplashPresentation = require('./presentation.jsx');
@@ -43,6 +44,7 @@ class Splash extends React.Component {
             this.props.getLovedByFollowing(this.props.user.username, this.props.user.token);
             this.getNews();
         }
+        this.props.getCouser();
     }
     componentDidUpdate (prevProps) {
         if (this.props.user.username !== prevProps.user.username) {
@@ -166,6 +168,8 @@ class Splash extends React.Component {
                 shouldShowEmailConfirmation={showEmailConfirmation}
                 shouldShowWelcome={showWelcome}
                 user={this.props.user}
+                course={this.props.course}
+                onChangeCouser={this.props.changeCouser}
                 onCloseAdminPanel={this.handleCloseAdminPanel}
                 onDismiss={this.handleDismiss}
                 onHideEmailConfirmationModal={this.handleHideEmailConfirmationModal}
@@ -238,7 +242,8 @@ const mapStateToProps = state => ({
     sessionStatus: state.session.status,
     shared: state.splash.shared.rows,
     studios: state.splash.studios.rows,
-    user: state.session.session.user
+    user: state.session.session.user,
+    course: state.course.courseInfo,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -262,7 +267,14 @@ const mapDispatchToProps = dispatch => ({
     },
     setRows: (type, rows) => {
         dispatch(splashActions.setRows(type, rows));
+    },
+    changeCouser (id) {
+        dispatch(courseActions.setCourseId(id));
+    },
+    getCouser() {
+        dispatch(courseActions.getCouserInfo());
     }
+    
 });
 
 const ConnectedSplash = connect(

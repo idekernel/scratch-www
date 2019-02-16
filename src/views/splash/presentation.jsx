@@ -21,6 +21,7 @@ const LegacyCarousel = require('../../components/carousel/legacy-carousel.jsx');
 const News = require('../../components/news/news.jsx');
 const TeacherBanner = require('../../components/teacher-banner/teacher-banner.jsx');
 const Welcome = require('../../components/welcome/welcome.jsx');
+const Course = require('../../components/course/course.jsx');
 
 // Activity Components
 const BecomeCuratorMessage = require('./activity-rows/become-curator.jsx');
@@ -168,7 +169,7 @@ class ActivityList extends React.Component {
                                             src={profileThumbUrl}
                                         />
                                     </a>
-                                    {this.getComponentForMessage(item)}
+                                    {/* {this.getComponentForMessage(item)} */}
                                 </li>
                             );
                         })}
@@ -400,41 +401,7 @@ class SplashPresentation extends React.Component { // eslint-disable-line react/
 
         return (
             <div className="splash">
-                {this.props.shouldShowEmailConfirmation ? [
-                    <DropdownBanner
-                        className="warning"
-                        key="confirmedEmail"
-                        onRequestDismiss={() => { // eslint-disable-line react/jsx-no-bind
-                            this.props.onDismiss('confirmed_email');
-                        }}
-                    >
-                        <a
-                            href="#"
-                            onClick={this.props.onShowEmailConfirmationModal}
-                        >
-                            Confirm your email
-                        </a>{' '}to enable sharing.{' '}
-                        <a href="/info/faq/#accounts">
-                            Having trouble?
-                        </a>
-                    </DropdownBanner>,
-                    <IframeModal
-                        className="mod-confirmation"
-                        componentRef={iframe => { // eslint-disable-line react/jsx-no-bind
-                            this.emailConfirmationiFrame = iframe;
-                        }}
-                        isOpen={this.props.emailConfirmationModalOpen}
-                        key="iframe-modal"
-                        src="/accounts/email_resend_standalone/"
-                        onRequestClose={this.props.onHideEmailConfirmationModal}
-                    />
-                ] : []}
-                {this.props.isEducator ? [
-                    <TeacherBanner
-                        key="teacherbanner"
-                        messages={messages}
-                    />
-                ] : []}
+               
                 {
                     this.props.sessionStatus === sessionActions.Status.FETCHED &&
                     Object.keys(this.props.user).length === 0 && // if user is not logged in
@@ -498,73 +465,8 @@ class SplashPresentation extends React.Component { // eslint-disable-line react/
                             />
                         </div>
                     }
-                    {featured}
-
-                    {this.props.isAdmin && (
-                        <AdminPanel
-                            className="splash-admin-panel"
-                            isOpen={this.props.adminPanelOpen}
-                            onClose={this.props.onCloseAdminPanel}
-                            onOpen={this.props.onOpenAdminPanel}
-                        >
-                            <dl>
-                                <dt>Tools</dt>
-                                <dd>
-                                    <ul>
-                                        <li>
-                                            <a href="/scratch_admin/tickets">Ticket Queue</a>
-                                        </li>
-                                        <li>
-                                            <a href="/scratch_admin/ip-search/">IP Search</a>
-                                        </li>
-                                        <li>
-                                            <a href="/scratch_admin/email-search/">Email Search</a>
-                                        </li>
-                                    </ul>
-                                </dd>
-                                <dt>Homepage Cache</dt>
-                                <dd>
-                                    <ul className="cache-list">
-                                        <li>
-                                            <div className="button-row">
-                                                <span>Refresh row data:</span>
-                                                <Button
-                                                    className={this.props.refreshCacheStatus.status}
-                                                    disabled={this.props.refreshCacheStatus.disabled}
-                                                    onClick={this.props.onRefreshHomepageCache}
-                                                >
-                                                    <span>{this.props.refreshCacheStatus.content}</span>
-                                                </Button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </dd>
-                                <dt>Page Cache</dt>
-                                <dd>
-                                    <ul className="cache-list">
-                                        <li>
-                                            <form
-                                                action="/scratch_admin/page/clear-anon-cache/"
-                                                method="post"
-                                            >
-                                                <input
-                                                    name="path"
-                                                    type="hidden"
-                                                    value="/"
-                                                />
-                                                <div className="button-row">
-                                                    <span>For anonymous users:</span>
-                                                    <Button type="submit">
-                                                        <span>Clear</span>
-                                                    </Button>
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </dd>
-                            </dl>
-                        </AdminPanel>
-                    )}
+                    {/* {featured} */}
+                    <Course onChangeCouser={this.props.onChangeCouser}/>
                 </div>
             </div>
         );
@@ -600,7 +502,9 @@ SplashPresentation.propTypes = {
     sharedByFollowing: PropTypes.arrayOf(PropTypes.object),
     shouldShowEmailConfirmation: PropTypes.bool.isRequired,
     shouldShowWelcome: PropTypes.bool.isRequired,
-    user: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
+    user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    onChangeCouser: PropTypes.func.isRequired,
+    course: PropTypes.arrayOf(PropTypes.object)
 };
 
 SplashPresentation.defaultProps = {
@@ -609,7 +513,8 @@ SplashPresentation.defaultProps = {
     inStudiosFollowing: [], // "Projects in Studios I'm Following"
     lovedByFollowing: [], // "Projects Loved by Scratchers I'm Following"
     news: [], // gets news posts from the scratch Tumblr
-    sharedByFollowing: [] // "Projects by Scratchers I'm Following"
+    sharedByFollowing: [], // "Projects by Scratchers I'm Following"
+    course: []
 };
 
 module.exports = injectIntl(SplashPresentation);

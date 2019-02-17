@@ -21,7 +21,7 @@ const LegacyCarousel = require('../../components/carousel/legacy-carousel.jsx');
 const News = require('../../components/news/news.jsx');
 const TeacherBanner = require('../../components/teacher-banner/teacher-banner.jsx');
 const Welcome = require('../../components/welcome/welcome.jsx');
-const Course = require('../../components/course/course.jsx');
+const ConectedCourse = require('../../components/course/conected-course.jsx');
 
 // Activity Components
 const BecomeCuratorMessage = require('./activity-rows/become-curator.jsx');
@@ -466,7 +466,7 @@ class SplashPresentation extends React.Component { // eslint-disable-line react/
                         </div>
                     }
                     {/* {featured} */}
-                    <Course onChangeCouser={this.props.onChangeCouser} course={this.props.course}/>
+                    <ConectedCourse/>
                 </div>
             </div>
         );
@@ -503,8 +503,6 @@ SplashPresentation.propTypes = {
     shouldShowEmailConfirmation: PropTypes.bool.isRequired,
     shouldShowWelcome: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-    onChangeCouser: PropTypes.func.isRequired,
-    course: PropTypes.array
 };
 
 SplashPresentation.defaultProps = {
@@ -514,7 +512,6 @@ SplashPresentation.defaultProps = {
     lovedByFollowing: [], // "Projects Loved by Scratchers I'm Following"
     news: [], // gets news posts from the scratch Tumblr
     sharedByFollowing: [], // "Projects by Scratchers I'm Following"
-    course: []
 };
 
 module.exports = injectIntl(SplashPresentation);

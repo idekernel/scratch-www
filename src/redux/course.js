@@ -69,7 +69,7 @@ module.exports.setCourseId = id => ({
     type: 'SET_COURSE_ID',
     id
 });
-module.exports.setProjects = id => ({
+module.exports.setProjects = projects => ({
     type: 'SET_COURSE_PROJECTS',
     projects
 });
@@ -136,6 +136,34 @@ module.exports.getProjects = (cid, token) => ((dispatch, state) => {
 
     });
 });
+
+module.exports.delProject = (id, token) => ((dispatch, state) => {
+    const opts = {
+        host: 'http://localhost:6001', // for test origin ''
+        uri: `/api/projects/${id}`,
+        method: 'delete'
+    };
+    if (token) {
+        Object.assign(opts, {authentication: token});
+    }
+    dispatch(module.exports.setStatus(module.exports.Status.FETCHING));
+    api(opts, (err, body, response) => {
+        if (err) {
+            dispatch(module.exports.setStatus(module.exports.Status.ERROR));
+            dispatch(module.exports.setCourseError(err));
+            return;
+        }
+        if (typeof body === 'undefined' || response.statusCode === 404) {
+            dispatch(module.exports.setStatus(module.exports.Status.ERROR));
+            dispatch(module.exports.setCourseError('No course info'));
+            // dispatch(module.exports.setProjects([]));
+            return;
+        }
+        dispatch(module.exports.setStatus(module.exports.Status.FETCHED));
+        dispatch(module.exports.getProjects(state().course.id));
+    });
+});
+
 
 module.exports.getCouserInfo = (token) => ((dispatch, state) => {
     const opts = {

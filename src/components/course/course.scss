@@ -1,0 +1,25 @@
+*,
+*::before,
+*::after {
+  box-sizing: content-box;
+}
+.course {
+    .ant-tabs {
+        .ant-collapse {
+            .ant-card {
+                float: left;
+                .ant-card-actions {
+                    > li {
+                        width: 33% !important;
+                    }
+                }
+            }
+            .ant-btn {
+                color: #000000;
+            }
+            
+        }
+        
+    }
+    
+}

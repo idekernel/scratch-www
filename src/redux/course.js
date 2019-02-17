@@ -8,7 +8,8 @@ const Types = keyMirror({
     SET_COURSE_ERROR: null,
     SET_COURSE_STATUS: null,
     SET_COURSE_INFO: null,
-    SET_COURSE_ID: null
+    SET_COURSE_ID: null,
+    SET_COURSE_PROJECTS: null
 
 });
 
@@ -21,8 +22,9 @@ module.exports.Status = keyMirror({
 module.exports.getInitialState = () => ({
     courseError: null,
     status: module.exports.Status.NOT_FETCHED,
-    courseInfo: {},
-    id: ''
+    courseInfo: [],
+    id: -1,
+    projects: []
 });
 
 
@@ -39,6 +41,8 @@ module.exports.courseReducer = (state, action) => {
         return defaults({courseInfo: action.info || {} }, state);
     case Types.SET_COURSE_ID:
         return defaults({id: action.id || '' }, state);
+    case Types.SET_COURSE_PROJECTS:
+        return defaults({projects: action.projects}, state);
     default:
         return state;
     }
@@ -65,9 +69,75 @@ module.exports.setCourseId = id => ({
     type: 'SET_COURSE_ID',
     id
 });
+module.exports.setProjects = id => ({
+    type: 'SET_COURSE_PROJECTS',
+    projects
+});
 
+module.exports.setUserCourseId = (courseid, token) => ((dispatch, state) => {
+    const user = state().session.session.user;
+    if (user && user.id && courseid) {
+        dispatch(module.exports.getProjects(courseid, token));
+        const formData = {sel_course: parseInt(courseid)};
+        const opts = {
+            host: 'http://localhost:6001', // for test origin ''
+            uri: `/api/user/` + user.id,
+            method: 'put',
+            json: formData,
+            useCsrf: true
+        };
+        if (token) {
+            Object.assign(opts, {authentication: token});
+        }
+        dispatch(module.exports.setStatus(module.exports.Status.FETCHING));
+        api(opts, (err, body, response) => {
+            if (err) {
+                dispatch(module.exports.setStatus(module.exports.Status.ERROR));
+                dispatch(module.exports.setCourseError(err));
+                return;
+            }
+            if (typeof body === 'undefined' || response.statusCode === 404) {
+                dispatch(module.exports.setStatus(module.exports.Status.ERROR));
+                dispatch(module.exports.setCourseError('No course info'));
+                dispatch(module.exports.setCourseId(-1));
+                return;
+            }
+            dispatch(module.exports.setStatus(module.exports.Status.FETCHED));
+            dispatch(module.exports.setCourseId(courseid));
+    
+        });
+    }
+    
+});
 
-module.exports.getCouserInfo = (token) => (dispatch => {
+module.exports.getProjects = (cid, token) => ((dispatch, state) => {
+    const opts = {
+        host: 'http://localhost:6001', // for test origin ''
+        uri: `/api/projects/?cid=${cid}` 
+    };
+    if (token) {
+        Object.assign(opts, {authentication: token});
+    }
+    dispatch(module.exports.setStatus(module.exports.Status.FETCHING));
+    api(opts, (err, body, response) => {
+        if (err) {
+            dispatch(module.exports.setStatus(module.exports.Status.ERROR));
+            dispatch(module.exports.setCourseError(err));
+            return;
+        }
+        if (typeof body === 'undefined' || response.statusCode === 404) {
+            dispatch(module.exports.setStatus(module.exports.Status.ERROR));
+            dispatch(module.exports.setCourseError('No course info'));
+            dispatch(module.exports.setProjects([]));
+            return;
+        }
+        dispatch(module.exports.setStatus(module.exports.Status.FETCHED));
+        dispatch(module.exports.setProjects(body.rows));
+
+    });
+});
+
+module.exports.getCouserInfo = (token) => ((dispatch, state) => {
     const opts = {
         host: 'http://localhost:6001', // for test origin ''
         uri: `/api/course/`
@@ -85,7 +155,7 @@ module.exports.getCouserInfo = (token) => (dispatch => {
         if (typeof body === 'undefined' || response.statusCode === 404) {
             dispatch(module.exports.setStatus(module.exports.Status.ERROR));
             dispatch(module.exports.setCourseError('No course info'));
-            dispatch(module.exports.setCourseInfo(null));
+            dispatch(module.exports.setCourseInfo([]));
             return;
         }
         dispatch(module.exports.setStatus(module.exports.Status.FETCHED));

@@ -81,7 +81,7 @@ module.exports.refreshSession = () => (dispatch => {
               
             },
             "permissions": {
-              "admin": true,
+              "admin": false,
               "scratcher": false,
               "new_scratcher": true,
               "social": true,

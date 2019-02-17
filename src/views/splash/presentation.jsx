@@ -466,7 +466,7 @@ class SplashPresentation extends React.Component { // eslint-disable-line react/
                         </div>
                     }
                     {/* {featured} */}
-                    <Course onChangeCouser={this.props.onChangeCouser}/>
+                    <Course onChangeCouser={this.props.onChangeCouser} course={this.props.course}/>
                 </div>
             </div>
         );
@@ -504,7 +504,7 @@ SplashPresentation.propTypes = {
     shouldShowWelcome: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     onChangeCouser: PropTypes.func.isRequired,
-    course: PropTypes.arrayOf(PropTypes.object)
+    course: PropTypes.array
 };
 
 SplashPresentation.defaultProps = {

@@ -169,6 +169,7 @@ class Splash extends React.Component {
                 shouldShowWelcome={showWelcome}
                 user={this.props.user}
                 course={this.props.course}
+                courseId={this.props.courseId}
                 onChangeCouser={this.props.changeCouser}
                 onCloseAdminPanel={this.handleCloseAdminPanel}
                 onDismiss={this.handleDismiss}
@@ -244,6 +245,7 @@ const mapStateToProps = state => ({
     studios: state.splash.studios.rows,
     user: state.session.session.user,
     course: state.course.courseInfo,
+    courseId: state.course.id // current courseid
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -269,7 +271,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(splashActions.setRows(type, rows));
     },
     changeCouser (id) {
-        dispatch(courseActions.setCourseId(id));
+        dispatch(courseActions.setUserCourseId(id));
     },
     getCouser() {
         dispatch(courseActions.getCouserInfo());

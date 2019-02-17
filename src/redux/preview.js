@@ -980,6 +980,7 @@ module.exports.reportProject = (id, jsonData, token) => (dispatch => {
 module.exports.updateProjectThumbnail = (id, blob) => (dispatch => {
     dispatch(module.exports.setFetchStatus('project-thumbnail', module.exports.Status.FETCHING));
     api({
+        
         uri: `/api/internalapi/project/thumbnail/${id}/set/`,
         method: 'POST',
         headers: {
@@ -989,7 +990,7 @@ module.exports.updateProjectThumbnail = (id, blob) => (dispatch => {
         useCsrf: true, // for test
         body: blob,
         // for test origin ''
-        host: '' // Not handled by the API, use existing infrastructure
+        host: 'http://localhost:6001', // for test origin '' // Not handled by the API, use existing infrastructure
     }, (err, body, res) => {
         if (err || res.statusCode !== 200) {
             dispatch(module.exports.setFetchStatus('project-thumbnail', module.exports.Status.ERROR));

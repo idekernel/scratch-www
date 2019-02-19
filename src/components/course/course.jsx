@@ -17,7 +17,7 @@ require('antd/lib/collapse/style/index.css');
 require('antd/lib/icon/style/index.css');
 require('antd/lib/card/style/index.css');
 require('antd/lib/button/style/index.css');
-require('antd/lib/popconfirm/style/css');
+require('antd/lib/popover/style/index.css');
 
 require('./course.scss');
 

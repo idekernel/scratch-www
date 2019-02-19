@@ -35,22 +35,22 @@ class Splash extends React.Component {
         };
     }
     componentDidMount () {
-        this.props.getFeaturedGlobal();
+        // this.props.getFeaturedGlobal();
         if (this.props.user.username) {
-            this.props.getActivity(this.props.user.username, this.props.user.token);
-            this.props.getSharedByFollowing(this.props.user.username, this.props.user.token);
-            this.props.getInStudiosFollowing(this.props.user.username, this.props.user.token);
-            this.props.getLovedByFollowing(this.props.user.username, this.props.user.token);
+            // this.props.getActivity(this.props.user.username, this.props.user.token);
+            // this.props.getSharedByFollowing(this.props.user.username, this.props.user.token);
+            // this.props.getInStudiosFollowing(this.props.user.username, this.props.user.token);
+            // this.props.getLovedByFollowing(this.props.user.username, this.props.user.token);
             this.getNews();
         }
     }
     componentDidUpdate (prevProps) {
         if (this.props.user.username !== prevProps.user.username) {
             if (this.props.user.username) {
-                this.props.getActivity(this.props.user.username, this.props.user.token);
-                this.props.getSharedByFollowing(this.props.user.username, this.props.user.token);
-                this.props.getInStudiosFollowing(this.props.user.username, this.props.user.token);
-                this.props.getLovedByFollowing(this.props.user.username, this.props.user.token);
+                // this.props.getActivity(this.props.user.username, this.props.user.token);
+                // this.props.getSharedByFollowing(this.props.user.username, this.props.user.token);
+                // this.props.getInStudiosFollowing(this.props.user.username, this.props.user.token);
+                // this.props.getLovedByFollowing(this.props.user.username, this.props.user.token);
                 this.getNews();
             } else {
                 this.props.setRows('shared', []);

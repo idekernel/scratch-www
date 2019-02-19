@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Standalone WWW client for Scratch",
   "scripts": {
-    "start": "set ASSET_HOST=http://localhost:6001/api/assets && set PROJECT_HOST=http://localhost:6001/api/projectraw && set API_HOST=http://localhost:6001/api && make start &",
+    "start": "set FALLBACK=http://localhost:6001 && set ASSET_HOST=http://localhost:6001/api/assets && set PROJECT_HOST=http://localhost:6001/api/projectraw && set API_HOST=http://localhost:6001/api && make start &",
     "stop": "make stop",
     "test": "make test",
     "smoke": "tap ./test/integration/smoke-testing/*.js --timeout=3600",

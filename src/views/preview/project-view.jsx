@@ -710,12 +710,12 @@ class Preview extends React.Component {
                             canEditTitle={this.props.canEditTitleInEditor}
                             canRemix={this.props.canRemix}
                             canSave={this.props.canSave}
-                            canShare={this.props.canShare}
+                            // canShare={this.props.canShare}
                             className="gui"
                             cloudHost={this.props.cloudHost}
                             enableCommunity={this.props.enableCommunity}
                             hasCloudPermission={this.props.isScratcher}
-                            isShared={this.props.isShared}
+                            // isShared={this.props.isShared}
                             projectHost={this.props.projectHost}
                             projectId={this.state.projectId}
                             projectTitle={this.props.projectInfo.title}

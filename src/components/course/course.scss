@@ -1,17 +1,33 @@
 .course {
     .ant-tabs {
         .ant-collapse {
-            .ant-card {
-                float: left;
-                .ant-card-actions {
-                    > li {
-                        width: 33% !important;
+            .ant-collapse-content-box{
+                &::before {
+                    content: '';
+                    display: table;
+                }
+                &::after {
+                    content: '';
+                    display: block;
+                    clear: both;
+                }
+                .ant-card {
+                    float: left;
+                    margin: 5px;
+                    .ant-card-actions {
+                        > li {
+                            width: 33% !important;
+                        }
                     }
                 }
+                .ant-btn {
+                    float: left;
+                    margin: 5px;
+                    color: #000000;
+                    width: 100px;
+                }
             }
-            .ant-btn {
-                color: #000000;
-            }
+            
             
         }
         

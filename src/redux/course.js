@@ -112,7 +112,7 @@ module.exports.setUserCourseId = (courseid, token) => ((dispatch, state) => {
 
 module.exports.getProjects = (cid, token) => ((dispatch, state) => {
     const opts = {
-        host: '', // for test origin ''
+        host: 'http://localhost:6001', // for test origin ''
         uri: `/api/projects/?cid=${cid}` 
     };
     if (token) {
@@ -167,7 +167,7 @@ module.exports.delProject = (id, token) => ((dispatch, state) => {
 
 module.exports.getCouserInfo = (token) => ((dispatch, state) => {
     const opts = {
-        host: '', // for test origin ''
+        host: 'http://localhost:6001', // for test origin ''
         uri: `/api/course/`
     };
     if (token) {

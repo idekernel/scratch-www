@@ -62,7 +62,8 @@ const mapStateToProps = state => ({
     status: state.course.status,
     course: state.course.courseInfo,
     courseId: state.course.id, // current courseid
-    projects: state.course.projects
+    projects: state.course.projects,
+    user: state.session.session.user,
 });
 
 const mapDispatchToProps = dispatch => ({

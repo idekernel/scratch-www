@@ -466,7 +466,8 @@ class SplashPresentation extends React.Component { // eslint-disable-line react/
                         </div>
                     }
                     {/* {featured} */}
-                    <ConectedCourse/>
+                    {this.props.user && this.props.user.id && <ConectedCourse/>}
+                    
                 </div>
             </div>
         );

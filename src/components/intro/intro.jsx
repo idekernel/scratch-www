@@ -34,7 +34,7 @@ class Intro extends React.Component {
                             <br />
                             <span>{this.props.messages['intro.tagLine2']}</span>
                         </h1>
-                        <FlexRow className="intro-buttons">
+                        {/* <FlexRow className="intro-buttons">
                             <a
                                 className="intro-button create-button button"
                                 href="/create"
@@ -48,7 +48,7 @@ class Intro extends React.Component {
                             >
                                 {this.props.messages['intro.join']}
                             </a>
-                        </FlexRow>
+                        </FlexRow> */}
                         
                     </FlexRow>
                     <FlexRow className="intro-video-container">
@@ -78,7 +78,7 @@ class Intro extends React.Component {
                     </FlexRow>
                 </FlexRow>
                 
-                <FlexRow className="intro-subnav">
+                {/* <FlexRow className="intro-subnav">
                     <a
                         href="/about"
                     >
@@ -100,7 +100,7 @@ class Intro extends React.Component {
                             {this.props.messages['intro.forEducators']}
                         </div>
                     </a>
-                </FlexRow>
+                </FlexRow> */}
             </TitleBanner>
         );
     }

@@ -43,7 +43,8 @@ const Course = props => (
                                         </Card>;
                                 })
                                 }
-                                <Button href={`/projects/editor/`} type="primary" icon="plus">创建</Button>
+                                <Button href={`/projects/editor/`} type="primary" icon="plus">{props.isAdamin ? '创建模板' : '自由练习'}</Button>
+                                <Button type="primary" icon="plus" onClick={props.onCreate}>开始学习</Button>
                                     
                             </Panel>;
                         })}

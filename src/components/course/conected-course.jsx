@@ -6,6 +6,9 @@ const connect = require('react-redux').connect;
 const Course = require('./course.jsx');
 const courseActions = require('../../redux/course.js');
 
+const message = require('antd/lib/message').default;
+require('antd/lib/message/style/index.css');
+
 let projectId;
 class ConnectedCourse extends React.Component {
     constructor (props) {
@@ -13,11 +16,24 @@ class ConnectedCourse extends React.Component {
         bindAll(this, [
             'confirm',
             'cancel',
-            'handleClick'
+            'handleClick',
+            'handleCreate'
         ]);
     }
     handleClick (e) {
         projectId = e.currentTarget.getAttribute('data-id');
+    }
+    handleCreate (e) {
+        message.loading('正在准备课件');
+        this.props.createProject((data) => {
+            if (data.status && data.status === 'ok') {
+                message.destroy();
+                window.location = `/projects/${data['content-name']}/editor/`;
+            }
+            else {
+                message.error('程序出错');
+            }
+        });
     }
     confirm(e) {
         if (projectId) {
@@ -31,7 +47,7 @@ class ConnectedCourse extends React.Component {
         this.props.getCouser();
     }
     render () {
-        let {course, error, status, projects, courseId , changeCouser} = this.props;
+        let {course, error, status, projects, courseId , changeCouser, isAdamin} = this.props;
         
         return (
             <Course
@@ -43,6 +59,8 @@ class ConnectedCourse extends React.Component {
                 projects={projects}
                 onChangeCouser={changeCouser}
                 handleClick={this.handleClick}
+                onCreate={this.handleCreate}
+                isAdamin={isAdamin}
                 key="course"
             />
         );
@@ -64,6 +82,7 @@ const mapStateToProps = state => ({
     courseId: state.course.id, // current courseid
     projects: state.course.projects,
     user: state.session.session.user,
+    isAdamin: state.permissions.admin
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -75,6 +94,9 @@ const mapDispatchToProps = dispatch => ({
     },
     delProject(id) {
         dispatch(courseActions.delProject(id));
+    },
+    createProject(callback) {
+        courseActions.createProject(callback);
     }
 });
 

@@ -2,7 +2,7 @@ const keyMirror = require('keymirror');
 const defaults = require('lodash.defaults');
 
 const apiws = require('../lib/apiws');
-const regAction = require('../lib/apiws').regAction;
+// const regAction = require('../lib/apiws').regAction;
 const log = require('../lib/log.js');
 
 const Types = keyMirror({
@@ -51,10 +51,10 @@ module.exports.setStatus = status => ({
 
 
 module.exports.regAction = () => (dispatch => {
-    regAction(Types.SET_LOGIN_STATUS
-        , (err, body) => {
-        if (err) dispatch(module.exports.setLoginQRError(err.message));
-        dispatch(module.exports.setStatus(module.exports.Status.FETCHING));
-    });
+    // regAction(Types.SET_LOGIN_STATUS
+    //     , (err, body) => {
+    //     if (err) dispatch(module.exports.setLoginQRError(err.message));
+    //     dispatch(module.exports.setStatus(module.exports.Status.FETCHING));
+    // });
 
 });

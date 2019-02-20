@@ -19,7 +19,7 @@ const ProjectInfo = require('../../lib/project-info');
 const PreviewPresentation = require('./presentation.jsx');
 const projectShape = require('./projectshape.jsx').projectShape;
 const Registration = require('../../components/registration/registration.jsx');
-const ConnectedLoginQR = require('../../components/login/connected-login-qr.jsx');
+const ConnectedLogin = require('../../components/login/connected-login.jsx');
 const CanceledDeletionModal = require('../../components/login/canceled-deletion-modal.jsx');
 const NotAvailable = require('../../components/not-available/not-available.jsx');
 const Meta = require('./meta.jsx');
@@ -579,7 +579,7 @@ class Preview extends React.Component {
     }
     renderLogin ({onClose}) {
         return (
-            <ConnectedLoginQR
+            <ConnectedLogin
                 key="login-dropdown-presentation"
                 /* eslint-disable react/jsx-no-bind */
                 onLogIn={(formData, callback) => {
@@ -710,12 +710,12 @@ class Preview extends React.Component {
                             canEditTitle={this.props.canEditTitleInEditor}
                             canRemix={this.props.canRemix}
                             canSave={this.props.canSave}
-                            // canShare={this.props.canShare}
+                            canShare={this.props.canShare}
                             className="gui"
                             cloudHost={this.props.cloudHost}
                             enableCommunity={this.props.enableCommunity}
                             hasCloudPermission={this.props.isScratcher}
-                            // isShared={this.props.isShared}
+                            isShared={this.props.isShared}
                             projectHost={this.props.projectHost}
                             projectId={this.state.projectId}
                             projectTitle={this.props.projectInfo.title}

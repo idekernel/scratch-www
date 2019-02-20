@@ -203,9 +203,8 @@ module.exports.createProject = (token) => ((dispatch, state) => {
             return;
         }
         if (typeof body === 'undefined' || response.statusCode === 404) {
-            dispatch(module.exports.setStatus('createProject', module.exports.Status.ERROR));
-            dispatch(module.exports.setCourseError('No project info'));
-            // dispatch(module.exports.setProjects([]));
+            dispatch(module.exports.setStatus('createProject', module.exports.Status.FETCHED));
+            window.location = `/projects/editor/`;
             return;
         }
         dispatch(module.exports.setStatus('createProject', module.exports.Status.FETCHED));

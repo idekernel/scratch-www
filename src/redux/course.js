@@ -26,6 +26,7 @@ module.exports.getInitialState = () => ({
     status: {
         project: module.exports.Status.NOT_FETCHED,
         course:  module.exports.Status.NOT_FETCHED,
+        createProject: module.exports.Status.NOT_FETCHED
     },
 });
 
@@ -166,24 +167,51 @@ module.exports.delProject = (id, token) => ((dispatch, state) => {
     });
 });
 
-module.exports.createProject = (callback) => {
+// module.exports.createProject = (callback) => {
+//     const opts = {
+//         host: '', // for test origin ''
+//         uri: `/api/projectsrawTemplet/`,
+//         method: 'post'
+//     };
+//     api(opts, (err, body, response) => {
+//         if (err) {
+//             callback && callback(err);
+//             return;
+//         }
+//         if (typeof body === 'undefined' || response.statusCode === 404) {
+//             callback && callback({});
+//             return;
+//         }
+//         callback && callback(body);
+//     });
+// }
+
+module.exports.createProject = (token) => ((dispatch, state) => {
     const opts = {
         host: '', // for test origin ''
         uri: `/api/projectsrawTemplet/`,
         method: 'post'
     };
+    if (token) {
+        Object.assign(opts, {authentication: token});
+    }
+    dispatch(module.exports.setStatus('createProject', module.exports.Status.FETCHING));
     api(opts, (err, body, response) => {
         if (err) {
-            callback && callback(err);
+            dispatch(module.exports.setStatus('createProject', module.exports.Status.ERROR));
+            dispatch(module.exports.setCourseError(err));
             return;
         }
         if (typeof body === 'undefined' || response.statusCode === 404) {
-            callback && callback({});
+            dispatch(module.exports.setStatus('createProject', module.exports.Status.ERROR));
+            dispatch(module.exports.setCourseError('No project info'));
+            // dispatch(module.exports.setProjects([]));
             return;
         }
-        callback && callback(body);
+        dispatch(module.exports.setStatus('createProject', module.exports.Status.FETCHED));
+        window.location = `/projects/${body['content-name']}/editor/`;
     });
-}
+});
 
 module.exports.getCouserInfo = (token) => ((dispatch, state) => {
     const opts = {

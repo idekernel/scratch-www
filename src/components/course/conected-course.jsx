@@ -6,8 +6,8 @@ const connect = require('react-redux').connect;
 const Course = require('./course.jsx');
 const courseActions = require('../../redux/course.js');
 
-const message = require('antd/lib/message').default;
-require('antd/lib/message/style/index.css');
+// const message = require('antd/lib/message').default;
+// require('antd/lib/message/style/index.css');
 
 let projectId;
 class ConnectedCourse extends React.Component {
@@ -24,16 +24,17 @@ class ConnectedCourse extends React.Component {
         projectId = e.currentTarget.getAttribute('data-id');
     }
     handleCreate (e) {
-        message.loading('正在准备课件');
-        this.props.createProject((data) => {
-            if (data.status && data.status === 'ok') {
-                message.destroy();
-                window.location = `/projects/${data['content-name']}/editor/`;
-            }
-            else {
-                message.error('程序出错');
-            }
-        });
+        this.props.createProject();
+        // message.loading('正在准备课件');
+        // this.props.createProject((data) => {
+        //     if (data.status && data.status === 'ok') {
+        //         message.destroy();
+        //         window.location = `/projects/${data['content-name']}/editor/`;
+        //     }
+        //     else {
+        //         message.error('程序出错');
+        //     }
+        // });
     }
     confirm(e) {
         if (projectId) {
@@ -95,8 +96,8 @@ const mapDispatchToProps = dispatch => ({
     delProject(id) {
         dispatch(courseActions.delProject(id));
     },
-    createProject(callback) {
-        courseActions.createProject(callback);
+    createProject() {
+        dispatch(courseActions.createProject());
     }
 });
 

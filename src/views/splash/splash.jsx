@@ -73,7 +73,7 @@ class Splash extends React.Component {
             if (resp.statusCode !== 200) {
                 return log.error(`Unexpected status code ${resp.statusCode} received from news request`);
             }
-            if (!body) return log.error('No response body');
+            if (!body || body.success === false) return log.error('No response body');
             if (!err) return this.setState({news: body});
         });
     }

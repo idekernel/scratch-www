@@ -202,7 +202,7 @@ module.exports.createProject = (token) => ((dispatch, state) => {
             dispatch(module.exports.setCourseError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404) {
+        if (typeof body === 'undefined' || response.statusCode === 404 || body.success === false) {
             dispatch(module.exports.setStatus('createProject', module.exports.Status.FETCHED));
             window.location = `/projects/editor/`;
             return;

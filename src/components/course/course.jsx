@@ -34,7 +34,7 @@ const Course = props => (
                                     return <Card style={{ width: 220 }} size="small"
                                             key={pitem.id }
                                             cover={<img alt="example" src={pitem.image} />}
-                                            actions={[<Popconfirm  title="Are you sure delete this task?" onConfirm={props.confirm} onCancel={props.cancel} okText="Yes" cancelText="No"><Icon type="delete" data-id={pitem.id} onClick={props.handleClick} /></Popconfirm>, <a href={`/projects/${pitem.id}/editor/`}><Icon type="edit" /></a>, <a href={`/projects/${pitem.id}`}><Icon type="ellipsis" /></a>]}
+                                            actions={[<Popconfirm  title="Are you sure delete this task?" onConfirm={e => props.confirm(pitem.id)} onCancel={props.cancel} okText="Yes" cancelText="No"><Icon type="delete"/></Popconfirm>, <a href={`/projects/${pitem.id}/editor/`}><Icon type="edit" /></a>, <a href={`/projects/${pitem.id}`}><Icon type="ellipsis" /></a>]}
                                         >
                                             <Meta
                                             title={pitem.title}
@@ -43,8 +43,13 @@ const Course = props => (
                                         </Card>;
                                 })
                                 }
-                                <Button href={`/projects/editor/`} type="primary" icon="plus">{props.isAdamin ? '创建模板' : '自由练习'}</Button>
-                                <Button type="primary" icon="plus" onClick={props.onCreate}>开始学习</Button>
+                                {props.isAdamin ?
+                                    <Button href={`/projects/editor/`} type="primary" icon="plus">创建模板</Button>
+                                    :
+                                    <Button type="primary" icon="plus" onClick={props.onCreate}>开始学习</Button>
+                                }
+                                
+                                
                                     
                             </Panel>;
                         })}

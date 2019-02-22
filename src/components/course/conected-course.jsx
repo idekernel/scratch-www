@@ -9,19 +9,16 @@ const courseActions = require('../../redux/course.js');
 // const message = require('antd/lib/message').default;
 // require('antd/lib/message/style/index.css');
 
-let projectId;
 class ConnectedCourse extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
             'confirm',
             'cancel',
-            'handleClick',
             'handleCreate'
         ]);
     }
     handleClick (e) {
-        projectId = e.currentTarget.getAttribute('data-id');
     }
     handleCreate (e) {
         this.props.createProject();
@@ -36,9 +33,9 @@ class ConnectedCourse extends React.Component {
         //     }
         // });
     }
-    confirm(e) {
-        if (projectId) {
-            this.props.delProject(projectId);
+    confirm(id) {
+        if (id) {
+            this.props.delProject(id);
         }
     }
       
@@ -59,7 +56,6 @@ class ConnectedCourse extends React.Component {
                 status={status}
                 projects={projects}
                 onChangeCouser={changeCouser}
-                handleClick={this.handleClick}
                 onCreate={this.handleCreate}
                 isAdamin={isAdamin}
                 key="course"

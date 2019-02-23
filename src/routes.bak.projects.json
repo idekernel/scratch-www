@@ -1,5 +1,17 @@
 [
     {
+        "name": "create-tutorial-redirect",
+        "pattern": "^/create/?$",
+        "redirect": "/projects/editor/?tutorial=getStarted"
+    },
+    {
+        "name": "splash",
+        "pattern": "^/?$",
+        "routeAlias": "/?$",
+        "view": "splash/splash",
+        "title": "Imagine, Program, Share"
+    },
+    {
         "name": "projects",
         "pattern": "^/projects(/editor|(/\\d+(/editor|/fullscreen|/embed)?)?)?/?(\\?.*)?$",
         "routeAlias": "/projects/?$",

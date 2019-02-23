@@ -28,7 +28,7 @@ const Course = props => (
           {props.course && props.course.map(item => {
               return <TabPane tab={item.title} key={item.id}>
                     <Collapse accordion onChange={props.onChangeCouser}>
-                        {item.child.map(citem => {
+                        {item.children.map(citem => {
                             return <Panel header={citem.title} key={citem.id}>
                                 {props.projects && props.projects.map(pitem => {
                                     return <Card style={{ width: 220 }} size="small"

@@ -112,7 +112,7 @@ module.exports.handleLogIn = (formData, callback) => (dispatch => {
     }, (err, body) => {
         if (err) dispatch(module.exports.setLoginError(err.message));
         if (body) {
-            body = body[0];
+            body = body[0] || body;
             if (body.success) {
                 dispatch(module.exports.setLoginOpen(false));
                 body.messages.forEach(message => {

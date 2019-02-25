@@ -77,10 +77,11 @@ module.exports.setProjects = projects => ({
     projects
 });
 
-module.exports.setUserCourseId = (courseid, token) => ((dispatch, state) => {
+module.exports.setUserCourseId = (courseid, proejctlist = true) => ((dispatch, state) => {
     const user = state().session.session.user;
     if (user && user.id && courseid) {
-        dispatch(module.exports.getProjects(courseid, token));
+        if (proejctlist)
+            dispatch(module.exports.getProjects(courseid));
         const formData = {sel_course: parseInt(courseid)};
         const opts = {
             host: '', // for test origin ''
@@ -89,9 +90,9 @@ module.exports.setUserCourseId = (courseid, token) => ((dispatch, state) => {
             json: formData,
             useCsrf: true
         };
-        if (token) {
-            Object.assign(opts, {authentication: token});
-        }
+        // if (token) {
+        //     Object.assign(opts, {authentication: token});
+        // }
         dispatch(module.exports.setStatus('course', module.exports.Status.FETCHING));
         api(opts, (err, body, response) => {
             if (err) {

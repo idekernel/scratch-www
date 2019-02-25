@@ -8,20 +8,30 @@ const courseActions = require('../../redux/course.js');
 
 // const message = require('antd/lib/message').default;
 // require('antd/lib/message/style/index.css');
-
+let selectedCourse = {};
 class ConnectedCourse extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
             'confirm',
             'cancel',
-            'handleCreate'
+            'handleCreate',
+            'handleTabs'
         ]);
     }
-    handleClick (e) {
+    handleTabs(e) {
+        if (selectedCourse[e]) {
+            this.props.setCouser(selectedCourse[e]);
+        }
     }
-    handleCreate (e) {
-        this.props.createProject();
+    handleCreate (id, istemplete) {
+        this.props.setCouser(id, false);
+        if (istemplete) {
+            this.props.createProject();
+        } else {
+            window.location.href = '/projects/editor/';
+        }
+        
         // message.loading('正在准备课件');
         // this.props.createProject((data) => {
         //     if (data.status && data.status === 'ok') {
@@ -57,6 +67,7 @@ class ConnectedCourse extends React.Component {
                 projects={projects}
                 onChangeCouser={changeCouser}
                 onCreate={this.handleCreate}
+                onTabClick={this.handleTabs}
                 isAdamin={isAdamin}
                 key="course"
             />
@@ -83,7 +94,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    changeCouser (id) {
+    setCouser(id, projectlist) {
+       dispatch(courseActions.setUserCourseId(id, projectlist));
+    },
+    changeCouser (id, pid) {
+        selectedCourse[pid] = id;
         dispatch(courseActions.setUserCourseId(id));
     },
     getCouser() {

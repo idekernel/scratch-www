@@ -23,11 +23,11 @@ require('./course.scss');
 
 const Course = props => (
     <div className="course">
-       <Tabs tabPosition="left">
+       <Tabs tabPosition="left" onTabClick={props.onTabClick}>
           
           {props.course && props.course.map(item => {
               return <TabPane tab={item.title} key={item.id}>
-                    <Collapse accordion onChange={props.onChangeCouser}>
+                    <Collapse accordion onChange={e=>props.onChangeCouser(e, item.id)}>
                         {item.children.map(citem => {
                             return <Panel header={citem.title} key={citem.id}>
                                 {props.projects && props.projects.map(pitem => {
@@ -44,9 +44,9 @@ const Course = props => (
                                 })
                                 }
                                 {props.isAdamin ?
-                                    <Button href={`/projects/editor/`} type="primary" icon="plus">创建模板</Button>
+                                    <Button onClick={e => props.onCreate(citem.id, false)} type="primary" icon="plus">创建模板</Button>
                                     :
-                                    <Button type="primary" icon="plus" onClick={props.onCreate}>开始学习</Button>
+                                    <Button type="primary" icon="plus" onClick={e => props.onCreate(citem.id, true)}>开始学习</Button>
                                 }
                                 
                                 

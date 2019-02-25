@@ -141,6 +141,32 @@ module.exports.getProjects = (cid, token) => ((dispatch, state) => {
     });
 });
 
+module.exports.updateProject = (id, formData, token) => ((dispatch, state) => {
+    const opts = {
+        host: '', // for test origin ''
+        uri: `/api/projects/${id}`,
+        method: 'put',
+        json: formData,
+    };
+    if (token) {
+        Object.assign(opts, {authentication: token});
+    }
+    dispatch(module.exports.setStatus('project', module.exports.Status.FETCHING));
+    api(opts, (err, body, response) => {
+        if (err) {
+            dispatch(module.exports.setStatus('project', module.exports.Status.ERROR));
+            dispatch(module.exports.setCourseError(err));
+            return;
+        }
+        if (typeof body === 'undefined' || response.statusCode === 404) {
+            dispatch(module.exports.setStatus('project', module.exports.Status.ERROR));
+            dispatch(module.exports.setCourseError('No course info'));
+            return;
+        }
+        dispatch(module.exports.setStatus('project', module.exports.Status.FETCHED));
+    });
+});
+
 module.exports.delProject = (id, token) => ((dispatch, state) => {
     const opts = {
         host: '', // for test origin ''

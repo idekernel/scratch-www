@@ -16,8 +16,13 @@ class ConnectedCourse extends React.Component {
             'confirm',
             'cancel',
             'handleCreate',
-            'handleTabs'
+            'handleTabs',
+            'handlerProject'
         ]);
+    }
+    handlerProject(value, id) {
+        const data = {is_complete: value};
+        this.props.updateProject(id, data);
     }
     handleTabs(e) {
         if (selectedCourse[e]) {
@@ -55,7 +60,7 @@ class ConnectedCourse extends React.Component {
         this.props.getCouser();
     }
     render () {
-        let {course, error, status, projects, courseId , changeCouser, isAdamin} = this.props;
+        let {course, error, status, projects, courseId , changeCouser, isAdmin, isTeacher} = this.props;
         
         return (
             <Course
@@ -68,7 +73,9 @@ class ConnectedCourse extends React.Component {
                 onChangeCouser={changeCouser}
                 onCreate={this.handleCreate}
                 onTabClick={this.handleTabs}
-                isAdamin={isAdamin}
+                isAdmin={isAdmin}
+                isTeacher={isTeacher}
+                updateProject={this.handlerProject}
                 key="course"
             />
         );
@@ -90,7 +97,8 @@ const mapStateToProps = state => ({
     courseId: state.course.id, // current courseid
     projects: state.course.projects,
     user: state.session.session.user,
-    isAdamin: state.permissions.admin
+    isAdmin: state.permissions.admin,
+    isTeacher: state.permissions.teacher,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -109,7 +117,11 @@ const mapDispatchToProps = dispatch => ({
     },
     createProject() {
         dispatch(courseActions.createProject());
+    },
+    updateProject(id, value) {
+        dispatch(courseActions.updateProject(id, value));
     }
+    
 });
 
 module.exports = connect(

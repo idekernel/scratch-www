@@ -26,6 +26,7 @@
     "project.inviteToRemix": "Invite user to remix",
     "project.instructionsLabel": "Instructions",
     "project.notesAndCreditsLabel": "Notes and Credits",
+    "project.remark": "评语",
     "project.credit": "Thanks to {userLink} for the original project {projectLink}.",
     "project.deletedBanner": "Note: This project is in the trash folder",
     "project.defaultCensoredMessage": "This project was removed by the Scratch Team because it was disrespectful, inappropriate for all ages, or otherwise breaks the Scratch community guidelines.",

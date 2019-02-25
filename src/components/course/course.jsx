@@ -41,7 +41,7 @@ const Course = props => (
                                              <a href={`/projects/${pitem.id}`}><Icon type="edit" /></a>]}
                                         >
                                             <Meta
-                                            title={pitem.title + (props.isTeacher ? pitem.author.nickname : '')}
+                                            title={pitem.title + (props.isTeacher ? ' by ' + (pitem.author.nickname || pitem.author.username) : '')}
                                             />
                                             { !props.isTeacher && <span>完成<Switch size="small" onChange={e=>props.updateProject(e, pitem.id)} defaultChecked={pitem.is_complete} /></span>}
                                             

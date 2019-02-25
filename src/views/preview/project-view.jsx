@@ -638,6 +638,7 @@ class Preview extends React.Component {
                             faved={this.state.clientFaved}
                             favoriteCount={this.state.favoriteCount}
                             isAdmin={this.props.isAdmin}
+                            isTeacher={this.props.isTeacher}
                             isFullScreen={this.props.fullScreen}
                             isLoggedIn={this.props.isLoggedIn}
                             isNewScratcher={this.props.isNewScratcher}
@@ -857,6 +858,7 @@ const mapStateToProps = state => {
     const isLoggedIn = state.session.status === sessionActions.Status.FETCHED &&
         userPresent;
     const isAdmin = isLoggedIn && state.session.session.permissions.admin;
+    const isTeacher = isLoggedIn && state.session.session.permissions.teacher;
     const author = projectInfoPresent && state.preview.projectInfo.author;
     const authorPresent = author && Object.keys(state.preview.projectInfo.author).length > 0;
     const authorId = authorPresent && author.id && author.id.toString();
@@ -895,6 +897,7 @@ const mapStateToProps = state => {
         isEditable: isEditable,
         isLoggedIn: isLoggedIn,
         isAdmin: isAdmin,
+        isTeacher: isTeacher,
         isNewScratcher: isLoggedIn && state.permissions.new_scratcher,
         isScratcher: isLoggedIn && state.permissions.scratcher,
         isShared: isShared,

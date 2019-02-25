@@ -527,7 +527,7 @@ const PreviewPresentation = ({
                                                 )}
                                             </FormsyProjectUpdater> :
                                             <div className="project-description">
-                                                {decorateText(projectInfo.instructions, {
+                                                {decorateText(projectInfo.remark, {
                                                     usernames: true,
                                                     hashtags: true,
                                                     scratchLinks: true

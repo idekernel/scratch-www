@@ -17,18 +17,26 @@ class ConnectedCourse extends React.Component {
             'cancel',
             'handleCreate',
             'handleTabs',
-            'handlerProject'
+            'handlerProject',
+            'queryProject'
         ]);
     }
+    // 查询项目
+    queryProject(cid, query) {
+        this.props.setCouser(cid, true, query);
+    }
+    // 项目更新 is_complete
     handlerProject(value, id) {
         const data = {is_complete: value};
         this.props.updateProject(id, data);
     }
+    // 一级课程点击
     handleTabs(e) {
         if (selectedCourse[e]) {
             this.props.setCouser(selectedCourse[e]);
         }
     }
+    // 开始学习 创建模板
     handleCreate (id, istemplete) {
         this.props.setCouser(id, false);
         if (istemplete) {
@@ -76,6 +84,7 @@ class ConnectedCourse extends React.Component {
                 isAdmin={isAdmin}
                 isTeacher={isTeacher}
                 updateProject={this.handlerProject}
+                queryProject={this.queryProject}
                 key="course"
             />
         );
@@ -102,9 +111,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setCouser(id, projectlist) {
-       dispatch(courseActions.setUserCourseId(id, projectlist));
+    setCouser(id, showprojectlist, query) {
+       dispatch(courseActions.setUserCourseId(id, showprojectlist, query));
     },
+    // 二级课程change事件
     changeCouser (id, pid) {
         selectedCourse[pid] = id;
         dispatch(courseActions.setUserCourseId(id));

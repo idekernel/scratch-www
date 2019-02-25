@@ -489,7 +489,7 @@ const PreviewPresentation = ({
                                         }
                                     </div>
                                 )}
-                                {isTeacher && (
+                                {(
                                     <div className="description-block">
                                         <div className="project-textlabel">
                                             <FormattedMessage id="project.remark" />

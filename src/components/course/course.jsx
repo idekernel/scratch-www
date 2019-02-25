@@ -53,6 +53,9 @@ const Course = props => (
                                     :
                                     <Button type="primary" icon="plus" onClick={e => props.onCreate(citem.id, true)}>开始学习</Button>
                                 }
+                                {/* {props.isTeacher && <Switch size="small" onChange={e=>props.queryProject(citem.id,{remark: e})} defaultChecked checkedChildren='未评语' unCheckedChildren='已评语' />
+
+                                } */}
                                 
                                 
                                     

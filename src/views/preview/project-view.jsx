@@ -46,7 +46,6 @@ if (`${process.env.SENTRY_DSN}` !== '') {
     });
     window.Sentry = Sentry; // Allow GUI access to Sentry via window
 }
-const querystring = require("querystring");
 
 class Preview extends React.Component {
     constructor (props) {

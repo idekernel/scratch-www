@@ -3,7 +3,7 @@ const defaults = require('lodash.defaults');
 
 const api = require('../lib/api');
 const log = require('../lib/log.js');
-
+const querystring = require("querystring");
 const Types = keyMirror({
     SET_COURSE_ERROR: null,
     SET_COURSE_STATUS: null,
@@ -77,11 +77,11 @@ module.exports.setProjects = projects => ({
     projects
 });
 
-module.exports.setUserCourseId = (courseid, proejctlist = true) => ((dispatch, state) => {
+module.exports.setUserCourseId = (courseid, showprojectlist = true, query = {}) => ((dispatch, state) => {
     const user = state().session.session.user;
     if (user && user.id && courseid) {
-        if (proejctlist)
-            dispatch(module.exports.getProjects(courseid));
+        if (showprojectlist)
+            dispatch(module.exports.getProjects({cid: courseid, ...query}));
         const formData = {sel_course: parseInt(courseid)};
         const opts = {
             host: '', // for test origin ''
@@ -114,10 +114,11 @@ module.exports.setUserCourseId = (courseid, proejctlist = true) => ((dispatch, s
     
 });
 
-module.exports.getProjects = (cid, token) => ((dispatch, state) => {
+module.exports.getProjects = (query, token) => ((dispatch, state) => {
+    const querystr = querystring.stringify(query);
     const opts = {
         host: '', // for test origin ''
-        uri: `/api/projects/?cid=${cid}` 
+        uri: `/api/projects/?${querystr}` 
     };
     if (token) {
         Object.assign(opts, {authentication: token});
@@ -190,7 +191,7 @@ module.exports.delProject = (id, token) => ((dispatch, state) => {
             return;
         }
         dispatch(module.exports.setStatus('project', module.exports.Status.FETCHED));
-        dispatch(module.exports.getProjects(state().course.id));
+        dispatch(module.exports.getProjects({cid: state().course.id}));
     });
 });
 

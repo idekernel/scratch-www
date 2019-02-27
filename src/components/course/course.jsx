@@ -30,7 +30,7 @@ const Course = props => (
           {props.course && props.course.map(item => {
               return <TabPane tab={item.title} key={item.id}>
                     <Collapse accordion onChange={e=>props.onChangeCouser(e, item.id)}>
-                        {item.children.map(citem => {
+                        {item.courses.map(citem => {
                             return <Panel header={citem.title} key={citem.id}>
                                 {props.projects && props.projects.map(pitem => {
                                     return <Card style={{ width: 220 }} size="small"
@@ -41,7 +41,7 @@ const Course = props => (
                                              <a href={`/projects/${pitem.id}`}><Icon type="edit" /></a>]}
                                         >
                                             <Meta
-                                            title={pitem.title + (props.isTeacher ? ' by ' + (pitem.author.nickname || pitem.author.username) : '')}
+                                            title={pitem.title + (props.isTeacher ? ' by ' + (pitem.user.nickname || pitem.user.username) : '')}
                                             />
                                             { !props.isTeacher && <span>完成<Switch size="small" onChange={e=>props.updateProject(e, pitem.id)} defaultChecked={pitem.is_complete} /></span>}
                                             

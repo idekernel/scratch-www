@@ -243,7 +243,7 @@ module.exports.createProject = (token) => ((dispatch, state) => {
 module.exports.getCouserInfo = (token) => ((dispatch, state) => {
     const opts = {
         host: '', // for test origin ''
-        uri: `/api/course/`
+        uri: `/api/classroom/`
     };
     if (token) {
         Object.assign(opts, {authentication: token});
@@ -255,14 +255,14 @@ module.exports.getCouserInfo = (token) => ((dispatch, state) => {
             dispatch(module.exports.setCourseError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404) {
+        if (typeof body === 'undefined' || response.statusCode === 404 || body.success === false) {
             dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
             dispatch(module.exports.setCourseError('No course info'));
             dispatch(module.exports.setCourseInfo([]));
             return;
         }
         dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
-        dispatch(module.exports.setCourseInfo(body));
+        dispatch(module.exports.setCourseInfo(body.rows));
 
     });
 });

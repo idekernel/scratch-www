@@ -2,7 +2,6 @@ const PropTypes = require('prop-types');
 const React = require('react');
 const Tabs = require('antd/lib/tabs').default;
 const TabPane = Tabs.TabPane;
-
 const CourseList = require('./course-list.jsx');
 
 require('antd/lib/tabs/style/index.css');
@@ -12,11 +11,12 @@ require('./course.scss');
 const Course = props => (
     <div className="course">
        <Tabs tabPosition="left" onTabClick={props.onTabClick}>
-          {props.course && props.course.map(item => {
+          
+          {props.classroom && props.classroom.map(item => {
               return <TabPane tab={item.title} key={item.id}>
                     <CourseList 
                         item
-                        listkey="children"
+                        listkey="courses"
                         confirm={props.confirm}
                         cancel={props.cancel}
                         item={item}

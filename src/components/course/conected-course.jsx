@@ -4,6 +4,7 @@ const React = require('react');
 const connect = require('react-redux').connect;
 
 const Course = require('./course.jsx');
+const Classroom = require('./classroom.jsx');
 const courseActions = require('../../redux/course.js');
 
 // const message = require('antd/lib/message').default;
@@ -65,29 +66,53 @@ class ConnectedCourse extends React.Component {
     cancel(e) {
     }
     componentDidMount() {
-        this.props.getCouser();
+        if (this.props.isEduadmin) {
+            this.props.getCouser();
+        }
+        else {
+            this.props.getClassroom();
+        }
+       
     }
     render () {
-        let {course, error, status, projects, courseId , changeCouser, isAdmin, isTeacher} = this.props;
-        
-        return (
-            <Course
+        let {course, error, status, projects, courseId, classroom, changeCouser, isEduadmin, isTeacher} = this.props;
+        return <React.Fragment>
+                {isEduadmin ? 
+                    <Course
+                    confirm={this.confirm}
+                    cancel={this.cancel}
+                    course={course}
+                    error={error}
+                    status={status}
+                    projects={projects}
+                    onChangeCouser={changeCouser}
+                    onCreate={this.handleCreate}
+                    onTabClick={this.handleTabs}
+                    isEduadmin={isEduadmin}
+                    isTeacher={isTeacher}
+                    updateProject={this.handlerProject}
+                    queryProject={this.queryProject}
+                    key="course"
+                />
+                : <Classroom
                 confirm={this.confirm}
                 cancel={this.cancel}
-                course={course}
+                classroom={classroom}
                 error={error}
                 status={status}
                 projects={projects}
                 onChangeCouser={changeCouser}
                 onCreate={this.handleCreate}
                 onTabClick={this.handleTabs}
-                isAdmin={isAdmin}
+                isEduadmin={isEduadmin}
                 isTeacher={isTeacher}
                 updateProject={this.handlerProject}
                 queryProject={this.queryProject}
-                key="course"
+                key="classroom"
             />
-        );
+                }
+        </React.Fragment> 
+        
     }
 }
 
@@ -97,16 +122,18 @@ ConnectedCourse.propTypes = {
 };
 ConnectedCourse.defaultProps = {
     course: [],
-    projects: []
+    projects: [],
+    classroom: []
 };
 const mapStateToProps = state => ({
     error: state.course.courseError,
     status: state.course.status,
     course: state.course.courseInfo,
+    classroom: state.course.classroom,
     courseId: state.course.id, // current courseid
     projects: state.course.projects,
     user: state.session.session.user,
-    isAdmin: state.permissions.admin,
+    isEduadmin: state.permissions.eduadmin,
     isTeacher: state.permissions.teacher,
 });
 
@@ -121,6 +148,9 @@ const mapDispatchToProps = dispatch => ({
     },
     getCouser() {
         dispatch(courseActions.getCouserInfo());
+    },
+    getClassroom() {
+        dispatch(courseActions.getClassroom());
     },
     delProject(id) {
         dispatch(courseActions.delProject(id));

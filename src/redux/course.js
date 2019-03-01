@@ -11,6 +11,7 @@ const Types = keyMirror({
     SET_COURSE_INFO: null,
     SET_CLASSROOM: null,
     SET_COURSE_ID: null,
+    SET_CLASSROOM_ID: null,
     SET_COURSE_PROJECTS: null,
 });
 
@@ -24,7 +25,8 @@ module.exports.getInitialState = () => ({
     courseError: null,
     courseInfo: [],
     classroom: [],
-    id: -1,
+    id: -1, //单课id
+    cid: -1, // 班级id
     projects: [],
     status: {
         project: module.exports.Status.NOT_FETCHED,
@@ -50,6 +52,8 @@ module.exports.courseReducer = (state, action) => {
         return defaults({classroom: action.info || {} }, state);
     case Types.SET_COURSE_ID:
         return defaults({id: action.id || '' }, state);
+    case Types.SET_CLASSROOM_ID:
+        return defaults({cid: action.id || '' }, state);
     case Types.SET_COURSE_PROJECTS:
         return defaults({projects: action.projects}, state);
     default:
@@ -80,6 +84,10 @@ module.exports.setClassroom = info => ({
 });
 module.exports.setCourseId = id => ({
     type: 'SET_COURSE_ID',
+    id
+});
+module.exports.setCourseClassroomId = id => ({
+    type: 'SET_CLASSROOM_ID',
     id
 });
 module.exports.setProjects = projects => ({
@@ -118,6 +126,45 @@ module.exports.setUserCourseId = (courseid, showprojectlist = true, query = {}) 
             }
             dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
             dispatch(module.exports.setCourseId(courseid));
+    
+        });
+    }
+    
+});
+
+module.exports.setUserClassroomId = (classid, courseid, showprojectlist = true, query = {}) => ((dispatch, state) => {
+    const user = state().session.session.user;
+    if (user && user.id && courseid) {
+        if (showprojectlist)
+            dispatch(module.exports.getProjects({cid: courseid, ...query}));
+        const formData = {sel_classroom: parseInt(classid), sel_course: parseInt(courseid)};
+        const opts = {
+            host: '', // for test origin ''
+            uri: `/api/user/` + user.id,
+            method: 'put',
+            json: formData,
+            useCsrf: true
+        };
+        // if (token) {
+        //     Object.assign(opts, {authentication: token});
+        // }
+        dispatch(module.exports.setStatus('course', module.exports.Status.FETCHING));
+        api(opts, (err, body, response) => {
+            if (err) {
+                dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
+                dispatch(module.exports.setCourseError(err));
+                return;
+            }
+            if (typeof body === 'undefined' || response.statusCode === 404) {
+                dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
+                dispatch(module.exports.setCourseError('No course info'));
+                dispatch(module.exports.setCourseId(-1));
+                dispatch(module.exports.setClassroomId(-1));
+                return;
+            }
+            dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
+            dispatch(module.exports.setCourseId(courseid));
+            dispatch(module.exports.setClassroomId(classid));
     
         });
     }

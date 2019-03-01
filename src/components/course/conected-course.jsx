@@ -34,7 +34,7 @@ class ConnectedCourse extends React.Component {
     // 一级课程点击
     handleTabs(e) {
         if (selectedCourse[e]) {
-            this.props.setCouser(selectedCourse[e]);
+            this.props.setClassroom(e, selectedCourse[e]);
         }
     }
     // 开始学习 创建模板
@@ -138,6 +138,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+    setClassroom(classid, id, showprojectlist, query) {
+        dispatch(courseActions.setUserClassroomId(classid, id, showprojectlist, query));
+    },
     setCouser(id, showprojectlist, query) {
        dispatch(courseActions.setUserCourseId(id, showprojectlist, query));
     },

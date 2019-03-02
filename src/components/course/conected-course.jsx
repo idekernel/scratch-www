@@ -74,6 +74,8 @@ class ConnectedCourse extends React.Component {
         }
        
     }
+    
+   
     render () {
         let {course, error, status, projects, courseId, classroom, changeCouser, isEduadmin, isTeacher} = this.props;
         return <React.Fragment>

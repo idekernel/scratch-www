@@ -49,7 +49,30 @@ module.exports.courseReducer = (state, action) => {
     case Types.SET_COURSE_INFO:
         return defaults({courseInfo: action.info || {} }, state);
     case Types.SET_CLASSROOM:
-        return defaults({classroom: action.info || {} }, state);
+        let classroom = action.info;
+        if (classroom && classroom.length >= 0) {
+            classroom.map(cr => {
+                let p_course;
+                let c_course;
+                let n_course = [];
+                p_course = cr.courses.filter(item => item.pid === 0).sort((a, b) => {
+                    return a.order - b.order;
+                });
+                console.log(p_course);
+                c_course = cr.courses.filter(item => item.pid > 0).sort((a, b) => {
+                    return a.order - b.order;
+                });
+                p_course.map(p_c => {
+                    c_course.map(c_c => {
+                        if (c_c.pid === p_c.id) {
+                            n_course.push({...c_c, title: p_c.title + '-' +c_c.title});
+                        }
+                    })
+                });
+                cr.courses = n_course;
+            });
+        }
+        return defaults({ classroom }, state);
     case Types.SET_COURSE_ID:
         return defaults({id: action.id || '' }, state);
     case Types.SET_CLASSROOM_ID:
@@ -86,7 +109,7 @@ module.exports.setCourseId = id => ({
     type: 'SET_COURSE_ID',
     id
 });
-module.exports.setCourseClassroomId = id => ({
+module.exports.setClassroomId = id => ({
     type: 'SET_CLASSROOM_ID',
     id
 });

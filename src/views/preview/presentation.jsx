@@ -489,53 +489,6 @@ const PreviewPresentation = ({
                                         }
                                     </div>
                                 )}
-                                {(
-                                    <div className="description-block">
-                                        <div className="project-textlabel">
-                                            <FormattedMessage id="project.remark" />
-                                        </div>
-                                        {isTeacher ?
-                                            <FormsyProjectUpdater
-                                                field="remark"
-                                                initialValue={projectInfo.remark}
-                                            >
-                                                {(value, ref, handleUpdate) => (
-                                                    <Formsy
-                                                        className="project-description-form"
-                                                        ref={ref}
-                                                        onKeyPress={onKeyPress}
-                                                    >
-                                                        <InplaceInput
-                                                            className={classNames(
-                                                                'project-description-edit',
-                                                                {remixes: parentInfo && parentInfo.author}
-                                                            )}
-                                                            handleUpdate={handleUpdate}
-                                                            name="remark"
-                                                            type="textarea"
-                                                            validationErrors={{
-                                                                maxLength: intl.formatMessage({
-                                                                    id: 'project.descriptionMaxLength'
-                                                                })
-                                                            }}
-                                                            validations={{
-                                                                maxLength: 5000
-                                                            }}
-                                                            value={value}
-                                                        />
-                                                    </Formsy>
-                                                )}
-                                            </FormsyProjectUpdater> :
-                                            <div className="project-description">
-                                                {decorateText(projectInfo.remark, {
-                                                    usernames: true,
-                                                    hashtags: true,
-                                                    scratchLinks: true
-                                                })}
-                                            </div>
-                                        }
-                                    </div>
-                                )}
                                 {/*  eslint-enable max-len */}
                             </FlexRow>
                         </FlexRow>

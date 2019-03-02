@@ -29,12 +29,18 @@ class ConnectedCourse extends React.Component {
     // 项目更新 is_complete
     handlerProject(value, id) {
         const data = {is_complete: value};
-        this.props.updateProject(id, data);
+        this.props.updateProjectRaw(id, data);
     }
     // 一级课程点击
     handleTabs(e) {
+        
+        let id = e;
+        if (this.props.isEduadmin)
+            id = -1; 
         if (selectedCourse[e]) {
-            this.props.setClassroom(e, selectedCourse[e]);
+            this.props.setClassroom(id, selectedCourse[e]);
+        } else {
+            this.props.setClassroom(id, -1);
         }
     }
     // 开始学习 创建模板
@@ -68,13 +74,16 @@ class ConnectedCourse extends React.Component {
     componentDidMount() {
         if (this.props.isEduadmin) {
             this.props.getCouser();
-        }
-        else {
+        } else {
             this.props.getClassroom();
         }
-       
+        
     }
-    
+    componentWillReceiveProps(nextProps) {
+        if (this.props.isEduadmin !== nextProps.isEduadmin && nextProps.isEduadmin ) {
+            this.props.getCouser();
+        }
+    }
    
     render () {
         let {course, error, status, projects, courseId, classroom, changeCouser, isEduadmin, isTeacher} = this.props;
@@ -136,12 +145,12 @@ const mapStateToProps = state => ({
     projects: state.course.projects,
     user: state.session.session.user,
     isEduadmin: state.permissions.eduadmin,
-    isTeacher: state.permissions.teacher,
+    isTeacher: state.course.teacher,
 });
 
 const mapDispatchToProps = dispatch => ({
-    setClassroom(classid, id, showprojectlist, query) {
-        dispatch(courseActions.setUserClassroomId(classid, id, showprojectlist, query));
+    setClassroom(classid, id, query) {
+        dispatch(courseActions.setUserClassroomId(classid, id, query));
     },
     setCouser(id, showprojectlist, query) {
        dispatch(courseActions.setUserCourseId(id, showprojectlist, query));
@@ -165,6 +174,9 @@ const mapDispatchToProps = dispatch => ({
     },
     updateProject(id, value) {
         dispatch(courseActions.updateProject(id, value));
+    },
+    updateProjectRaw(id, value) {
+        dispatch(courseActions.updateProjectRaw(id, value));
     }
     
 });

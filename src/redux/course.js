@@ -13,6 +13,7 @@ const Types = keyMirror({
     SET_COURSE_ID: null,
     SET_CLASSROOM_ID: null,
     SET_COURSE_PROJECTS: null,
+    SET_CLASSROOM_ROLE: null
 });
 
 module.exports.Status = keyMirror({
@@ -25,8 +26,9 @@ module.exports.getInitialState = () => ({
     courseError: null,
     courseInfo: [],
     classroom: [],
+    teacher: false, //班级身份
     id: -1, //单课id
-    cid: -1, // 班级id
+    classid: -1, // 班级id
     projects: [],
     status: {
         project: module.exports.Status.NOT_FETCHED,
@@ -58,7 +60,6 @@ module.exports.courseReducer = (state, action) => {
                 p_course = cr.courses.filter(item => item.pid === 0).sort((a, b) => {
                     return a.order - b.order;
                 });
-                console.log(p_course);
                 c_course = cr.courses.filter(item => item.pid > 0).sort((a, b) => {
                     return a.order - b.order;
                 });
@@ -76,7 +77,21 @@ module.exports.courseReducer = (state, action) => {
     case Types.SET_COURSE_ID:
         return defaults({id: action.id || '' }, state);
     case Types.SET_CLASSROOM_ID:
-        return defaults({cid: action.id || '' }, state);
+        return defaults({classid: action.id || '' }, state);
+    case Types.SET_CLASSROOM_ROLE:
+        const classid = parseInt(action.classid);
+        const courseid = parseInt(action.courseid);
+        const userid = parseInt(action.userid);
+        let isTeacher = false;
+        if (courseid >= 0) {
+            if (userid >= 0) {
+                const classroom = state.classroom && state.classroom.filter(item => item.id === classid)[0];
+                const classroom_user = classroom && classroom.users.filter(item => item.id === userid)[0];
+                isTeacher = classroom_user && classroom_user.classroom_user.identity === 'tch';
+            }
+        }
+       
+        return defaults({teacher: isTeacher}, state);
     case Types.SET_COURSE_PROJECTS:
         return defaults({projects: action.projects}, state);
     default:
@@ -105,6 +120,12 @@ module.exports.setClassroom = info => ({
     type: 'SET_CLASSROOM',
     info: info
 });
+module.exports.setClassroomRole = (classid, courseid, userid) => ({
+    type: 'SET_CLASSROOM_ROLE',
+    classid,
+    courseid,
+    userid
+});
 module.exports.setCourseId = id => ({
     type: 'SET_COURSE_ID',
     id
@@ -120,9 +141,10 @@ module.exports.setProjects = projects => ({
 
 module.exports.setUserCourseId = (courseid, showprojectlist = true, query = {}) => ((dispatch, state) => {
     const user = state().session.session.user;
+    const classid = state().course.classid;
     if (user && user.id && courseid) {
         if (showprojectlist)
-            dispatch(module.exports.getProjects({cid: courseid, ...query}));
+            dispatch(module.exports.getProjects({classroomid: classid, cid: courseid, ...query}));
         const formData = {sel_course: parseInt(courseid)};
         const opts = {
             host: '', // for test origin ''
@@ -149,18 +171,17 @@ module.exports.setUserCourseId = (courseid, showprojectlist = true, query = {}) 
             }
             dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
             dispatch(module.exports.setCourseId(courseid));
-    
+            dispatch(module.exports.setClassroomRole(classid, courseid, user.id));
         });
     }
     
 });
 
-module.exports.setUserClassroomId = (classid, courseid, showprojectlist = true, query = {}) => ((dispatch, state) => {
+module.exports.setUserClassroomId = (classid, courseid, query = {}) => ((dispatch, state) => {
     const user = state().session.session.user;
-    if (user && user.id && courseid) {
-        if (showprojectlist)
-            dispatch(module.exports.getProjects({cid: courseid, ...query}));
-        const formData = {sel_classroom: parseInt(classid), sel_course: parseInt(courseid)};
+    if (user && user.id) {
+        
+        const formData = {sel_classroom: parseInt(classid)};
         const opts = {
             host: '', // for test origin ''
             uri: `/api/user/` + user.id,
@@ -173,6 +194,8 @@ module.exports.setUserClassroomId = (classid, courseid, showprojectlist = true, 
         // }
         dispatch(module.exports.setStatus('course', module.exports.Status.FETCHING));
         api(opts, (err, body, response) => {
+            if (courseid >= 0)
+                dispatch(module.exports.getProjects({classroomid: classid, cid: courseid, ...query}));
             if (err) {
                 dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
                 dispatch(module.exports.setCourseError(err));
@@ -181,20 +204,19 @@ module.exports.setUserClassroomId = (classid, courseid, showprojectlist = true, 
             if (typeof body === 'undefined' || response.statusCode === 404) {
                 dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
                 dispatch(module.exports.setCourseError('No course info'));
-                dispatch(module.exports.setCourseId(-1));
                 dispatch(module.exports.setClassroomId(-1));
                 return;
             }
             dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
-            dispatch(module.exports.setCourseId(courseid));
             dispatch(module.exports.setClassroomId(classid));
-    
+            dispatch(module.exports.setClassroomRole(classid, courseid, user.id));    
         });
     }
     
 });
 
 module.exports.getProjects = (query, token) => ((dispatch, state) => {
+    // query.t = new Date().getTime();
     const querystr = querystring.stringify(query);
     const opts = {
         host: '', // for test origin ''
@@ -248,6 +270,32 @@ module.exports.updateProject = (id, formData, token) => ((dispatch, state) => {
     });
 });
 
+module.exports.updateProjectRaw = (id, formData, token) => ((dispatch, state) => {
+    const opts = {
+        host: '', // for test origin ''
+        uri: `/api/projectraw/${id}`,
+        method: 'put',
+        json: formData,
+    };
+    if (token) {
+        Object.assign(opts, {authentication: token});
+    }
+    dispatch(module.exports.setStatus('project', module.exports.Status.FETCHING));
+    api(opts, (err, body, response) => {
+        if (err) {
+            dispatch(module.exports.setStatus('project', module.exports.Status.ERROR));
+            dispatch(module.exports.setCourseError(err));
+            return;
+        }
+        if (typeof body === 'undefined' || response.statusCode === 404) {
+            dispatch(module.exports.setStatus('project', module.exports.Status.ERROR));
+            dispatch(module.exports.setCourseError('No course info'));
+            return;
+        }
+        dispatch(module.exports.setStatus('project', module.exports.Status.FETCHED));
+    });
+});
+
 module.exports.delProject = (id, token) => ((dispatch, state) => {
     const opts = {
         host: '', // for test origin ''
@@ -271,7 +319,7 @@ module.exports.delProject = (id, token) => ((dispatch, state) => {
             return;
         }
         dispatch(module.exports.setStatus('project', module.exports.Status.FETCHED));
-        dispatch(module.exports.getProjects({cid: state().course.id}));
+        dispatch(module.exports.getProjects({classroomid: state().course.classid, cid: state().course.id}));
     });
 });
 

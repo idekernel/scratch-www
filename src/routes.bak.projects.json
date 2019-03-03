@@ -1,13 +1,22 @@
 [
     {
-        "name": "create-tutorial-redirect",
-        "pattern": "^/create/?$",
-        "redirect": "/projects/editor/?tutorial=getStarted"
+        "name": "home",
+        "pattern": "^/?$",
+        "routeAlias": "/?$",
+        "view": "home/home",
+        "title": "Imagine, Program, Share"
+    },
+    {
+        "name": "about",
+        "pattern": "^/about/?$",
+        "routeAlias": "/about/?$",
+        "view": "about/about",
+        "title": "About"
     },
     {
         "name": "splash",
-        "pattern": "^/?$",
-        "routeAlias": "/?$",
+        "pattern": "^/course/?$",
+        "routeAlias": "/course/?$",
         "view": "splash/splash",
         "title": "Imagine, Program, Share"
     },

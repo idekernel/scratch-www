@@ -15,8 +15,8 @@
     },
     {
         "name": "splash",
-        "pattern": "^/course/?$",
-        "routeAlias": "/course/?$",
+        "pattern": "^/splash/?$",
+        "routeAlias": "/splash/?$",
         "view": "splash/splash",
         "title": "Imagine, Program, Share"
     },

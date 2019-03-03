@@ -438,7 +438,7 @@ class SplashPresentation extends React.Component { // eslint-disable-line react/
                     className="inner mod-splash"
                     key="inner"
                 >
-                    {
+                    {/* {
                         this.props.sessionStatus === sessionActions.Status.FETCHED &&
                         Object.keys(this.props.user).length > 0 && // user is logged in
                         <div
@@ -464,7 +464,7 @@ class SplashPresentation extends React.Component { // eslint-disable-line react/
                                 messages={messages}
                             />
                         </div>
-                    }
+                    } */}
                     {/* {featured} */}
                     {this.props.user && this.props.user.id && <ConectedCourse/>}
                     

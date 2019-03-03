@@ -95,8 +95,12 @@ class Navigation extends React.Component {
                             href="/"
                         />
                     </li>
-
                     <li className="link create">
+                        <a href="/splash">
+                            我的课程
+                        </a>
+                    </li>
+                    {/* <li className="link create">
                         <a href={createLink}>
                             <FormattedMessage id="general.create" />
                         </a>
@@ -110,14 +114,16 @@ class Navigation extends React.Component {
                         <a href="/ideas">
                             <FormattedMessage id="general.ideas" />
                         </a>
-                    </li>
+                    </li> */}
                     <li className="link about">
                         <a href="/about">
                             <FormattedMessage id="general.about" />
                         </a>
                     </li>
 
-                    <li className="search">
+                     
+
+                    {/* <li className="search">
                         <Form onSubmit={this.handleSearchSubmit}>
                             <Button
                                 className="btn-search"
@@ -131,37 +137,37 @@ class Navigation extends React.Component {
                                 value={this.props.searchTerm}
                             />
                         </Form>
-                    </li>
+                    </li> */}
                     {this.props.session.status === sessionActions.Status.FETCHED ? (
                         this.props.user ? [
-                            <li
-                                className="link right messages"
-                                key="messages"
-                            >
-                                <a
-                                    href="/messages/"
-                                    title={this.props.intl.formatMessage({id: 'general.messages'})}
-                                >
-                                    <span
-                                        className={classNames({
-                                            'message-count': true,
-                                            'show': this.props.unreadMessageCount > 0
-                                        })}
-                                    >{this.props.unreadMessageCount} </span>
-                                    <FormattedMessage id="general.messages" />
-                                </a>
-                            </li>,
-                            <li
-                                className="link right mystuff"
-                                key="mystuff"
-                            >
-                                <a
-                                    href="/mystuff/"
-                                    title={this.props.intl.formatMessage({id: 'general.myStuff'})}
-                                >
-                                    <FormattedMessage id="general.myStuff" />
-                                </a>
-                            </li>,
+                            // <li
+                            //     className="link right messages"
+                            //     key="messages"
+                            // >
+                            //     <a
+                            //         href="/messages/"
+                            //         title={this.props.intl.formatMessage({id: 'general.messages'})}
+                            //     >
+                            //         <span
+                            //             className={classNames({
+                            //                 'message-count': true,
+                            //                 'show': this.props.unreadMessageCount > 0
+                            //             })}
+                            //         >{this.props.unreadMessageCount} </span>
+                            //         <FormattedMessage id="general.messages" />
+                            //     </a>
+                            // </li>,
+                            // <li
+                            //     className="link right mystuff"
+                            //     key="mystuff"
+                            // >
+                            //     <a
+                            //         href="/mystuff/"
+                            //         title={this.props.intl.formatMessage({id: 'general.myStuff'})}
+                            //     >
+                            //         <FormattedMessage id="general.myStuff" />
+                            //     </a>
+                            // </li>,
                             <li
                                 className="link right account-nav"
                                 key="account-nav"
@@ -180,20 +186,20 @@ class Navigation extends React.Component {
                                 />
                             </li>
                         ] : [
-                            <li
-                                className="link right join"
-                                key="join"
-                            >
-                                <a
-                                    href="#"
-                                    onClick={this.props.handleOpenRegistration}
-                                >
-                                    <FormattedMessage id="general.joinScratch" />
-                                </a>
-                            </li>,
-                            <Registration
-                                key="registration"
-                            />,
+                            // <li
+                            //     className="link right join"
+                            //     key="join"
+                            // >
+                            //     <a
+                            //         href="#"
+                            //         onClick={this.props.handleOpenRegistration}
+                            //     >
+                            //         <FormattedMessage id="general.joinScratch" />
+                            //     </a>
+                            // </li>,
+                            // <Registration
+                            //     key="registration"
+                            // />,
                             <li
                                 className="link right login-item"
                                 key="login"

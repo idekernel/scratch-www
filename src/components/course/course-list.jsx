@@ -36,7 +36,7 @@ const CourseList = props => (
                                     <a href={`/projects/${pitem.id}`}><Icon type="edit" /></a>]}
                             >
                                 <Meta
-                                title={pitem.title + (props.isTeacher ? ' by ' + (pitem.user.nickname || pitem.user.username) : '')}
+                                title={pitem.title}
                                 />
                                 { !props.isTeacher && <span>完成<Switch size="small" onChange={e=>props.updateProject(e, pitem.id)} defaultChecked={pitem.project_raw.is_complete} /></span>}
                                 
@@ -46,11 +46,12 @@ const CourseList = props => (
                     {props.isEduadmin ?
                         <Button onClick={e => props.onCreate(citem.id, false)} type="primary" icon="plus">创建模板</Button>
                         :
-                        <Button type="primary" icon="plus" onClick={e => props.onCreate(citem.id, true)}>开始学习</Button>
+                            <Button key="createbtn" type="primary" icon="plus" onClick={e => props.onCreate(citem.id, true)}>开始学习</Button>
+                            
                     }
-                    {/* {props.isTeacher && <Switch size="small" onChange={e=>props.queryProject(citem.id,{remark: e})} defaultChecked checkedChildren='未评语' unCheckedChildren='已评语' />
-
-                    } */}
+                    {
+                        props.isTeacher && <Button key="pinggai" type="primary" icon="plus" onClick={e => props.getStuProjects(citem.id)}>评改</Button>
+                    }
                     
                     
                         

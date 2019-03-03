@@ -19,12 +19,18 @@ class ConnectedCourse extends React.Component {
             'handleCreate',
             'handleTabs',
             'handlerProject',
-            'queryProject'
+            'queryProject',
+            'getStuProjects'
         ]);
     }
     // 查询项目
     queryProject(cid, query) {
         this.props.setCouser(cid, true, query);
+    }
+    // 查询学生项目
+    getStuProjects(cid, query) {
+        this.props.setCouser(cid, false, query, true);
+        this.props.setDrawer(true);
     }
     // 项目更新 is_complete
     handlerProject(value, id) {
@@ -86,7 +92,7 @@ class ConnectedCourse extends React.Component {
     }
    
     render () {
-        let {course, error, status, projects, courseId, classroom, changeCouser, isEduadmin, isTeacher} = this.props;
+        let {course, error, status, projects, stuProjects, drawerVisible, courseId, classroom, changeCouser, isEduadmin, isTeacher} = this.props;
         return <React.Fragment>
                 {isEduadmin ? 
                     <Course
@@ -112,6 +118,7 @@ class ConnectedCourse extends React.Component {
                 error={error}
                 status={status}
                 projects={projects}
+                stuProjects={stuProjects}
                 onChangeCouser={changeCouser}
                 onCreate={this.handleCreate}
                 onTabClick={this.handleTabs}
@@ -119,6 +126,9 @@ class ConnectedCourse extends React.Component {
                 isTeacher={isTeacher}
                 updateProject={this.handlerProject}
                 queryProject={this.queryProject}
+                getStuProjects={this.getStuProjects}
+                drawerVisible={drawerVisible}
+                setDrawer={this.props.setDrawer}
                 key="classroom"
             />
                 }
@@ -143,17 +153,19 @@ const mapStateToProps = state => ({
     classroom: state.course.classroom,
     courseId: state.course.id, // current courseid
     projects: state.course.projects,
+    stuProjects: state.course.stuProjects,
     user: state.session.session.user,
     isEduadmin: state.permissions.eduadmin,
     isTeacher: state.course.teacher,
+    drawerVisible: state.course.drawer,
 });
 
 const mapDispatchToProps = dispatch => ({
     setClassroom(classid, id, query) {
         dispatch(courseActions.setUserClassroomId(classid, id, query));
     },
-    setCouser(id, showprojectlist, query) {
-       dispatch(courseActions.setUserCourseId(id, showprojectlist, query));
+    setCouser(id, showprojectlist, query, fetchstu) {
+       dispatch(courseActions.setUserCourseId(id, showprojectlist, query, fetchstu));
     },
     // 二级课程change事件
     changeCouser (id, pid) {
@@ -177,6 +189,9 @@ const mapDispatchToProps = dispatch => ({
     },
     updateProjectRaw(id, value) {
         dispatch(courseActions.updateProjectRaw(id, value));
+    },
+    setDrawer(visible) {
+        dispatch(courseActions.setDrawer(visible));
     }
     
 });

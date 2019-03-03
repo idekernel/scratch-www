@@ -122,7 +122,7 @@ module.exports.handleLogIn = (formData, callback) => (dispatch => {
                 });
                 dispatch(sessionActions.refreshSession());
                 callback({success: true});
-                window.location = '/course';
+                window.location = '/splash';
             } else {
                 if (body.redirect) {
                     window.location = body.redirect;

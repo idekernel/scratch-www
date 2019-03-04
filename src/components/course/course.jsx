@@ -15,7 +15,6 @@ const Course = props => (
           {props.course && props.course.map(item => {
               return <TabPane tab={item.title} key={item.id}>
                     <CourseList 
-                        item
                         listkey="children"
                         confirm={props.confirm}
                         cancel={props.cancel}

@@ -35,6 +35,8 @@ module.exports.getInitialState = () => ({
     remixes: [],
     comments: [],
     replies: {},
+    remarks: [],
+    remarkReplies: {},
     faved: false,
     loved: false,
     original: {},
@@ -110,6 +112,28 @@ module.exports.previewReducer = (state, action) => {
             return Object.assign({}, state, {
                 replies: Object.assign({}, state.replies, {
                     [action.topLevelCommentId]: state.replies[action.topLevelCommentId].map(comment => {
+                        if (comment.id === action.commentId) {
+                            return Object.assign({}, comment, action.comment);
+                        }
+                        return comment;
+                    })
+                })
+            });
+        }
+
+        return Object.assign({}, state, {
+            comments: state.comments.map(comment => {
+                if (comment.id === action.commentId) {
+                    return Object.assign({}, comment, action.comment);
+                }
+                return comment;
+            })
+        });
+    case 'UPDATE_REMARK':
+        if (action.topLevelCommentId) {
+            return Object.assign({}, state, {
+                remarkReplies: Object.assign({}, state.remarkReplies, {
+                    [action.topLevelCommentId]: state.remarkReplies[action.topLevelCommentId].map(comment => {
                         if (comment.id === action.commentId) {
                             return Object.assign({}, comment, action.comment);
                         }
@@ -310,8 +334,26 @@ module.exports.setCommentReported = (commentId, topLevelCommentId) => ({
     }
 });
 
+module.exports.setRemarkReported = (commentId, topLevelCommentId) => ({
+    type: 'UPDATE_REMARK',
+    commentId: commentId,
+    topLevelCommentId: topLevelCommentId,
+    comment: {
+        visibility: 'reported'
+    }
+});
+
 module.exports.setCommentRestored = (commentId, topLevelCommentId) => ({
     type: 'UPDATE_COMMENT',
+    commentId: commentId,
+    topLevelCommentId: topLevelCommentId,
+    comment: {
+        visibility: 'visible'
+    }
+});
+
+module.exports.setRemarkRestored = (commentId, topLevelCommentId) => ({
+    type: 'UPDATE_REMARK',
     commentId: commentId,
     topLevelCommentId: topLevelCommentId,
     comment: {
@@ -930,6 +972,43 @@ module.exports.restoreComment = (projectId, commentId, topLevelCommentId, token)
         if (!topLevelCommentId) {
             dispatch(module.exports.setRepliesRestored(commentId));
         }
+    });
+});
+
+module.exports.deleteRemark = (projectId, commentId, topLevelCommentId, token) => (dispatch => {
+    /* TODO fetching/fetched/error states updates for comment deleting */
+    api({
+        uri: `/proxy/remark/project/${projectId}/remark/${commentId}`,
+        authentication: token,
+        withCredentials: true,
+        method: 'DELETE',
+        useCsrf: true
+    }, (err, body, res) => {
+        if (err || res.statusCode !== 200) {
+            log.error(err || res.body);
+            return;
+        }
+        dispatch(module.exports.setRemarkDeleted(commentId, topLevelCommentId));
+        // if (!topLevelCommentId) {
+        //     dispatch(module.exports.setRepliesDeleted(commentId));
+        // }
+    });
+});
+
+module.exports.reportRemark = (projectId, commentId, topLevelCommentId, token) => (dispatch => {
+    api({
+        uri: `/proxy/project/${projectId}/remark/${commentId}/report`,
+        authentication: token,
+        withCredentials: true,
+        method: 'POST',
+        useCsrf: true
+    }, (err, body, res) => {
+        if (err || res.statusCode !== 200) {
+            log.error(err || res.body);
+            return;
+        }
+        // TODO use the reportId in the response for unreporting functionality
+        dispatch(module.exports.setRemarkReported(commentId, topLevelCommentId));
     });
 });
 

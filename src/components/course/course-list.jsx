@@ -44,9 +44,9 @@ const CourseList = props => (
                     })
                     }
                     {props.isEduadmin ?
-                        <Button onClick={e => props.onCreate(citem.id, false)} type="primary" icon="plus">创建模板</Button>
+                        <Button onClick={e => props.onCreate(citem.id, props.item.id, false)} type="primary" icon="plus">创建模板</Button>
                         :
-                            <Button key="createbtn" type="primary" icon="plus" onClick={e => props.onCreate(citem.id, true)}>开始学习</Button>
+                            <Button key="createbtn" type="primary" icon="plus" onClick={e => props.onCreate(citem.id, props.item.id, true)}>开始学习</Button>
                             
                     }
                     {

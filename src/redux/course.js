@@ -156,7 +156,8 @@ module.exports.setStuProjects = projects => ({
 
 module.exports.setUserCourseId = (courseid, showprojectlist = true, query = {}, fetchstu = false) => ((dispatch, state) => {
     const user = state().session.session.user;
-    const classid = state().course.classid;
+    let classid = state().course.classid;
+    if (classid === -1 && state().course.classroom[0]) classid = state().course.classroom[0].id;
     if (user && user.id && courseid) {
         if (showprojectlist)
             dispatch(module.exports.getProjects({classroomid: classid, cid: courseid, ...query}));
@@ -194,7 +195,7 @@ module.exports.setUserCourseId = (courseid, showprojectlist = true, query = {}, 
     
 });
 
-module.exports.setUserClassroomId = (classid, courseid, query = {}) => ((dispatch, state) => {
+module.exports.setUserClassroomId = (classid, courseid, showprojectlist = true, query = {}) => ((dispatch, state) => {
     const user = state().session.session.user;
     if (user && user.id) {
         
@@ -211,7 +212,7 @@ module.exports.setUserClassroomId = (classid, courseid, query = {}) => ((dispatc
         // }
         dispatch(module.exports.setStatus('course', module.exports.Status.FETCHING));
         api(opts, (err, body, response) => {
-            if (courseid >= 0)
+            if (courseid >= 0 && showprojectlist)
                 dispatch(module.exports.getProjects({classroomid: classid, cid: courseid, ...query}));
             if (err) {
                 dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));

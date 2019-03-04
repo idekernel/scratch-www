@@ -50,8 +50,9 @@ class ConnectedCourse extends React.Component {
         }
     }
     // 开始学习 创建模板
-    handleCreate (id, istemplete) {
-        this.props.setCouser(id, false);
+    handleCreate (id, pid, istemplete) {
+        this.props.setClassroom(pid, id, false);
+        // this.props.setCouser(id, false);
         if (istemplete) {
             this.props.createProject();
         } else {
@@ -161,8 +162,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setClassroom(classid, id, query) {
-        dispatch(courseActions.setUserClassroomId(classid, id, query));
+    setClassroom(classid, id, showprojectlist, query) {
+        dispatch(courseActions.setUserClassroomId(classid, id, showprojectlist, query));
     },
     setCouser(id, showprojectlist, query, fetchstu) {
        dispatch(courseActions.setUserCourseId(id, showprojectlist, query, fetchstu));

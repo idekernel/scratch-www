@@ -25,8 +25,10 @@ const Stats = require('./stats.jsx');
 const StudioList = require('./studio-list.jsx');
 const Subactions = require('./subactions.jsx');
 const InplaceInput = require('../../components/forms/inplace-input.jsx');
-const TopLevelComment = require('./comment/top-level-comment.jsx');
-const ComposeComment = require('./comment/compose-comment.jsx');
+// const TopLevelComment = require('./comment/top-level-comment.jsx');
+// const ComposeComment = require('./comment/compose-comment.jsx');
+const TopLevelRemark = require('./remark/top-level-remark.jsx');
+const ComposeRemark = require('./remark/compose-remark.jsx');
 const ExtensionChip = require('./extension-chip.jsx');
 const thumbnailUrl = require('../../lib/user-thumbnail');
 const FormsyProjectUpdater = require('./formsy-project-updater.jsx');
@@ -64,6 +66,7 @@ const PreviewPresentation = ({
     canUseBackpack,
     cloudHost,
     comments,
+    remarks,
     editable,
     extensions,
     faved,
@@ -563,10 +566,27 @@ const PreviewPresentation = ({
 
                                     {/* Do not show the top-level comment form in single comment mode */}
                                     {!singleCommentId && (
+                                        // <FlexRow className="comments-root-reply">
+                                        //     {projectInfo.comments_allowed ? (
+                                        //         isLoggedIn ? (
+                                        //             isShared && <ComposeComment
+                                        //                 projectId={projectId}
+                                        //                 onAddComment={onAddComment}
+                                        //             />
+                                        //         ) : (
+                                        //             /* TODO add box for signing in to leave a comment */
+                                        //             null
+                                        //         )
+                                        //     ) : (
+                                        //         <div className="comments-turned-off">
+                                        //             <FormattedMessage id="project.comments.turnedOff" />
+                                        //         </div>
+                                        //     )}
+                                        // </FlexRow>
                                         <FlexRow className="comments-root-reply">
                                             {projectInfo.comments_allowed ? (
                                                 isLoggedIn ? (
-                                                    isShared && <ComposeComment
+                                                    isShared && <ComposeRemark
                                                         projectId={projectId}
                                                         onAddComment={onAddComment}
                                                     />
@@ -582,9 +602,52 @@ const PreviewPresentation = ({
                                         </FlexRow>
                                     )}
 
-                                    <FlexRow className="comments-list">
+                                    {/* <FlexRow className="comments-list">
                                         {comments.map(comment => (
                                             <TopLevelComment
+                                                author={comment.author}
+                                                canDelete={canDeleteComments}
+                                                canReply={isLoggedIn && projectInfo.comments_allowed && isShared}
+                                                canReport={isLoggedIn}
+                                                canRestore={canRestoreComments}
+                                                content={comment.content}
+                                                datetimeCreated={comment.datetime_created}
+                                                defaultExpanded={!!singleCommentId}
+                                                highlightedCommentId={singleCommentId}
+                                                id={comment.id}
+                                                key={comment.id}
+                                                moreRepliesToLoad={comment.moreRepliesToLoad}
+                                                parentId={comment.parent_id}
+                                                projectId={projectId}
+                                                replies={replies && replies[comment.id] ? replies[comment.id] : []}
+                                                visibility={comment.visibility}
+                                                onAddComment={onAddComment}
+                                                onDelete={onDeleteComment}
+                                                onLoadMoreReplies={onLoadMoreReplies}
+                                                onReport={onReportComment}
+                                                onRestore={onRestoreComment}
+                                            />
+                                        ))}
+                                        {moreCommentsToLoad &&
+                                        <Button
+                                            className="button load-more-button"
+                                            onClick={onLoadMore}
+                                        >
+                                            <FormattedMessage id="general.loadMore" />
+                                        </Button>
+                                        }
+                                        {!!singleCommentId &&
+                                            <Button
+                                                className="button load-more-button"
+                                                onClick={onSeeAllComments}
+                                            >
+                                                <FormattedMessage id="general.seeAllComments" />
+                                            </Button>
+                                        }
+                                    </FlexRow> */}
+                                    <FlexRow className="comments-list">
+                                        {comments.map(comment => (
+                                            <TopLevelRemark
                                                 author={comment.author}
                                                 canDelete={canDeleteComments}
                                                 canReply={isLoggedIn && projectInfo.comments_allowed && isShared}

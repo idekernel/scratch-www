@@ -7,76 +7,89 @@ const FlexRow = require('../../components/flex-row/flex-row.jsx');
 const Button = require('../../components/forms/button.jsx');
 const AddToStudioModal = require('./add-to-studio.jsx');
 const ReportModal = require('../../components/modal/report/modal.jsx');
+const QRCode = require('qrcode');
 
 require('./subactions.scss');
 
-const Subactions = props => (
-    <FlexRow className="subactions">
-        <div className="share-date">
-            <div className="copyleft">&copy;</div>
-            {' '}
-            {/*  eslint-disable react/jsx-sort-props */}
-            {props.shareDate ? (
-                <FormattedDate
-                    value={Date.parse(props.shareDate)}
-                    day="2-digit"
-                    month="short"
-                    year="numeric"
-                />
-            ) : 'Unshared'}
-            {/*  eslint-enable react/jsx-sort-props */}
-        </div>
-        <FlexRow className="action-buttons">
-            {props.canAddToStudio &&
+const Subactions = props => {
+    if (props.projectInfo.is_published) {
+        var cvs = document.getElementById('canvas');
+        const projecturl = `${window.location.origin}${window.location.pathname}`;
+        if (cvs) {
+            QRCode.toCanvas(cvs, projecturl, function (error) {
+                if (error) console.error(error)
+                });
+        }
+    }
+    
+    return (
+        <FlexRow className="subactions">
+            <div className="share-date">
+                <div className="copyleft">&copy;</div>
+                {' '}
+                {/*  eslint-disable react/jsx-sort-props */}
+                {props.shareDate ? (
+                    <FormattedDate
+                        value={Date.parse(props.shareDate)}
+                        day="2-digit"
+                        month="short"
+                        year="numeric"
+                    />
+                ) : 'Unshared'}
+                {/*  eslint-enable react/jsx-sort-props */}
+            </div>
+            <FlexRow className="action-buttons">
+                {props.canAddToStudio &&
+                    <React.Fragment>
+                        <Button
+                            className="action-button studio-button"
+                            key="add-to-studio-button"
+                            onClick={props.onAddToStudioClicked}
+                        >
+                            <FormattedMessage id="addToStudio.title" />
+                        </Button>
+                        {props.addToStudioOpen && (
+                            <AddToStudioModal
+                                isOpen
+                                isAdmin={props.isAdmin}
+                                key="add-to-studio-modal"
+                                userOwnsProject={props.userOwnsProject}
+                                onRequestClose={props.onAddToStudioClosed}
+                                onToggleStudio={props.onToggleStudio}
+                            />
+                        )}
+                    </React.Fragment>
+                }
+                <Button
+                    className="action-button copy-link-button"
+                    onClick={props.onCopyProjectLink}
+                >
+                    <FormattedMessage id="general.copyLink" />
+                </Button>
+                {props.projectInfo.is_published && <canvas id="canvas" className="canvas"/>}
+                {(props.canReport && false) &&
                 <React.Fragment>
                     <Button
-                        className="action-button studio-button"
-                        key="add-to-studio-button"
-                        onClick={props.onAddToStudioClicked}
+                        className="action-button report-button"
+                        key="report-button"
+                        onClick={props.onReportClicked}
                     >
-                        <FormattedMessage id="addToStudio.title" />
+                        <FormattedMessage id="general.report" />
                     </Button>
-                    {props.addToStudioOpen && (
-                        <AddToStudioModal
+                    {props.reportOpen && (
+                        <ReportModal
                             isOpen
-                            isAdmin={props.isAdmin}
-                            key="add-to-studio-modal"
-                            userOwnsProject={props.userOwnsProject}
-                            onRequestClose={props.onAddToStudioClosed}
-                            onToggleStudio={props.onToggleStudio}
+                            key="report-modal"
+                            type="project"
+                            onReport={props.onReportSubmit}
+                            onRequestClose={props.onReportClose}
                         />
                     )}
                 </React.Fragment>
-            }
-            <Button
-                className="action-button copy-link-button"
-                onClick={props.onCopyProjectLink}
-            >
-                <FormattedMessage id="general.copyLink" />
-            </Button>
-            {(props.canReport) &&
-            <React.Fragment>
-                <Button
-                    className="action-button report-button"
-                    key="report-button"
-                    onClick={props.onReportClicked}
-                >
-                    <FormattedMessage id="general.report" />
-                </Button>
-                {props.reportOpen && (
-                    <ReportModal
-                        isOpen
-                        key="report-modal"
-                        type="project"
-                        onReport={props.onReportSubmit}
-                        onRequestClose={props.onReportClose}
-                    />
-                )}
-            </React.Fragment>
-            }
+                }
+            </FlexRow>
         </FlexRow>
-    </FlexRow>
-);
+);}
 
 Subactions.propTypes = {
     addToStudioOpen: PropTypes.bool,

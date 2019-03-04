@@ -548,8 +548,8 @@ const PreviewPresentation = ({
                             <FlexRow className="preview-row">
                                 <div className="comments-container">
                                     <FlexRow className="comments-header">
-                                        <h4><FormattedMessage id="project.comments.header" /></h4>
-                                        {canToggleComments ? (
+                                        <h4>评语</h4>
+                                        {/* {canToggleComments ? (
                                             <div>
                                                 <label>
                                                     <input
@@ -561,7 +561,7 @@ const PreviewPresentation = ({
                                                     <FormattedMessage id="project.comments.turnOff" />
                                                 </label>
                                             </div>
-                                        ) : null}
+                                        ) : null} */}
                                     </FlexRow>
 
                                     {/* Do not show the top-level comment form in single comment mode */}
@@ -584,9 +584,9 @@ const PreviewPresentation = ({
                                         //     )}
                                         // </FlexRow>
                                         <FlexRow className="comments-root-reply">
-                                            {projectInfo.comments_allowed ? (
+                                            {projectInfo.project_raw.is_complete ? (
                                                 isLoggedIn ? (
-                                                    isShared && <ComposeRemark
+                                                    isTeacher && <ComposeRemark
                                                         projectId={projectId}
                                                         onAddComment={onAddComment}
                                                     />
@@ -646,15 +646,15 @@ const PreviewPresentation = ({
                                         }
                                     </FlexRow> */}
                                     <FlexRow className="comments-list">
-                                        {comments.map(comment => (
+                                        {remarks.map(comment => (
                                             <TopLevelRemark
                                                 author={comment.author}
                                                 canDelete={canDeleteComments}
-                                                canReply={isLoggedIn && projectInfo.comments_allowed && isShared}
+                                                canReply={isLoggedIn && projectInfo.comments_allowed && isShared && false}
                                                 canReport={isLoggedIn}
                                                 canRestore={canRestoreComments}
                                                 content={comment.content}
-                                                datetimeCreated={comment.datetime_created}
+                                                datetimeCreated={comment.created_at}
                                                 defaultExpanded={!!singleCommentId}
                                                 highlightedCommentId={singleCommentId}
                                                 id={comment.id}

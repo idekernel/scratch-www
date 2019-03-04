@@ -47,7 +47,7 @@ const Classroom = props => (
         >
         {
             props.stuProjects && props.stuProjects.map(item => {
-                return <a className="plink" target="_blank" href={`/projects/${item.id}`}>{item.title + ' by ' + item.user.username}</a>
+                return <a key={item.id} className="plink" target="_blank" href={`/projects/${item.id}`}>{item.title + ' by ' + item.user.username}</a>
             })
         }
         </Drawer>

@@ -122,7 +122,6 @@ class Remark extends React.Component {
             usernames: true,
             hashtags: false
         });
-
         return (
             <div
                 className={classNames('flex-row', 'comment', {

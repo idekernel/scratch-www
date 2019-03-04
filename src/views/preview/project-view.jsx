@@ -205,13 +205,13 @@ class Preview extends React.Component {
         if (this.props.userPresent) {
             const username = this.props.user.username;
             const token = this.props.user.token;
-            // if (this.state.singleCommentId) {
-            //     this.props.getCommentById(this.state.projectId, this.state.singleCommentId,
-            //         this.props.isAdmin, token);
-            // } else {
-            //     this.props.getTopLevelComments(this.state.projectId, this.props.comments.length,
-            //         this.props.isAdmin, token);
-            // }
+            if (this.state.singleCommentId) {
+                this.props.getRemarkById(this.state.projectId, this.state.singleCommentId,
+                    this.props.isAdmin, token);
+            } else {
+                this.props.getTopLevelRemarks(this.state.projectId, this.props.remarks.length,
+                    this.props.isAdmin, token);
+            }
             this.props.getProjectInfo(this.state.projectId, token);
             // this.props.getRemixes(this.state.projectId, token);
             // this.props.getProjectStudios(this.state.projectId, token);
@@ -219,11 +219,11 @@ class Preview extends React.Component {
             // this.props.getFavedStatus(this.state.projectId, username, token);
             // this.props.getLovedStatus(this.state.projectId, username, token);
         } else {
-            // if (this.state.singleCommentId) {
-            //     this.props.getCommentById(this.state.projectId, this.state.singleCommentId);
-            // } else {
-            //     this.props.getTopLevelComments(this.state.projectId, this.props.comments.length);
-            // }
+            if (this.state.singleCommentId) {
+                this.props.getRemarkById(this.state.projectId, this.state.singleCommentId);
+            } else {
+                this.props.getTopLevelRemarks(this.state.projectId, this.props.remarks.length);
+            }
             this.props.getProjectInfo(this.state.projectId);
             
             // this.props.getRemixes(this.state.projectId);
@@ -465,7 +465,7 @@ class Preview extends React.Component {
         }
     }
     handleLoadMore () {
-        this.props.getTopLevelComments(this.state.projectId, this.props.comments.length,
+        this.props.getTopLevelRemarks(this.state.projectId, this.props.remarks.length,
             this.props.isAdmin, this.props.user && this.props.user.token);
     }
     handleLoadMoreReplies (commentId, offset) {
@@ -603,7 +603,6 @@ class Preview extends React.Component {
                 </Page>
             );
         }
-
         return (
             <React.Fragment>
                 <Meta projectInfo={this.props.projectInfo} />
@@ -622,7 +621,7 @@ class Preview extends React.Component {
                             authorUsername={this.props.authorUsername}
                             backpackHost={this.props.backpackHost}
                             canAddToStudio={this.props.canAddToStudio}
-                            canDeleteComments={this.props.isAdmin || this.props.userOwnsProject}
+                            canDeleteComments={this.props.isTeacher || this.props.userOwnsProject}
                             canRemix={this.props.canRemix}
                             canReport={this.props.canReport}
                             canRestoreComments={this.props.isAdmin}
@@ -632,6 +631,7 @@ class Preview extends React.Component {
                             canUseBackpack={this.props.canUseBackpack}
                             cloudHost={this.props.cloudHost}
                             comments={this.props.comments}
+                            remarks={this.props.remarks}
                             editable={this.props.isEditable}
                             extensions={this.state.extensions}
                             faved={this.state.clientFaved}
@@ -658,7 +658,7 @@ class Preview extends React.Component {
                             projectInfo={this.props.projectInfo}
                             projectStudios={this.props.projectStudios}
                             remixes={this.props.remixes}
-                            replies={this.props.replies}
+                            replies={this.props.remarkReplies}
                             reportOpen={this.state.reportOpen}
                             showAdminPanel={this.props.isAdmin}
                             showCloudDataAlert={this.state.showCloudDataAlert}
@@ -857,7 +857,7 @@ const mapStateToProps = state => {
     const isLoggedIn = state.session.status === sessionActions.Status.FETCHED &&
         userPresent;
     const isAdmin = isLoggedIn && state.session.session.permissions.admin;
-    const isTeacher = isLoggedIn && state.session.session.permissions.teacher;
+    const isTeacher = isLoggedIn && state.preview.projectInfo.teacher;
     const author = projectInfoPresent && state.preview.projectInfo.author;
     const authorPresent = author && Object.keys(state.preview.projectInfo.author).length > 0;
     const authorId = authorPresent && author.id && author.id.toString();
@@ -887,6 +887,7 @@ const mapStateToProps = state => {
         canToggleComments: userOwnsProject || isAdmin,
         canUseBackpack: isLoggedIn,
         comments: state.preview.comments,
+        remarks: state.preview.remarks,
         enableCommunity: projectInfoPresent,
         faved: state.preview.faved,
         favedLoaded: state.preview.status.faved === previewActions.Status.FETCHED,
@@ -911,6 +912,7 @@ const mapStateToProps = state => {
         projectStudios: state.preview.projectStudios,
         remixes: state.preview.remixes,
         replies: state.preview.replies,
+        remarkReplies: state.preview.remarkReplies,
         sessionStatus: state.session.status, // check if used
         user: state.session.session.user,
         userOwnsProject: userOwnsProject,
@@ -921,10 +923,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     handleAddComment: (comment, topLevelCommentId) => {
-        dispatch(previewActions.addNewComment(comment, topLevelCommentId));
+        dispatch(previewActions.addNewRemark(comment, topLevelCommentId));
     },
     handleDeleteComment: (projectId, commentId, topLevelCommentId, token) => {
-        dispatch(previewActions.deleteComment(projectId, commentId, topLevelCommentId, token));
+        dispatch(previewActions.deleteRemark(projectId, commentId, topLevelCommentId, token));
     },
     handleReportComment: (projectId, commentId, topLevelCommentId, token) => {
         dispatch(previewActions.reportComment(projectId, commentId, topLevelCommentId, token));
@@ -984,6 +986,12 @@ const mapDispatchToProps = dispatch => ({
     },
     getCommentById: (projectId, commentId, isAdmin, token) => {
         dispatch(previewActions.getCommentById(projectId, commentId, isAdmin, token));
+    },
+    getTopLevelRemarks: (id, offset, isAdmin, token) => {
+        dispatch(previewActions.getTopLevelRemarks(id, offset, isAdmin, token));
+    },
+    getRemarkById: (projectId, commentId, isAdmin, token) => {
+        dispatch(previewActions.getRemarkById(projectId, commentId, isAdmin, token));
     },
     getMoreReplies: (projectId, commentId, offset, isAdmin, token) => {
         dispatch(previewActions.getReplies(projectId, [commentId], offset, isAdmin, token));

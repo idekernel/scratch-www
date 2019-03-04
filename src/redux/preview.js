@@ -20,6 +20,7 @@ module.exports.getInitialState = () => ({
     status: {
         project: module.exports.Status.NOT_FETCHED,
         comments: module.exports.Status.NOT_FETCHED,
+        remarks: module.exports.Status.NOT_FETCHED,
         faved: module.exports.Status.NOT_FETCHED,
         loved: module.exports.Status.NOT_FETCHED,
         original: module.exports.Status.NOT_FETCHED,
@@ -45,6 +46,7 @@ module.exports.getInitialState = () => ({
     curatedStudios: [],
     currentStudioIds: [],
     moreCommentsToLoad: false,
+    moreRemarksToLoad: false,
     projectNotAvailable: false,
     visibilityInfo: {}
 });
@@ -107,6 +109,10 @@ module.exports.previewReducer = (state, action) => {
         return Object.assign({}, state, {
             comments: uniqBy(state.comments.concat(action.items), 'id')
         });
+    case 'SET_REMARKS':
+        return Object.assign({}, state, {
+            remarks: uniqBy(state.remarks.concat(action.items), 'id')
+        });
     case 'UPDATE_COMMENT':
         if (action.topLevelCommentId) {
             return Object.assign({}, state, {
@@ -144,7 +150,7 @@ module.exports.previewReducer = (state, action) => {
         }
 
         return Object.assign({}, state, {
-            comments: state.comments.map(comment => {
+            remarks: state.remarks.map(comment => {
                 if (comment.id === action.commentId) {
                     return Object.assign({}, comment, action.comment);
                 }
@@ -166,6 +172,22 @@ module.exports.previewReducer = (state, action) => {
             comments: [action.comment, ...state.comments],
             replies: Object.assign({}, state.replies, {[action.comment.id]: []})
         });
+    
+    case 'ADD_NEW_REMARK':
+        if (action.topLevelCommentId) {
+            return Object.assign({}, state, {
+                remarkReplies: Object.assign({}, state.remarkReplies, {
+                    // Replies to comments go at the end  of the thread
+                    [action.topLevelCommentId]: state.remarkReplies[action.topLevelCommentId].concat(action.comment)
+                })
+            });
+        }
+
+        // Reply to the top level project, put the reply at the beginning
+        return Object.assign({}, state, {
+            remarks: [action.comment, ...state.remarks],
+            remarkReplies: Object.assign({}, state.remarkReplies, {[action.comment.id]: []})
+        });
     case 'UPDATE_ALL_REPLIES':
         return Object.assign({}, state, {
             replies: Object.assign({}, state.replies, {
@@ -182,6 +204,22 @@ module.exports.previewReducer = (state, action) => {
             )),
             // Also set the `moreRepliesToLoad` property on the top-level comments
             comments: state.comments.map(comment => {
+                if (action.replies[comment.id]) {
+                    return Object.assign({}, comment, {
+                        moreRepliesToLoad: action.replies[comment.id].length === COMMENT_LIMIT
+                    });
+                }
+                return comment;
+            })
+        });
+    case 'SET_REMARK_REPLIES':
+        return Object.assign({}, state, {
+            // Append new replies to the state.replies structure
+            remarkReplies: mergeWith({}, state.remarkReplies, action.replies, (replies, newReplies) => (
+                uniqBy((replies || []).concat(newReplies || []), 'id')
+            )),
+            // Also set the `moreRepliesToLoad` property on the top-level comments
+            remarks: state.remarks.map(comment => {
                 if (action.replies[comment.id]) {
                     return Object.assign({}, comment, {
                         moreRepliesToLoad: action.replies[comment.id].length === COMMENT_LIMIT
@@ -209,6 +247,10 @@ module.exports.previewReducer = (state, action) => {
     case 'SET_MORE_COMMENTS_TO_LOAD':
         return Object.assign({}, state, {
             moreCommentsToLoad: action.moreCommentsToLoad
+        });
+    case 'SET_MORE_REMARKS_TO_LOAD':
+        return Object.assign({}, state, {
+            moreRemarksToLoad: action.moreCommentsToLoad
         });
     case 'SET_VISIBILITY_INFO':
         return Object.assign({}, state, {
@@ -276,6 +318,16 @@ module.exports.setComments = items => ({
     items: items
 });
 
+module.exports.setRemarks = items => ({
+    type: 'SET_REMARKS',
+    items: items
+});
+
+module.exports.setRemarkReplies = replies => ({
+    type: 'SET_REMARK_REPLIES',
+    replies: replies
+});
+
 module.exports.setReplies = replies => ({
     type: 'SET_REPLIES',
     replies: replies
@@ -310,6 +362,15 @@ module.exports.setStudioFetchStatus = (studioId, status) => ({
 
 module.exports.setCommentDeleted = (commentId, topLevelCommentId) => ({
     type: 'UPDATE_COMMENT',
+    commentId: commentId,
+    topLevelCommentId: topLevelCommentId,
+    comment: {
+        visibility: 'deleted'
+    }
+});
+
+module.exports.setRemarkDeleted = (commentId, topLevelCommentId) => ({
+    type: 'UPDATE_REMARK',
     commentId: commentId,
     topLevelCommentId: topLevelCommentId,
     comment: {
@@ -375,8 +436,19 @@ module.exports.addNewComment = (comment, topLevelCommentId) => ({
     topLevelCommentId: topLevelCommentId
 });
 
+module.exports.addNewRemark = (comment, topLevelCommentId) => ({
+    type: 'ADD_NEW_REMARK',
+    comment: comment,
+    topLevelCommentId: topLevelCommentId
+});
+
 module.exports.setMoreCommentsToLoad = moreCommentsToLoad => ({
     type: 'SET_MORE_COMMENTS_TO_LOAD',
+    moreCommentsToLoad: moreCommentsToLoad
+});
+
+module.exports.setMoreRemarksToLoad = moreCommentsToLoad => ({
+    type: 'SET_MORE_REMARKS_TO_LOAD',
     moreCommentsToLoad: moreCommentsToLoad
 });
 
@@ -560,6 +632,84 @@ module.exports.getCommentById = (projectId, commentId, isAdmin, token) => (dispa
         dispatch(module.exports.setFetchStatus('comments', module.exports.Status.FETCHED));
         dispatch(module.exports.setComments([body]));
         dispatch(module.exports.getReplies(projectId, [body.id], 0, isAdmin, token));
+    });
+});
+
+module.exports.getTopLevelRemarks = (id, offset, isAdmin, token) => (dispatch => {
+    dispatch(module.exports.setFetchStatus('remarks', module.exports.Status.FETCHING));
+    api({
+        uri: `${isAdmin ? '/admin' : ''}/projects/${id}/remark`,
+        authentication: isAdmin ? token : null,
+        params: {offset: offset || 0, limit: COMMENT_LIMIT}
+    }, (err, body) => {
+        if (err) {
+            dispatch(module.exports.setFetchStatus('remarks', module.exports.Status.ERROR));
+            dispatch(module.exports.setError(err));
+            return;
+        }
+        if (typeof body === 'undefined') {
+            dispatch(module.exports.setFetchStatus('remarks', module.exports.Status.ERROR));
+            dispatch(module.exports.setError('No remark info'));
+            return;
+        }
+        dispatch(module.exports.setFetchStatus('remarks', module.exports.Status.FETCHED));
+        dispatch(module.exports.setRemarks(body));
+        dispatch(module.exports.getRemarkReplies(id, body.map(comment => comment.id), 0, isAdmin, token));
+
+        // If we loaded a full page of comments, assume there are more to load.
+        // This will be wrong (1 / COMMENT_LIMIT) of the time, but does not require
+        // any more server query complexity, so seems worth it. In the case of a project with
+        // number of comments divisible by the COMMENT_LIMIT, the load more button will be
+        // clickable, but upon clicking it will go away.
+        dispatch(module.exports.setMoreRemarksToLoad(body.length === COMMENT_LIMIT));
+    });
+});
+
+module.exports.getRemarkById = (projectId, commentId, isAdmin, token) => (dispatch => {
+    dispatch(module.exports.setFetchStatus('remarks', module.exports.Status.FETCHING));
+    api({
+        uri: `${isAdmin ? '/admin' : ''}/projects/${projectId}/remark/${commentId}`,
+        authentication: isAdmin ? token : null
+    }, (err, body) => {
+        if (err) {
+            dispatch(module.exports.setFetchStatus('remarks', module.exports.Status.ERROR));
+            dispatch(module.exports.setError(err));
+            return;
+        }
+        if (!body) {
+            dispatch(module.exports.setFetchStatus('remarks', module.exports.Status.ERROR));
+            dispatch(module.exports.setError('No comment info'));
+            return;
+        }
+
+        if (body.parent_id) {
+            // If the comment is a reply, load the parent
+            return dispatch(module.exports.getRemarkById(projectId, body.parent_id, isAdmin, token));
+        }
+
+        // If the comment is not a reply, show it as top level and load replies
+        dispatch(module.exports.setFetchStatus('remarks', module.exports.Status.FETCHED));
+        dispatch(module.exports.setRemarks([body]));
+        // dispatch(module.exports.getRemarkReplies(projectId, [body.id], 0, isAdmin, token));
+    });
+});
+
+module.exports.getRemarkReplies = (projectId, commentIds, offset, isAdmin, token) => (dispatch => {
+    const fetchedReplies = {};
+
+    async.eachLimit(commentIds, 10, (parentId, callback) => {
+        
+            fetchedReplies[parentId] = [];
+            callback(null, []);
+            dispatch(module.exports.setRemarkReplies(fetchedReplies));
+    }, err => {
+        if (err) {
+            dispatch(module.exports.setFetchStatus('replies', module.exports.Status.ERROR));
+            dispatch(module.exports.setError(err));
+            return;
+        }
+        dispatch(module.exports.setFetchStatus('replies', module.exports.Status.FETCHED));
+        dispatch(module.exports.setRemarkReplies(fetchedReplies));
     });
 });
 
@@ -936,6 +1086,23 @@ module.exports.deleteComment = (projectId, commentId, topLevelCommentId, token) 
         if (!topLevelCommentId) {
             dispatch(module.exports.setRepliesDeleted(commentId));
         }
+    });
+});
+
+module.exports.deleteRemark = (projectId, commentId, topLevelCommentId, token) => (dispatch => {
+    /* TODO fetching/fetched/error states updates for comment deleting */
+    api({
+        uri: `/proxy/remark/project/${projectId}/remark/${commentId}`,
+        authentication: token,
+        withCredentials: true,
+        method: 'DELETE',
+        useCsrf: true
+    }, (err, body, res) => {
+        if (err || res.statusCode !== 200) {
+            log.error(err || res.body);
+            return;
+        }
+        dispatch(module.exports.setRemarkDeleted(commentId, topLevelCommentId));
     });
 });
 

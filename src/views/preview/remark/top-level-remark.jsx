@@ -5,7 +5,7 @@ const classNames = require('classnames');
 const FormattedMessage = require('react-intl').FormattedMessage;
 
 const FlexRow = require('../../../components/flex-row/flex-row.jsx');
-const Comment = require('./remark.jsx');
+const Remark = require('./remark.jsx');
 
 require('./remark.scss');
 
@@ -94,7 +94,8 @@ class TopLevelRemark extends React.Component {
 
         return (
             <FlexRow className="comment-container">
-                <Comment
+                <Remark
+                    key={id}
                     highlighted={highlightedCommentId === id}
                     projectId={projectId}
                     onAddComment={this.handleAddComment}
@@ -123,14 +124,14 @@ class TopLevelRemark extends React.Component {
                         key={id}
                     >
                         {(this.state.expanded ? replies : replies.slice(0, 3)).map(reply => (
-                            <Comment
+                            <Remark
                                 author={reply.author}
                                 canDelete={canDelete}
                                 canReply={canReply}
                                 canReport={canReport}
                                 canRestore={canRestore && parentVisible}
                                 content={reply.content}
-                                datetimeCreated={reply.datetime_created}
+                                datetimeCreated={reply.created_at}
                                 highlighted={highlightedCommentId === reply.id}
                                 id={reply.id}
                                 key={reply.id}

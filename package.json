@@ -10,7 +10,7 @@
     "smoke-verbose": "tap ./test/integration/smoke-testing/*.js --timeout=3600 -R spec",
     "smoke-sauce": "SMOKE_REMOTE=true tap ./test/integration/smoke-testing/*.js --timeout=60000",
     "watch": "make watch",
-    "build": "set NODE_ENV=production && set BACKPACK_HOST=http://localhost:6001/api/backpack && set ASSET_HOST=http://localhost:6001/api/assets && set PROJECT_HOST=http://localhost:6001/api/projectraw && set API_HOST=http://localhost:6001/api && make build",
+    "build": "set NODE_ENV=production && set BACKPACK_HOST=http://www.xkidcode.com/api/backpack && set ASSET_HOST=http://www.xkidcode.com/api/assets && set PROJECT_HOST=http://www.xkidcode.com/api/projectraw && set API_HOST=http://www.xkidcode.com/api && make build",
     "dev": "make watch && make start &"
   },
   "repository": {

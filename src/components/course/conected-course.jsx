@@ -54,9 +54,11 @@ class ConnectedCourse extends React.Component {
         this.props.setClassroom(pid, id, false);
         // this.props.setCouser(id, false);
         if (istemplete) {
-            this.props.createProject(pid, id);
+            const tempwindow = window.open('_blank');
+            this.props.createProject(pid, id, tempwindow);
         } else {
-            window.location.href = '/projects/editor/';
+            window.open('/projects/editor/'); 
+            // window.location.href = '/projects/editor/';
         }
         
         // message.loading('正在准备课件');
@@ -182,8 +184,8 @@ const mapDispatchToProps = dispatch => ({
     delProject(id) {
         dispatch(courseActions.delProject(id));
     },
-    createProject(classroom_id, course_id) {
-        dispatch(courseActions.createProject(classroom_id, course_id));
+    createProject(classroom_id, course_id, win) {
+        dispatch(courseActions.createProject(classroom_id, course_id, win));
     },
     updateProject(id, value) {
         dispatch(courseActions.updateProject(id, value));

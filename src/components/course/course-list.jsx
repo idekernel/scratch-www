@@ -32,8 +32,8 @@ const CourseList = props => (
                                 key={pitem.id }
                                 cover={<img alt="example" src={pitem.image} />}
                                 actions={[<Popconfirm  title="Are you sure delete this task?" onConfirm={e => props.confirm(pitem.id)} onCancel={props.cancel} okText="Yes" cancelText="No"><Icon type="delete"/></Popconfirm>,
-                                    <a href={`/projects/${pitem.id}/editor/`}><Icon type="code" /></a>,
-                                    <a href={`/projects/${pitem.id}`}><Icon type="edit" /></a>]}
+                                    <a href={`/projects/${pitem.id}/editor/`} target="_blank"><Icon type="code" /></a>,
+                                    <a href={`/projects/${pitem.id}`} target="_blank"><Icon type="edit" /></a>]}
                             >
                                 <Meta
                                 title={pitem.title}

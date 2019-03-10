@@ -184,10 +184,12 @@ module.exports.setUserCourseId = (courseid, showprojectlist = true, query = {}, 
             if (typeof body === 'undefined' || response.statusCode === 404) {
                 dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
                 dispatch(module.exports.setCourseError('No course info'));
-                dispatch(module.exports.setCourseId(-1));
+                // dispatch(module.exports.setCourseId(-1));
                 return;
             }
             dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
+            if (state().course.classid === -1)
+                dispatch(module.exports.setClassroomId(classid));
             dispatch(module.exports.setCourseId(courseid));
             dispatch(module.exports.setClassroomRole(classid, courseid, user.id));
         });
@@ -222,7 +224,7 @@ module.exports.setUserClassroomId = (classid, courseid, showprojectlist = true, 
             if (typeof body === 'undefined' || response.statusCode === 404) {
                 dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
                 dispatch(module.exports.setCourseError('No course info'));
-                dispatch(module.exports.setClassroomId(-1));
+                // dispatch(module.exports.setClassroomId(-1));
                 return;
             }
             dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
@@ -389,11 +391,16 @@ module.exports.delProject = (id, token) => ((dispatch, state) => {
 //     });
 // }
 
-module.exports.createProject = (token) => ((dispatch, state) => {
+module.exports.createProject = (classroomid, courseid, token) => ((dispatch, state) => {
+    const formData = {
+        classroom_id: classroomid,
+        course_id: courseid
+    };
     const opts = {
         host: '', // for test origin ''
         uri: `/api/projectsrawTemplet/`,
-        method: 'post'
+        method: 'post',
+        json: formData,
     };
     if (token) {
         Object.assign(opts, {authentication: token});

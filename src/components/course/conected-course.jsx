@@ -54,8 +54,7 @@ class ConnectedCourse extends React.Component {
         this.props.setClassroom(pid, id, false);
         // this.props.setCouser(id, false);
         if (istemplete) {
-            const tempwindow = window.open('_blank');
-            this.props.createProject(pid, id, tempwindow);
+            this.props.createProject(pid, id);
         } else {
             window.location.href = '/projects/editor/';
         }

@@ -24,7 +24,7 @@ require('./course.scss');
 
 const CourseList = props => (
    
-    <Collapse accordion onChange={e=>props.onChangeCouser(e, props.item.id)}>
+    <Collapse accordion bordered={false} onChange={e=>props.onChangeCouser(e, props.item.id)}>
             {props.item[props.listkey].map(citem => {
                 return <Panel header={citem.title} key={citem.id}>
                     {props.projects && props.projects.map(pitem => {

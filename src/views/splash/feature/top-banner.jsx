@@ -12,18 +12,11 @@ const TopBanner = props => (
     <TitleBanner className="feature-top-banner">
         <FlexRow className="feature-top-container column">
             <h1 className="feature-header">
-                <FormattedMessage id="featureBanner.title" />
+                XKID  少儿编程
             </h1>
             {/* <h3 className="feature-copy">
                 <FormattedMessage id="featureBanner.subtitle" />
             </h3> */}
-            <a
-                className="feature-call-to-action button"
-                href={props.actionLink}
-            >
-                {/* <FormattedMessage id="featureBanner.callToAction" /> */}
-                <FormattedMessage id="intro.startCreating" />
-            </a>
         </FlexRow>
         <div className="feature-banner-images">
             <div className="feature-banner-image left">

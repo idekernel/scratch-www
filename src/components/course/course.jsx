@@ -11,7 +11,7 @@ require('./course.scss');
 
 const Course = props => (
     <div className="course">
-       <Tabs tabPosition="left" onTabClick={props.onTabClick}>
+       <Tabs tabPosition="left" size="large" onTabClick={props.onTabClick}>
           {props.course && props.course.map(item => {
               return <TabPane tab={item.title} key={item.id}>
                     <CourseList 

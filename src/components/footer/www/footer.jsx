@@ -211,9 +211,7 @@ const Footer = props => (
         <LanguageChooser locale={props.intl.locale} />
 
         <div className="copyright">
-            <p>
-                <FormattedMessage id="general.copyright" />
-            </p>
+            <p>©2019&nbsp;北京叩丁科技有限公司&nbsp;<a href="http://www.miitbeian.gov.cn" target="_ablank" >京ICP备19008037号</a>&nbsp;</p>
         </div>
     </FooterBox>
 );

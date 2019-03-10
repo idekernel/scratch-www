@@ -391,7 +391,7 @@ module.exports.delProject = (id, token) => ((dispatch, state) => {
 //     });
 // }
 
-module.exports.createProject = (classroomid, courseid, win, token) => ((dispatch, state) => {
+module.exports.createProject = (classroomid, courseid, token) => ((dispatch, state) => {
     const formData = {
         classroom_id: classroomid,
         course_id: courseid

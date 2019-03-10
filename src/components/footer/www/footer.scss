@@ -36,9 +36,13 @@
         display: block;
         width: 100%;
         text-align: center;
-
         p {
             font-size: .7rem;
+            color: #999999;
+            a {
+                color: #999999;
+                font-weight: normal;
+            }
         }
     }
 

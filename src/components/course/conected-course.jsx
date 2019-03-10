@@ -57,8 +57,7 @@ class ConnectedCourse extends React.Component {
             const tempwindow = window.open('_blank');
             this.props.createProject(pid, id, tempwindow);
         } else {
-            window.open('/projects/editor/'); 
-            // window.location.href = '/projects/editor/';
+            window.location.href = '/projects/editor/';
         }
         
         // message.loading('正在准备课件');

@@ -475,7 +475,7 @@ module.exports.getProjectInfo = (id, token) => (dispatch => {
             dispatch(module.exports.setError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404) {
+        if (typeof body === 'undefined' || response.statusCode === 202) {
             dispatch(module.exports.setFetchStatus('project', module.exports.Status.ERROR));
             dispatch(module.exports.setError('No project info'));
             dispatch(module.exports.setProjectInfo(null));
@@ -970,7 +970,7 @@ module.exports.getProjectStudios = id => (dispatch => {
             dispatch(module.exports.setError('No projectStudios info'));
             return;
         }
-        if (res.statusCode === 404) { // NotFound
+        if (res.statusCode === 202) { // NotFound
             body = [];
         }
         dispatch(module.exports.setFetchStatus('projectStudios', module.exports.Status.FETCHED));
@@ -993,7 +993,7 @@ module.exports.getCuratedStudios = username => (dispatch => {
             dispatch(module.exports.setError('No curated studios info'));
             return;
         }
-        if (res.statusCode === 404) { // NotFound
+        if (res.statusCode === 202) { // NotFound
             body = [];
         }
         dispatch(module.exports.setFetchStatus('curatedStudios', module.exports.Status.FETCHED));

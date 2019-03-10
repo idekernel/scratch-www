@@ -181,7 +181,7 @@ module.exports.setUserCourseId = (courseid, showprojectlist = true, query = {}, 
                 dispatch(module.exports.setCourseError(err));
                 return;
             }
-            if (typeof body === 'undefined' || response.statusCode === 404) {
+            if (typeof body === 'undefined' || response.statusCode === 202) {
                 dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
                 dispatch(module.exports.setCourseError('No course info'));
                 // dispatch(module.exports.setCourseId(-1));
@@ -221,7 +221,7 @@ module.exports.setUserClassroomId = (classid, courseid, showprojectlist = true, 
                 dispatch(module.exports.setCourseError(err));
                 return;
             }
-            if (typeof body === 'undefined' || response.statusCode === 404) {
+            if (typeof body === 'undefined' || response.statusCode === 202) {
                 dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
                 dispatch(module.exports.setCourseError('No course info'));
                 // dispatch(module.exports.setClassroomId(-1));
@@ -252,7 +252,7 @@ module.exports.getStuProjects = (query, token) => ((dispatch, state) => {
             dispatch(module.exports.setCourseError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404) {
+        if (typeof body === 'undefined' || response.statusCode === 202) {
             dispatch(module.exports.setStatus('project', module.exports.Status.ERROR));
             dispatch(module.exports.setCourseError('No course info'));
             dispatch(module.exports.setStuProjects([]));
@@ -281,7 +281,7 @@ module.exports.getProjects = (query, token) => ((dispatch, state) => {
             dispatch(module.exports.setCourseError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404) {
+        if (typeof body === 'undefined' || response.statusCode === 202) {
             dispatch(module.exports.setStatus('project', module.exports.Status.ERROR));
             dispatch(module.exports.setCourseError('No course info'));
             dispatch(module.exports.setProjects([]));
@@ -310,7 +310,7 @@ module.exports.updateProject = (id, formData, token) => ((dispatch, state) => {
             dispatch(module.exports.setCourseError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404) {
+        if (typeof body === 'undefined' || response.statusCode === 202) {
             dispatch(module.exports.setStatus('project', module.exports.Status.ERROR));
             dispatch(module.exports.setCourseError('No course info'));
             return;
@@ -336,7 +336,7 @@ module.exports.updateProjectRaw = (id, formData, token) => ((dispatch, state) =>
             dispatch(module.exports.setCourseError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404) {
+        if (typeof body === 'undefined' || response.statusCode === 202) {
             dispatch(module.exports.setStatus('project', module.exports.Status.ERROR));
             dispatch(module.exports.setCourseError('No course info'));
             return;
@@ -361,7 +361,7 @@ module.exports.delProject = (id, token) => ((dispatch, state) => {
             dispatch(module.exports.setCourseError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404) {
+        if (typeof body === 'undefined' || response.statusCode === 202) {
             dispatch(module.exports.setStatus('project', module.exports.Status.ERROR));
             dispatch(module.exports.setCourseError('No course info'));
             // dispatch(module.exports.setProjects([]));
@@ -383,7 +383,7 @@ module.exports.delProject = (id, token) => ((dispatch, state) => {
 //             callback && callback(err);
 //             return;
 //         }
-//         if (typeof body === 'undefined' || response.statusCode === 404) {
+//         if (typeof body === 'undefined' || response.statusCode === 202) {
 //             callback && callback({});
 //             return;
 //         }
@@ -412,7 +412,7 @@ module.exports.createProject = (classroomid, courseid, token) => ((dispatch, sta
             dispatch(module.exports.setCourseError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404 || body.success === false) {
+        if (typeof body === 'undefined' || response.statusCode === 202 || body.success === false) {
             dispatch(module.exports.setStatus('createProject', module.exports.Status.FETCHED));
             window.location = `/projects/editor/`;
             return;
@@ -437,7 +437,7 @@ module.exports.getCouserInfo = (token) => ((dispatch, state) => {
             dispatch(module.exports.setCourseError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404 || body.success === false) {
+        if (typeof body === 'undefined' || response.statusCode === 202 || body.success === false) {
             dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
             dispatch(module.exports.setCourseError('No course info'));
             dispatch(module.exports.setCourseInfo([]));
@@ -463,7 +463,7 @@ module.exports.getClassroom = (token) => ((dispatch, state) => {
             dispatch(module.exports.setCourseError(err));
             return;
         }
-        if (typeof body === 'undefined' || response.statusCode === 404 || body.success === false) {
+        if (typeof body === 'undefined' || response.statusCode === 202 || body.success === false) {
             dispatch(module.exports.setStatus('classroom', module.exports.Status.ERROR));
             dispatch(module.exports.setCourseError('No classroom info'));
             dispatch(module.exports.setClassroom([]));

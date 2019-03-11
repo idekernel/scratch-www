@@ -1,10 +1,81 @@
 @import "../../colors";
-
-.about {
-    .masthead {
-        display: flex;
-        flex-wrap: no-wrap;
-        justify-content: space-between;
-        align-items: stretch;
+#view {
+    padding: 0;
+}
+.home {
+    font-size: 16px;
+    section {
+        max-width: 677px;
+        margin-left: auto;
+        margin-right: auto;
+        img {
+            width: 677px;
+            border: 0px none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .tip {
+            letter-spacing: 3px;
+            padding: 9px 4px 14px;
+            text-align: center;
+            margin-right: auto;
+            margin-left: auto;
+            border: 4px solid#d82821;
+            border-radius: 8px;
+            box-sizing: border-box;
+            span {
+                color:#ff0000;
+            }
+            &:after {
+                position: relative;
+                top: 46px;
+                left: -155px;
+                content: '';
+                font-size: 16px;
+                width: 0px;
+                margin-right: auto;
+                margin-left: auto;
+                border-top: 0.6em solid #d82821;
+                border-bottom-color: #d82821;
+                height: 10px;
+                box-sizing: border-box;
+                border-left: 0.7em solid transparent !important;
+                border-right: 0.7em solid transparent !important;
+            }
+        }
+        .tip-content {
+            padding: 10px;
+            box-sizing: border-box;
+            >img {
+                position: relative;
+                top: 42px;
+                left: 30px;
+                width: 60px;
+                height: 60px;
+                border: 1px solid #e2561b;
+                border-radius: 100%;
+            }
+            >span {
+                position: relative;
+                left: 35px;
+                color: #e2561b;
+                font-weight: bold;
+                line-height: 62px;
+            }
+            >section {
+                padding: 20px; 
+                border: 2px solid #e2561b; 
+                font-size: 14px; 
+                text-align: center; 
+                margin-top: -20px; 
+                box-sizing: border-box;
+                span {
+                    display: block;
+                    color: #e2561b;
+                    line-height: 20px;
+                }
+            }
+        }
     }
+    
 }

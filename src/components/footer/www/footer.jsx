@@ -1,13 +1,9 @@
-const FormattedMessage = require('react-intl').FormattedMessage;
 const injectIntl = require('react-intl').injectIntl;
 const intlShape = require('react-intl').intlShape;
-const MediaQuery = require('react-responsive').default;
 const React = require('react');
 
 const FooterBox = require('../container/footer.jsx');
-const LanguageChooser = require('../../languagechooser/languagechooser.jsx');
 
-const frameless = require('../../../lib/frameless');
 
 require('./footer.scss');
 
@@ -208,7 +204,6 @@ const Footer = props => (
                 </dl>
             </div>
         </MediaQuery> */}
-        <LanguageChooser locale={props.intl.locale} />
 
         <div className="copyright">
             <p>©2019&nbsp;北京叩丁科技有限公司&nbsp;<a href="http://www.miitbeian.gov.cn" target="_ablank" >京ICP备19008037号</a>&nbsp;</p>

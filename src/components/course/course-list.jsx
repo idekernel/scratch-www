@@ -30,7 +30,7 @@ const CourseList = props => (
                     {props.projects && props.projects.map(pitem => {
                         return <Card style={{ width: 220 }} size="small"
                                 key={pitem.id }
-                                cover={<img alt="example" src={pitem.image} />}
+                                cover={<img alt="example" src={pitem.image + '?t=' + new Date().getTime()} />}
                                 actions={[<Popconfirm  title="Are you sure delete this task?" onConfirm={e => props.confirm(pitem.id)} onCancel={props.cancel} okText="Yes" cancelText="No"><Icon type="delete"/></Popconfirm>,
                                     <a href={`/projects/${pitem.id}/editor/`} target="_blank"><Icon type="code" /></a>,
                                     <a href={`/projects/${pitem.id}`} target="_blank"><Icon type="edit" /></a>]}

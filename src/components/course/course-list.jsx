@@ -38,7 +38,7 @@ const CourseList = props => (
                                 <Meta
                                 title={pitem.title}
                                 />
-                                { !props.isTeacher && <span>完成<Switch size="small" onChange={e=>props.updateProject(e, pitem.id)} defaultChecked={pitem.project_raw.is_complete} /></span>}
+                                { !props.isTeacher && <span>提交作业<Switch size="small" onChange={e=>props.updateProject(e, pitem.id)} defaultChecked={pitem.project_raw.is_complete} /></span>}
                                 
                             </Card>;
                     })

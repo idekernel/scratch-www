@@ -25,29 +25,29 @@ const Subactions = props => {
     return (
         <FlexRow className="subactions">
             <div className="share-date">
-                <div className="copyleft">&copy;</div>
-                {' '}
+                {/* <div className="copyleft">&copy;</div>
+                {' '} */}
                 {/*  eslint-disable react/jsx-sort-props */}
-                {props.shareDate ? (
+                {/* {props.shareDate ? (
                     <FormattedDate
                         value={Date.parse(props.shareDate)}
                         day="2-digit"
                         month="short"
                         year="numeric"
                     />
-                ) : 'Unshared'}
+                ) : 'Unshared'} */}
                 {/*  eslint-enable react/jsx-sort-props */}
             </div>
             <FlexRow className="action-buttons">
                 {props.canAddToStudio &&
                     <React.Fragment>
-                        <Button
+                        {/* <Button
                             className="action-button studio-button"
                             key="add-to-studio-button"
                             onClick={props.onAddToStudioClicked}
                         >
                             <FormattedMessage id="addToStudio.title" />
-                        </Button>
+                        </Button> */}
                         {props.addToStudioOpen && (
                             <AddToStudioModal
                                 isOpen

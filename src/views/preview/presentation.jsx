@@ -350,7 +350,7 @@ const PreviewPresentation = ({
                             <MediaQuery maxWidth={frameless.tabletPortrait - 1}>
                                 <FlexRow className="preview-row force-center">
                                     <div className="wrappable-item">
-                                        <Stats
+                                        {/* <Stats
                                             faved={faved}
                                             favoriteCount={favoriteCount}
                                             loveCount={loveCount}
@@ -358,7 +358,7 @@ const PreviewPresentation = ({
                                             projectInfo={projectInfo}
                                             onFavoriteClicked={onFavoriteClicked}
                                             onLoveClicked={onLoveClicked}
-                                        />
+                                        /> */}
                                     </div>
                                     <div className="wrappable-item">
                                         <Subactions
@@ -497,7 +497,7 @@ const PreviewPresentation = ({
                         </FlexRow>
                         <MediaQuery minWidth={frameless.tabletPortrait}>
                             <FlexRow className="preview-row">
-                                <Stats
+                                {/* <Stats
                                     faved={faved}
                                     favoriteCount={favoriteCount}
                                     loveCount={loveCount}
@@ -505,7 +505,7 @@ const PreviewPresentation = ({
                                     projectInfo={projectInfo}
                                     onFavoriteClicked={onFavoriteClicked}
                                     onLoveClicked={onLoveClicked}
-                                />
+                                /> */}
                                 <Subactions
                                     addToStudioOpen={addToStudioOpen}
                                     canAddToStudio={canAddToStudio}

@@ -65,7 +65,7 @@
         <!-- Translate title element -->
         <% if (!htmlWebpackPlugin.options.dynamicMetaTags) { %>
             <script>
-                var loc = window._locale || 'en';
+                var loc = window._locale || 'zh-cn';
                 if (typeof window._messages !== 'undefined' && loc !== 'en') {
                     if (typeof window._messages[loc] === 'undefined') {
                         loc = loc.split('-')[0];

@@ -63,9 +63,9 @@ class SplashPresentation extends React.Component { // eslint-disable-line react/
                 {
                     this.props.sessionStatus === sessionActions.Status.FETCHED &&
                     Object.keys(this.props.user).length !== 0 && // if user is logged in
-                    [<img className="feature-banner-image" src="/svgs/feature/illustration-left.svg" />,
+                    [<img className="feature-banner-image" key='content-bg' src="/svgs/feature/illustration-left.svg" />,
                     <MediaQuery
-                        key="frameless-tablet"
+                        key="frameless-content"
                         minWidth={0}
                     >
                         <div

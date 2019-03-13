@@ -1,4 +1,243 @@
 @import "../../colors";
-
+#view {
+    padding: 0;
+}
 .about {
+    .main {
+        max-width: 677px;
+        margin-left: auto;
+        margin-right: auto;
+        
+        .title {
+            letter-spacing: 3px;
+            padding: 9px 4px 14px;
+            text-align: center;
+            margin-right: auto;
+            margin-left: auto;
+            border-width: 4px;
+            border-style: solid;
+            border-color: rgb(30, 155, 232);
+            border-radius: 8px;
+            box-sizing: border-box;
+            >p {
+                color: #ff0000;
+                font-size: 16px;
+                line-height: 6px;
+                font-weight: bold;
+            }
+            &::after {
+                position: relative;
+                top: 46px;
+                left: 0;
+                content: '';
+                width: 0px;
+                margin-right: auto;
+                margin-left: auto;
+                border-top: 0.6em solid rgb(30, 155, 232);
+                border-bottom-color: rgb(30, 155, 232);
+                height: 10px;
+                border-left: 0.7em solid transparent !important;
+                border-right: 0.7em solid transparent !important;
+                box-sizing: border-box;
+            }
+        }
+        .content {
+            position: relative;
+            margin-top: 20px; 
+            padding: 20px;
+            border-width: 1px 0.4em;
+            border-style: solid;
+            border-color: rgb(30, 155, 232);
+            border-radius: 0.3em;
+            box-sizing: border-box;
+            text-align: center;
+            .border {
+                position: absolute;
+                width: 6em;
+                top: -3px;
+                border-top: 0.4em solid rgb(30, 155, 232);
+                &.l {
+                    left: -6px;
+                }
+                &.r {
+                    right: -6px;
+                }
+            }
+            img {
+                width: 624px;
+                height: 624px;
+            }
+            .img_3 {
+                height: 936px;
+            }
+            .img_4 {
+                width: 306px;
+                height: 202px;
+            }
+            .img_5 {
+                width: 624px;
+                height: 346px;
+            }
+            .alt {
+                color: rgb(30, 155, 232);
+                font-size: 14px;
+                text-align: center;
+                line-height: 0;
+            }
+            .dest {
+                text-align: left;
+                color: rgb(30, 155, 232);
+                font-size: 16px;
+                &.s {
+                   color: rgb(255, 0, 0);
+                }
+            }
+            .subtitle {
+                position: relative;
+                padding-top: 2px;
+                height: 69px;
+                border-left: 1px solid rgb(216, 40, 33);
+                .circle {
+                    position: absolute;
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 100%;
+                    color: rgb(255, 255, 255);
+                    background-color: rgb(216, 40, 33);
+                    &.l {
+                        top: 69px;
+                        left: -4px;
+                    }
+                    &.r {
+                        top: 30px;
+                        right: 0;
+                    }
+
+                }
+                .border {
+                    position: absolute;
+                    top: 33px;
+                    width: 100%;
+                    height: 1px;
+                    border-top: 1px solid rgb(216, 40, 33);
+                }
+                >p {
+                    padding-left: 10px;
+                    color: rgb(216, 40, 33);
+                    font-size: 16px;
+                    line-height: 6px;
+                    font-weight: bold;
+                    line-height: 8px;
+
+                }
+            }
+        }
+        .sec-content {
+            &.first {
+                margin-top: 20px;
+            }
+            margin-bottom: 20px;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 10px;
+            border-width: 2px;
+            border-style: solid;
+            border-color: rgb(226, 86, 27);
+            border-radius: 10px;
+            background-color: rgb(253, 253, 253);
+            padding-left: 0.5em;
+            padding-bottom: 30px;
+            display: block;
+            width: 677px;
+            box-sizing: border-box;
+            text-align: center;
+          
+         
+            .title-border {
+                position: relative;
+                margin: 0 auto;
+                z-index: 0;
+                margin-top: 30px;
+                width: 512px;
+                height: 94px;
+                border: 0.15em solid rgb(253, 226, 216);
+                background: #ffffff;
+                .border-bg1 {
+                    position: absolute;
+                    z-index: -1;
+                    background: #ffffff;
+                    height: 60px;
+                    width: 518px;
+                    margin-top: 15px;
+                    margin-left: -3px;
+                    &::before {
+                        display: table;
+                        content: '';
+                    }
+                    .border-bg2 {
+                        background: #ffffff;
+                        height: 99px;
+                        width: 474px;
+                        margin-top: -18px;
+                        margin-left: 22px;
+                    }
+                }
+                >p {
+                    line-height: 20px;
+                    text-align: left;
+                    padding: 0 15px;
+                    font-size: 14px;
+                    color: rgb(204, 63, 10);
+                    &.sec {
+                        text-align: right;
+                    }
+                }
+                
+            }
+            .last {
+                margin-top: 50px;
+                color: rgb(255, 0, 0);
+                font-size: 32px;
+            }
+            .last1 {
+                color: rgb(255, 0, 0);
+                font-size: 20px;
+            }
+            .last2 {
+                margin-top: 30px;
+                color: rgb(127, 127, 127);
+                font-weight: normal;
+            }
+            >img {
+                display: block;
+                margin: 0 auto;
+                margin-top: 30px;
+            }
+            .img_6 {
+                width: 637px;
+                height: 477px;
+            }
+            .img_box {
+                width: 510px;
+                height: 426px;
+                padding: 15px;
+                box-shadow: rgb(204, 204, 204) 0px 0px 5px;
+                box-sizing: border-box;
+                > p {
+                    width: 450px;
+                    margin: 0 auto;
+                    margin-top: 30px;
+                    font-size: 12px;
+                    color: rgb(227, 108, 9);
+                }
+            }
+            .imggif {
+                width: 30px;
+                height: 28px;
+            }
+            .gif-box {
+                height: 18px;
+            }
+        }
+    }
 }

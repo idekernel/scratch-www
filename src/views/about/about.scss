@@ -9,6 +9,7 @@
         margin-right: auto;
         
         .title {
+            margin-top: 20px;
             letter-spacing: 3px;
             padding: 9px 4px 14px;
             text-align: center;
@@ -94,6 +95,7 @@
             }
             .subtitle {
                 position: relative;
+                text-align: left;
                 padding-top: 2px;
                 height: 69px;
                 border-left: 1px solid rgb(216, 40, 33);

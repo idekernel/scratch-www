@@ -335,7 +335,7 @@ class Preview extends React.Component {
         this.props.handleDeleteComment(this.state.projectId, id, topLevelCommentId, this.props.user.token);
     }
     handleClickLogo () {
-        window.location = '/';
+        window.location = '/splash';
     }
     handleCloseAdminPanel () {
         this.setState({adminPanelOpen: false});

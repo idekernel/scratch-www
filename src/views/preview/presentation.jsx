@@ -596,7 +596,7 @@ const PreviewPresentation = ({
                                                 )
                                             ) : (
                                                 <div className="comments-turned-off">
-                                                    <FormattedMessage id="project.comments.turnedOff" />
+                                                    {/* <FormattedMessage id="project.comments.turnedOff" /> */}
                                                 </div>
                                             )}
                                         </FlexRow>

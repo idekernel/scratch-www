@@ -12,7 +12,7 @@ const QRCode = require('qrcode');
 require('./subactions.scss');
 
 const Subactions = props => {
-    if (props.projectInfo.is_published) {
+    // if (props.projectInfo.is_published) {
         var cvs = document.getElementById('canvas');
         const projecturl = `${window.location.origin}${window.location.pathname}`;
         if (cvs) {
@@ -20,7 +20,7 @@ const Subactions = props => {
                 if (error) console.error(error)
                 });
         }
-    }
+    // }
     
     return (
         <FlexRow className="subactions">
@@ -66,7 +66,7 @@ const Subactions = props => {
                 >
                     <FormattedMessage id="general.copyLink" />
                 </Button>
-                {props.projectInfo.is_published && <canvas id="canvas" className="canvas"/>}
+                {<canvas id="canvas" className="canvas"/>}
                 {(props.canReport && false) &&
                 <React.Fragment>
                     <Button

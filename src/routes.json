@@ -4,28 +4,28 @@
         "pattern": "^/?$",
         "routeAlias": "/?$",
         "view": "home/home",
-        "title": "Imagine, Program, Share"
+        "title": "首页"
     },
     {
         "name": "about",
         "pattern": "^/about/?$",
         "routeAlias": "/about/?$",
         "view": "about/about",
-        "title": "About"
+        "title": "关于"
     },
     {
         "name": "splash",
         "pattern": "^/splash/?$",
         "routeAlias": "/splash/?$",
         "view": "splash/splash",
-        "title": "Imagine, Program, Share"
+        "title": "我的课程"
     },
     {
         "name": "projects",
         "pattern": "^/projects(/editor|(/\\d+(/editor|/fullscreen|/embed)?)?)?/?(\\?.*)?$",
         "routeAlias": "/projects/?$",
         "view": "preview/preview",
-        "title": "Scratch Project",
+        "title": "xkid 作品",
         "dynamicMetaTags": true
     }
 ]

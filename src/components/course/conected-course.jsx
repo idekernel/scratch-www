@@ -33,8 +33,7 @@ class ConnectedCourse extends React.Component {
         this.props.setDrawer(true);
     }
     // 项目更新 is_complete
-    handlerProject(value, id) {
-        const data = {is_complete: value};
+    handlerProject(data, id) {
         this.props.updateProjectRaw(id, data);
     }
     // 一级课程点击

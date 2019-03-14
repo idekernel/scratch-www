@@ -34,7 +34,7 @@
 */
 var async = require('async');
 var fs = require('fs');
-const languages = require('scratch-l10n').default;
+var languages = require('scratch-l10n').default;
 var localizedUrls = require('./lib/localized-urls');
 var merge = require('lodash.merge');
 var defaults = require('lodash.defaults');
@@ -96,6 +96,7 @@ var globalTemplateFile = path.resolve(__dirname, '../src/l10n.json');
 // generate object with all translations of general strings;
 // every view includes these strings
 var generalLocales = {'en': JSON.parse(fs.readFileSync(globalTemplateFile, 'utf8'))};
+languages = {'zh-cn': languages['zh-cn']};
 for ( var l in languages ) {
     try {
         var langTranslations = path.resolve(

@@ -1,9 +1,9 @@
 const requireAll = require('./require-all');
 const ReactIntl = require('react-intl');
 
-const allLocaleData = requireAll(require.context('react-intl/locale-data', true, /^\.\/.*\.js$/));
+// const allLocaleData = requireAll(require.context('react-intl/locale-data', true, /^\.\/.*\.js$/));
+const allLocaleData = requireAll(require.context('react-intl/locale-data', false, /zh.js/));
 const customLocaleData = require('../../custom-locales.json');
-
 /**
   * Add all locales
   */

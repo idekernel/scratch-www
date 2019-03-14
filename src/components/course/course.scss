@@ -12,6 +12,7 @@
                     clear: both;
                 }
                 .ant-card {
+                    font-size: 12px;
                     float: left;
                     margin: 5px;
                     .ant-card-actions {
@@ -29,6 +30,7 @@
                     margin: 5px;
                     color: #000000;
                     width: 100px;
+                    font-size: 12px;
                 }
             }
             
@@ -42,4 +44,7 @@
     .plink {
         display: block;
     }
+}
+.ant-tooltip {
+    font-size: 12px;
 }

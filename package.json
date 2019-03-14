@@ -117,6 +117,7 @@
     "url-loader": "0.5.6",
     "watch": "0.16.0",
     "webpack": "2.7.0",
+    "webpack-bundle-analyzer": "^3.1.0",
     "webpack-dev-middleware": "2.0.4",
     "xhr": "2.2.0"
   },

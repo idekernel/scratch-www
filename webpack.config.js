@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const gitsha = require('git-bundle-sha');
 const path = require('path');
 const webpack = require('webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 let routes = require('./src/routes.json');
 const templateConfig = require('./src/template-config.js'); // eslint-disable-line global-require
@@ -184,7 +185,10 @@ module.exports = {
     ])
         .concat(process.env.NODE_ENV === 'production' ? [
             new webpack.optimize.UglifyJsPlugin({
-                sourceMap: true
+                sourceMap: true,
+                compress: {
+                    warnings: false
+                }
             })
         ] : [])
         .concat([
@@ -202,6 +206,7 @@ module.exports = {
             new webpack.optimize.CommonsChunkPlugin({
                 name: 'common',
                 filename: 'js/common.[chunkhash].bundle.js'
-            })
+            }),
+            // new BundleAnalyzerPlugin()
         ])
 };

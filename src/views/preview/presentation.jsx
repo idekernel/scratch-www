@@ -595,9 +595,10 @@ const PreviewPresentation = ({
                                                     null
                                                 )
                                             ) : (
-                                                <div className="comments-turned-off">
-                                                    {/* <FormattedMessage id="project.comments.turnedOff" /> */}
-                                                </div>
+                                                null
+                                                // <div className="comments-turned-off">
+                                                //     <FormattedMessage id="project.comments.turnedOff" />
+                                                // </div>
                                             )}
                                         </FlexRow>
                                     )}
@@ -645,7 +646,7 @@ const PreviewPresentation = ({
                                             </Button>
                                         }
                                     </FlexRow> */}
-                                    <FlexRow className="comments-list">
+                                    {isTeacher && userOwnsProject && <FlexRow className="comments-list">
                                         {remarks.map(comment => (
                                             <TopLevelRemark
                                                 author={comment.author}
@@ -687,7 +688,7 @@ const PreviewPresentation = ({
                                                 <FormattedMessage id="general.seeAllComments" />
                                             </Button>
                                         }
-                                    </FlexRow>
+                                    </FlexRow>}
                                 </div>
                                 <FlexRow className="column">
                                     <RemixList

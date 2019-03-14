@@ -159,11 +159,11 @@ class Explore extends React.Component {
                             </h1>
                         </div>
                     </TitleBanner>
-                    <Tabs>
+                    {/* <Tabs>
                         {this.getTab('projects')}
                         {this.getTab('studios')}
-                    </Tabs>
-                    <div className="sort-controls">
+                    </Tabs> */}
+                    {/* <div className="sort-controls">
                         <SubNavigation className="categories">
                             {this.getBubble('all')}
                             {this.getBubble('animations')}
@@ -194,7 +194,7 @@ class Explore extends React.Component {
                                 onChange={this.handleChangeSortMode}
                             />
                         </Form>
-                    </div>
+                    </div> */}
                     <div
                         id="projectBox"
                         key="projectBox"

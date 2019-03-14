@@ -100,6 +100,11 @@ class Navigation extends React.Component {
                             我的课程
                         </a>
                     </li>
+                    <li className="link explore">
+                        <a href="/explore/projects/all">
+                            <FormattedMessage id="general.explore" />
+                        </a>
+                    </li>
                     {/* <li className="link create">
                         <a href={createLink}>
                             <FormattedMessage id="general.create" />

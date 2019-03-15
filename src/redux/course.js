@@ -154,27 +154,20 @@ module.exports.setStuProjects = projects => ({
     projects
 });
 
-module.exports.setUserCourseId = (courseid, showprojectlist = true, query = {}, fetchstu = false) => ((dispatch, state) => {
+module.exports.setClassroomAndCourse = ({ classid, courseid }, callback) => (dispatch, state) => {
     const user = state().session.session.user;
-    let classid = state().course.classid;
-    if (classid === -1 && state().course.classroom[0]) classid = state().course.classroom[0].id;
-    if (user && user.id && courseid) {
-        if (showprojectlist)
-            dispatch(module.exports.getProjects({classroomid: classid, cid: courseid, ...query}));
-        if (fetchstu)
-            dispatch(module.exports.getStuProjects({classroomid: classid, cid: courseid, ...query}));
-        const formData = {sel_course: parseInt(courseid)};
-        const opts = {
-            host: '', // for test origin ''
-            uri: `/api/user/` + user.id,
-            method: 'put',
-            json: formData,
-            useCsrf: true
-        };
-        // if (token) {
-        //     Object.assign(opts, {authentication: token});
-        // }
-        dispatch(module.exports.setStatus('course', module.exports.Status.FETCHING));
+    const formData = {
+        sel_course: parseInt(courseid),
+        sel_classroom: parseInt(classid)
+    };
+    const opts = {
+        host: '', 
+        uri: `/api/user/` + user.id,
+        method: 'put',
+        json: formData,
+        useCsrf: true
+    };
+    dispatch(module.exports.setStatus('course', module.exports.Status.FETCHING));
         api(opts, (err, body, response) => {
             if (err) {
                 dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
@@ -188,58 +181,18 @@ module.exports.setUserCourseId = (courseid, showprojectlist = true, query = {}, 
                 return;
             }
             dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
-            if (state().course.classid === -1)
-                dispatch(module.exports.setClassroomId(classid));
+            dispatch(module.exports.setClassroomId(classid));
             dispatch(module.exports.setCourseId(courseid));
             dispatch(module.exports.setClassroomRole(classid, courseid, user.id));
+            if (callback) callback();
         });
-    }
-    
-});
-
-module.exports.setUserClassroomId = (classid, courseid, showprojectlist = true, query = {}) => ((dispatch, state) => {
-    const user = state().session.session.user;
-    if (user && user.id) {
-        
-        const formData = {sel_classroom: parseInt(classid)};
-        const opts = {
-            host: '', // for test origin ''
-            uri: `/api/user/` + user.id,
-            method: 'put',
-            json: formData,
-            useCsrf: true
-        };
-        // if (token) {
-        //     Object.assign(opts, {authentication: token});
-        // }
-        dispatch(module.exports.setStatus('course', module.exports.Status.FETCHING));
-        api(opts, (err, body, response) => {
-            if (courseid >= 0 && showprojectlist)
-                dispatch(module.exports.getProjects({classroomid: classid, cid: courseid, ...query}));
-            if (err) {
-                dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
-                dispatch(module.exports.setCourseError(err));
-                return;
-            }
-            if (typeof body === 'undefined' || response.statusCode === 202) {
-                dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
-                dispatch(module.exports.setCourseError('No course info'));
-                // dispatch(module.exports.setClassroomId(-1));
-                return;
-            }
-            dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
-            dispatch(module.exports.setClassroomId(classid));
-            dispatch(module.exports.setClassroomRole(classid, courseid, user.id));    
-        });
-    }
-    
-});
+};
 
 module.exports.getStuProjects = (query, token) => ((dispatch, state) => {
     // query.t = new Date().getTime();
     const querystr = querystring.stringify(query);
     const opts = {
-        host: '', // for test origin ''
+        host: '', 
         uri: `/api/projects/?fetchstu=true&${querystr}` 
     };
     if (token) {
@@ -268,7 +221,7 @@ module.exports.getProjects = (query, token) => ((dispatch, state) => {
     // query.t = new Date().getTime();
     const querystr = querystring.stringify(query);
     const opts = {
-        host: '', // for test origin ''
+        host: '', 
         uri: `/api/projects/?${querystr}` 
     };
     if (token) {
@@ -295,7 +248,7 @@ module.exports.getProjects = (query, token) => ((dispatch, state) => {
 
 module.exports.updateProject = (id, formData, token) => ((dispatch, state) => {
     const opts = {
-        host: '', // for test origin ''
+        host: '', 
         uri: `/api/projects/${id}`,
         method: 'put',
         json: formData,
@@ -321,7 +274,7 @@ module.exports.updateProject = (id, formData, token) => ((dispatch, state) => {
 
 module.exports.updateProjectRaw = (id, formData, token) => ((dispatch, state) => {
     const opts = {
-        host: '', // for test origin ''
+        host: '', 
         uri: `/api/projectraw/${id}`,
         method: 'put',
         json: formData,
@@ -347,7 +300,7 @@ module.exports.updateProjectRaw = (id, formData, token) => ((dispatch, state) =>
 
 module.exports.delProject = (id, token) => ((dispatch, state) => {
     const opts = {
-        host: '', // for test origin ''
+        host: '', 
         uri: `/api/projects/${id}`,
         method: 'delete'
     };
@@ -374,7 +327,7 @@ module.exports.delProject = (id, token) => ((dispatch, state) => {
 
 // module.exports.createProject = (callback) => {
 //     const opts = {
-//         host: '', // for test origin ''
+//         host: '', 
 //         uri: `/api/projectsrawTemplet/`,
 //         method: 'post'
 //     };
@@ -397,7 +350,7 @@ module.exports.createProject = (classroomid, courseid, token) => ((dispatch, sta
         course_id: courseid
     };
     const opts = {
-        host: '', // for test origin ''
+        host: '', 
         uri: `/api/projectsrawTemplet/`,
         method: 'post',
         json: formData,
@@ -424,7 +377,7 @@ module.exports.createProject = (classroomid, courseid, token) => ((dispatch, sta
 
 module.exports.getCouserInfo = (token) => ((dispatch, state) => {
     const opts = {
-        host: '', // for test origin ''
+        host: '', 
         uri: `/api/course/`
     };
     if (token) {
@@ -450,7 +403,7 @@ module.exports.getCouserInfo = (token) => ((dispatch, state) => {
 });
 module.exports.getClassroom = (token) => ((dispatch, state) => {
     const opts = {
-        host: '', // for test origin ''
+        host: '', 
         uri: `/api/classroom/`
     };
     if (token) {

@@ -25,16 +25,23 @@ class ConnectedCourse extends React.Component {
     }
     // 查询项目
     queryProject(cid, query) {
-        this.props.setCouser(cid, true, query);
     }
     // 查询学生项目
-    getStuProjects(cid, query) {
-        this.props.setCouser(cid, false, query, true);
-        this.props.setDrawer(true);
+    getStuProjects(classid, courseid, query) {
+        this.props.setClassroomAndCourse({classid, courseid}, () => {
+            this.props.getStuProjects(query);
+            this.props.setDrawer(true);
+        });
     }
-    // 项目更新 is_complete
+    // 项目更新 is_complete is_published
     handlerProject(data, id) {
-        this.props.updateProjectRaw(id, data);
+        if (data.hasOwnProperty('is_complete')) {
+            this.props.updateProjectRaw(id, data);
+        }
+        else {
+            this.props.updateProject(id, data);
+        }
+        
     }
     // 一级课程点击
     handleTabs(e) {
@@ -43,31 +50,20 @@ class ConnectedCourse extends React.Component {
         if (this.props.isEduadmin)
             id = -1; 
         if (selectedCourse[e]) {
-            this.props.setClassroom(id, selectedCourse[e]);
+            this.props.setClassroomAndCourse({classid: id, courseid: selectedCourse[e]});
         } else {
-            this.props.setClassroom(id, -1);
+            this.props.setClassroomAndCourse({classid: id, courseid: -1});
         }
     }
     // 开始学习 创建模板
     handleCreate (id, pid, istemplete) {
-        this.props.setClassroom(pid, id, false);
-        // this.props.setCouser(id, false);
-        if (istemplete) {
-            this.props.createProject(pid, id);
-        } else {
-            window.location.href = '/projects/editor/';
-        }
-        
-        // message.loading('正在准备课件');
-        // this.props.createProject((data) => {
-        //     if (data.status && data.status === 'ok') {
-        //         message.destroy();
-        //         window.location = `/projects/${data['content-name']}/editor/`;
-        //     }
-        //     else {
-        //         message.error('程序出错');
-        //     }
-        // });
+        this.props.setClassroomAndCourse({classid: pid, courseid: id}, () => {
+            if (istemplete) {
+                this.props.createProject(pid, id);
+            } else {
+                window.location.href = '/projects/editor/';
+            }
+        });
     }
     confirm(id) {
         if (id) {
@@ -161,16 +157,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setClassroom(classid, id, showprojectlist, query) {
-        dispatch(courseActions.setUserClassroomId(classid, id, showprojectlist, query));
-    },
-    setCouser(id, showprojectlist, query, fetchstu) {
-       dispatch(courseActions.setUserCourseId(id, showprojectlist, query, fetchstu));
-    },
     // 二级课程change事件
     changeCouser (id, pid) {
         selectedCourse[pid] = id;
-        dispatch(courseActions.setUserCourseId(id));
+        if (id)
+            dispatch(courseActions.setClassroomAndCourse({classid: pid, courseid: id}, () => {
+                dispatch(courseActions.getProjects({classroomid: pid, cid: id}));
+            }));
+        
     },
     getCouser() {
         dispatch(courseActions.getCouserInfo());
@@ -192,8 +186,16 @@ const mapDispatchToProps = dispatch => ({
     },
     setDrawer(visible) {
         dispatch(courseActions.setDrawer(visible));
+    },
+    getProjects(query) {
+        dispatch(courseActions.getProjects(query));
+    },
+    setClassroomAndCourse(data, callback) {
+        dispatch(courseActions.setClassroomAndCourse(data, callback));
+    },
+    getStuProjects(query) {
+        dispatch(courseActions.getStuProjects(query));
     }
-    
 });
 
 module.exports = connect(

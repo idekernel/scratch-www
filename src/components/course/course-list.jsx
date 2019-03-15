@@ -30,7 +30,7 @@ const CourseList = props => (
                     {props.projects && props.projects.map(pitem => {
                         return <Card style={{ width: 220 }} size="small"
                                 key={pitem.id }
-                                cover={<img alt="example" src={pitem.image + '?t=' + new Date().getTime()} />}
+                                cover={<img alt="example" src={pitem.image + '?t=' + new Date().getMinutes()} />}
                                 actions={[
                                     <Tooltip placement="topLeft" title="继续创作" arrowPointAtCenter><a href={`/projects/${pitem.id}/editor/`} target="_blank"><Icon type="code" /></a></Tooltip>,
                                     <Tooltip placement="topLeft" title="添加说明" arrowPointAtCenter><a href={`/projects/${pitem.id}`} target="_blank"><Icon type="edit" /></a></Tooltip>,
@@ -41,7 +41,7 @@ const CourseList = props => (
                                 title={pitem.title}
                                 />
                                 { !props.isTeacher && <span>提交作业<Switch size="small" onChange={e=>props.updateProject({is_complete: e}, pitem.id)} defaultChecked={pitem.project_raw.is_complete} /></span>}
-                                { !props.isEduadmin && <span>&nbsp;&nbsp;&nbsp;分享<Switch size="small" onChange={e=>props.updateProject({is_published: e}, pitem.id)} defaultChecked={pitem.project_raw.is_published} /></span>}
+                                { !props.isEduadmin && <span>&nbsp;&nbsp;&nbsp;分享<Switch size="small" onChange={e=>props.updateProject({is_published: e}, pitem.id)} defaultChecked={pitem.is_published} /></span>}
                                 
                             </Card>;
                     })
@@ -53,7 +53,7 @@ const CourseList = props => (
                             
                     }
                     {
-                        props.isTeacher && <Button key="pinggai" type="primary" icon="plus" onClick={e => props.getStuProjects(citem.id)}>评改</Button>
+                        props.isTeacher && <Button key="pinggai" type="primary" icon="plus" onClick={e => props.getStuProjects(props.item.id, citem.id)}>评改</Button>
                     }
                     
                     

@@ -159,7 +159,6 @@ module.exports.setClassroomAndCourse = ({ classid, courseid }, callback) => (dis
     Jar.set('sel_course', courseid);
     Jar.set('sel_classroom', classid);
     const user = state().session.session.user;
-    console.log(classid, courseid);
     dispatch(module.exports.setClassroomId(classid));
     dispatch(module.exports.setCourseId(courseid));
     dispatch(module.exports.setClassroomRole(classid, courseid, user.id));

@@ -29,7 +29,11 @@ class ConnectedCourse extends React.Component {
     // 查询学生项目
     getStuProjects(classid, courseid, query) {
         this.props.setClassroomAndCourse({classid, courseid}, () => {
-            this.props.getStuProjects(query);
+            this.props.getStuProjects({
+                classroomid: classid,
+                cid: courseid,
+                ...query
+            });
             this.props.setDrawer(true);
         });
     }
@@ -47,10 +51,10 @@ class ConnectedCourse extends React.Component {
     handleTabs(e) {
         
         let id = e;
-        if (this.props.isEduadmin)
-            id = -1; 
         if (selectedCourse[e]) {
-            this.props.setClassroomAndCourse({classid: id, courseid: selectedCourse[e]});
+            this.props.setClassroomAndCourse({classid: id, courseid: selectedCourse[e]}, () => {
+                this.props.getProjects({classroomid: id, cid: selectedCourse[e]});
+            });
         } else {
             this.props.setClassroomAndCourse({classid: id, courseid: -1});
         }

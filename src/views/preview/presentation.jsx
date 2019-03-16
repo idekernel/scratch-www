@@ -646,7 +646,7 @@ const PreviewPresentation = ({
                                             </Button>
                                         }
                                     </FlexRow> */}
-                                    {isTeacher && userOwnsProject && <FlexRow className="comments-list">
+                                    {(isTeacher || userOwnsProject) && <FlexRow className="comments-list">
                                         {remarks.map(comment => (
                                             <TopLevelRemark
                                                 author={comment.author}

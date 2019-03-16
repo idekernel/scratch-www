@@ -5,6 +5,7 @@ const defaults = require('lodash.defaults');
 const api = require('../lib/api');
 const log = require('../lib/log.js');
 const querystring = require("querystring");
+const Jar = require('../lib/jar');
 const Types = keyMirror({
     SET_COURSE_ERROR: null,
     SET_COURSE_STATUS: null,
@@ -155,37 +156,45 @@ module.exports.setStuProjects = projects => ({
 });
 
 module.exports.setClassroomAndCourse = ({ classid, courseid }, callback) => (dispatch, state) => {
+    Jar.set('sel_course', courseid);
+    Jar.set('sel_classroom', classid);
     const user = state().session.session.user;
-    const formData = {
-        sel_course: parseInt(courseid),
-        sel_classroom: parseInt(classid)
-    };
-    const opts = {
-        host: '', 
-        uri: `/api/user/` + user.id,
-        method: 'put',
-        json: formData,
-        useCsrf: true
-    };
-    dispatch(module.exports.setStatus('course', module.exports.Status.FETCHING));
-        api(opts, (err, body, response) => {
-            if (err) {
-                dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
-                dispatch(module.exports.setCourseError(err));
-                return;
-            }
-            if (typeof body === 'undefined' || response.statusCode === 202) {
-                dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
-                dispatch(module.exports.setCourseError('No course info'));
-                // dispatch(module.exports.setCourseId(-1));
-                return;
-            }
-            dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
-            dispatch(module.exports.setClassroomId(classid));
-            dispatch(module.exports.setCourseId(courseid));
-            dispatch(module.exports.setClassroomRole(classid, courseid, user.id));
-            if (callback) callback();
-        });
+    console.log(classid, courseid);
+    dispatch(module.exports.setClassroomId(classid));
+    dispatch(module.exports.setCourseId(courseid));
+    dispatch(module.exports.setClassroomRole(classid, courseid, user.id));
+    if (callback) callback();
+
+    // const formData = {
+    //     sel_course: parseInt(courseid),
+    //     sel_classroom: parseInt(classid)
+    // };
+    // const opts = {
+    //     host: '', 
+    //     uri: `/api/user/` + user.id,
+    //     method: 'put',
+    //     json: formData,
+    //     useCsrf: true
+    // };
+    // dispatch(module.exports.setStatus('course', module.exports.Status.FETCHING));
+    //     api(opts, (err, body, response) => {
+    //         if (err) {
+    //             dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
+    //             dispatch(module.exports.setCourseError(err));
+    //             return;
+    //         }
+    //         if (typeof body === 'undefined' || response.statusCode === 202) {
+    //             dispatch(module.exports.setStatus('course', module.exports.Status.ERROR));
+    //             dispatch(module.exports.setCourseError('No course info'));
+    //             // dispatch(module.exports.setCourseId(-1));
+    //             return;
+    //         }
+    //         dispatch(module.exports.setStatus('course', module.exports.Status.FETCHED));
+    //         dispatch(module.exports.setClassroomId(classid));
+    //         dispatch(module.exports.setCourseId(courseid));
+    //         dispatch(module.exports.setClassroomRole(classid, courseid, user.id));
+    //         if (callback) callback();
+    //     });
 };
 
 module.exports.getStuProjects = (query, token) => ((dispatch, state) => {

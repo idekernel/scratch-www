@@ -7,8 +7,8 @@ const Course = require('./course.jsx');
 const Classroom = require('./classroom.jsx');
 const courseActions = require('../../redux/course.js');
 
-// const message = require('antd/lib/message').default;
-// require('antd/lib/message/style/index.css');
+const message = require('antd/lib/message').default;
+require('antd/lib/message/style/index.css');
 let selectedCourse = {};
 class ConnectedCourse extends React.Component {
     constructor (props) {
@@ -62,6 +62,11 @@ class ConnectedCourse extends React.Component {
     // 开始学习 创建模板
     handleCreate (id, pid, istemplete) {
         this.props.setClassroomAndCourse({classid: pid, courseid: id}, () => {
+            const projectname = this.props.isEduadmin ? '模板' : '作品';
+            if (this.props.projects && this.props.projects.length >= 5) {
+                message.warning(`最多创建5个${projectname}！`);
+                return;
+            }
             if (istemplete) {
                 this.props.createProject(pid, id);
             } else {

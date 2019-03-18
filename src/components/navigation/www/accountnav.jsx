@@ -45,7 +45,7 @@ const AccountNav = ({
             isOpen={isOpen}
             onRequestClose={onClose}
         >
-            <li>
+            {/* <li>
                 <a href={profileUrl}>
                     <FormattedMessage id="general.profile" />
                 </a>
@@ -54,7 +54,7 @@ const AccountNav = ({
                 <a href="/mystuff/">
                     <FormattedMessage id="general.myStuff" />
                 </a>
-            </li>
+            </li> */}
             {isEducator ? [
                 <li key="my-classes-li">
                     <a href="/educators/classes/">

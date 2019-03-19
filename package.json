@@ -4,6 +4,7 @@
   "description": "Standalone WWW client for Scratch",
   "scripts": {
     "start": "set FALLBACK=http://localhost:6001 && set BACKPACK_HOST=http://localhost:8333/api/backpack && set ASSET_HOST=http://localhost:8333/api/assets && set PROJECT_HOST=http://localhost:8333/api/projectraw && set API_HOST=http://localhost:8333/api && make start &",
+    "start:mac": "export FALLBACK=http://localhost:6001 && export BACKPACK_HOST=http://localhost:8333/api/backpack && export ASSET_HOST=http://localhost:8333/api/assets && export PROJECT_HOST=http://localhost:8333/api/projectraw && export API_HOST=http://localhost:8333/api && make start &",
     "stop": "make stop",
     "test": "make test",
     "smoke": "tap ./test/integration/smoke-testing/*.js --timeout=3600",
@@ -11,6 +12,7 @@
     "smoke-sauce": "SMOKE_REMOTE=true tap ./test/integration/smoke-testing/*.js --timeout=60000",
     "watch": "make watch",
     "build": "set NODE_ENV=production && set FALLBACK=https://scratch.mit.edu && set BACKPACK_HOST=https://www.xkidcode.com/api/backpack && set ASSET_HOST=https://www.xkidcode.com/api/assets && set PROJECT_HOST=https://www.xkidcode.com/api/projectraw && set API_HOST=https://www.xkidcode.com/api && make build",
+    "build:mac": "export NODE_ENV=production && export FALLBACK=https://scratch.mit.edu && export BACKPACK_HOST=https://www.xkidcode.com/api/backpack && export ASSET_HOST=https://www.xkidcode.com/api/assets && export PROJECT_HOST=https://www.xkidcode.com/api/projectraw && export API_HOST=https://www.xkidcode.com/api && make build",
     "dev": "make watch && make start &"
   },
   "repository": {

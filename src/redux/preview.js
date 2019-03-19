@@ -492,19 +492,19 @@ module.exports.getProjectInfo = (id, token) => (dispatch => {
 });
 
 module.exports.getVisibilityInfo = (id, ownerUsername, token) => (dispatch => {
-    dispatch(module.exports.setFetchStatus('visibility', module.exports.Status.FETCHING));
-    api({
-        uri: `/users/${ownerUsername}/projects/${id}/visibility`,
-        authentication: token
-    }, (err, body, response) => {
-        if (err || !body || response.statusCode !== 200) {
-            dispatch(module.exports.setFetchStatus('visibility', module.exports.Status.ERROR));
-            dispatch(module.exports.setError('No visibility info available'));
-            return;
-        }
-        dispatch(module.exports.setFetchStatus('visibility', module.exports.Status.FETCHED));
-        dispatch(module.exports.setVisibilityInfo(body));
-    });
+    // dispatch(module.exports.setFetchStatus('visibility', module.exports.Status.FETCHING));
+    // api({
+    //     uri: `/users/${ownerUsername}/projects/${id}/visibility`,
+    //     authentication: token
+    // }, (err, body, response) => {
+    //     if (err || !body || response.statusCode !== 200) {
+    //         dispatch(module.exports.setFetchStatus('visibility', module.exports.Status.ERROR));
+    //         dispatch(module.exports.setError('No visibility info available'));
+    //         return;
+    //     }
+    //     dispatch(module.exports.setFetchStatus('visibility', module.exports.Status.FETCHED));
+    //     dispatch(module.exports.setVisibilityInfo(body));
+    // });
 });
 
 module.exports.getOriginalInfo = id => (dispatch => {

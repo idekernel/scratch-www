@@ -13,7 +13,9 @@
     "watch": "make watch",
     "build": "set NODE_ENV=production && set FALLBACK=https://scratch.mit.edu && set BACKPACK_HOST=https://www.xkidcode.com/api/backpack && set ASSET_HOST=https://www.xkidcode.com/api/assets && set PROJECT_HOST=https://www.xkidcode.com/api/projectraw && set API_HOST=https://www.xkidcode.com/api && make build",
     "build:mac": "export NODE_ENV=production && export FALLBACK=https://scratch.mit.edu && export BACKPACK_HOST=https://www.xkidcode.com/api/backpack && export ASSET_HOST=https://www.xkidcode.com/api/assets && export PROJECT_HOST=https://www.xkidcode.com/api/projectraw && export API_HOST=https://www.xkidcode.com/api && make build",
-    "dev": "make watch && make start &"
+    "dev": "make watch && make start &",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -41,7 +43,8 @@
     "scratch-parser": "^4.2.0",
     "scratch-storage": "^0.5.1",
     "socket.io-client": "^2.2.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "ajv": "6.4.0",
@@ -129,5 +132,6 @@
       "src/**/*.js"
     ],
     "all": true
-  }
+  },
+  "snyk": true
 }

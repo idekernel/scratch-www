@@ -1,0 +1,29 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - newrelic > https-proxy-agent > debug:
+        patched: '2022-10-06T15:27:15.119Z'
+  'npm:extend:20180424':
+    - newrelic > https-proxy-agent > extend:
+        patched: '2022-10-06T15:27:15.119Z'
+  SNYK-JS-LODASH-567746:
+    - antd > lodash:
+        patched: '2022-10-06T15:27:15.119Z'
+    - antd > rc-form > lodash:
+        patched: '2022-10-06T15:27:15.119Z'
+    - antd > rc-steps > lodash:
+        patched: '2022-10-06T15:27:15.119Z'
+    - antd > rc-table > lodash:
+        patched: '2022-10-06T15:27:15.119Z'
+    - antd > rc-tabs > lodash:
+        patched: '2022-10-06T15:27:15.119Z'
+    - scratch-parser > async > lodash:
+        patched: '2022-10-06T15:27:15.119Z'
+    - antd > rc-editor-mention > rc-editor-core > lodash:
+        patched: '2022-10-06T15:27:15.119Z'
+  'npm:ms:20170412':
+    - newrelic > https-proxy-agent > debug > ms:
+        patched: '2022-10-06T15:27:15.119Z'

@@ -1,6 +1,6 @@
 {
     "dependencies": {
         "selenium-webdriver": "3.6.0",
-        "chromedriver": "2.43.1"
+        "chromedriver": "80.0.2"
     }
 }
